@@ -1,6 +1,7 @@
 package tv.pluto.dynamic.cropping.android.framework
 
 import tv.pluto.dynamic.cropping.android.R
+import tv.pluto.dynamic.cropping.android.logic.coords.benchmarkCoordinates
 import tv.pluto.dynamic.cropping.android.logic.coords.gIJoeRetaliationCoordinates
 import tv.pluto.dynamic.cropping.android.logic.coords.gladiatorCoordinates
 import tv.pluto.dynamic.cropping.android.logic.coords.indianaJonesAndTheKingdomOfTheCrystalSkullCoordinates
@@ -38,6 +39,8 @@ sealed class Video(val name: String, val coordinates: () -> DoubleArray, val vid
 
     data object Gladiator : Video("Gladiator", { gladiatorCoordinates }, R.raw.gladiator)
 
-    data object TerminatorGenisysCoordinates :
+    data object TerminatorGenisys :
         Video("Terminator Genisys", { terminatorGenisysCoordinates }, R.raw.terminator_genisys)
+
+    data object Benchmark: Video("Benchmark", { benchmarkCoordinates}, R.raw.benchmark)
 }

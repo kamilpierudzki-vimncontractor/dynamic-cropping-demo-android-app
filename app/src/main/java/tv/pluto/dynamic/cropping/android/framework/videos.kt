@@ -5,6 +5,7 @@ import tv.pluto.dynamic.cropping.android.framework.demo.ExoPlayerManager
 
 fun createVideos(): List<Video> =
     listOf(
+        Video.Benchmark,
         Video.PainGain,
         Video.GIJoeRetaliation,
         Video.IndianaJonesAndTheKingdomOfTheCrystalSkull,
@@ -13,7 +14,7 @@ fun createVideos(): List<Video> =
         Video.IndianaJonesAndTheTempleOfDoom,
         Video.SavingPrivateRyan,
         Video.Gladiator,
-        Video.TerminatorGenisysCoordinates,
+        Video.TerminatorGenisys,
     )
 
 fun createPlayerManagers(activity: Activity): List<ExoPlayerManager> =

@@ -16,17 +16,16 @@ class PlayerWindowViewTranslationXWithAnimation(private val playerWindowView: Vi
         get() = playerWindowView.height
 
     override fun updateXPosition(xPosition: Float) {
-        val newValue = xPosition.toInt()
-        animateTranslationX(newValue)
+        animateTranslationX(xPosition)
     }
 
-    private fun animateTranslationX(value: Int) {
+    private fun animateTranslationX(value: Float) {
         animator?.cancel()
         animator?.removeAllListeners()
 
         android.util.Log.d("test123", "PlayerWindowViewTranslationXWithAnimation, start translation $value")
-        animator = ObjectAnimator.ofFloat(playerWindowView, "translationX", value.toFloat()).apply {
-            duration = 10
+        animator = ObjectAnimator.ofFloat(playerWindowView, "translationX", value).apply {
+            duration = 20
             addUpdateListener { v ->
                 val lastAnimatorValue = (v.animatedValue as Float)
                 android.util.Log.d("test123", "PlayerWindowViewTranslationXWithAnimation, BETWEEN, $lastAnimatorValue")
