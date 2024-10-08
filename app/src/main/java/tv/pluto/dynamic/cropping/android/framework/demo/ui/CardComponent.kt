@@ -2,7 +2,6 @@ package tv.pluto.dynamic.cropping.android.framework.demo.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,14 +21,13 @@ fun CardComponent(
             exoPlayerManager = exoPlayerManager,
             modifier = Modifier
                 .height(500.dp)
-                .clip(RoundedCornerShape(16.dp)),
+                .clip(RoundedCornerShape(16.dp))
+                .align(Alignment.Center),
         )
         MetadataComponent(
             title = exoPlayerManager.video.title.value,
             details = exoPlayerManager.video.formattedMetadata(),
-            modifier = Modifier
-                .padding(16.dp)
-                .align(Alignment.BottomCenter),
+            modifier = Modifier.align(Alignment.BottomCenter),
         )
     }
 }
