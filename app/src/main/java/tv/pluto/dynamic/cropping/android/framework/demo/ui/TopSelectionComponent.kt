@@ -44,10 +44,10 @@ fun TopSelectionComponent(
             .horizontalScroll(scrollState)
             .padding(8.dp),
     ) {
-        Button(
+        TextButton(
             onClick = {},
             modifier = Modifier.align(Alignment.CenterVertically),
-            colors = selectedButtonColors,
+            colors = otherButtonColors,
         ) {
             Text(
                 text = "Popular Now",
@@ -56,10 +56,10 @@ fun TopSelectionComponent(
                 fontSize = 16.sp,
             )
         }
-        TextButton(
+        Button(
             onClick = {},
             modifier = Modifier.align(Alignment.CenterVertically),
-            colors = otherButtonColors,
+            colors = selectedButtonColors,
         ) {
             Text(
                 text = "You May Also Like",
@@ -68,6 +68,7 @@ fun TopSelectionComponent(
                 fontSize = 16.sp,
             )
         }
+
         TextButton(
             onClick = {},
             modifier = Modifier.align(Alignment.CenterVertically),
