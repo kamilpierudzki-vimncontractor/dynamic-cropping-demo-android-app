@@ -1,8 +1,8 @@
 package tv.pluto.dynamic.cropping.android.logic
 
-interface PlayerWindowViewWrapper {
+interface PlayerWindowView {
 
     val width: Int
     val height: Int
-    fun setX(xPosition: Float)
+    fun updateXPosition(xPosition: Float)
 }

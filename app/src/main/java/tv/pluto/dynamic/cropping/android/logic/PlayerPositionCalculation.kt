@@ -1,7 +1,7 @@
 package tv.pluto.dynamic.cropping.android.logic
 
 class PlayerPositionCalculation(
-    private val playerWindowViewWrapper: PlayerWindowViewWrapper,
+    private val playerWindowView: PlayerWindowView,
     private val infiniteCoordinatesProvider: InfiniteCoordinatesProvider,
 ) {
 
@@ -28,7 +28,7 @@ class PlayerPositionCalculation(
             (1.0 * videoSizeOnSurface.width.value) / originalVideoSize.width.value
         val coordinateAdjustedToSurfaceVideoWidth = coordinate * originalVideoWidthAndSurfaceVideoWidthRatio
         val centerXPositionOfVideoOnSurface = videoSizeOnSurface.width.value / 2.0
-        val halfOfWidthOfPlayerWindow = playerWindowViewWrapper.width / 2.0
+        val halfOfWidthOfPlayerWindow = playerWindowView.width / 2.0
 
         val pixelsToAddToCoordinate = if (willSurfaceVideoMoveTooMuchLeftOnPlayerWindow(
                 coordinateAdjustedToSurfaceVideoWidth,
@@ -45,11 +45,9 @@ class PlayerPositionCalculation(
             0.0
         }
 
-        val coordinateAdjustedToEdgeOfVideoSizeOnSurfaceAndPlayerWindowWidth =
-            coordinateAdjustedToSurfaceVideoWidth + pixelsToAddToCoordinate
-        val absoluteXPositionOfSurfaceVideo =
-            centerXPositionOfVideoOnSurface - coordinateAdjustedToEdgeOfVideoSizeOnSurfaceAndPlayerWindowWidth
-        playerWindowViewWrapper.setX(absoluteXPositionOfSurfaceVideo.toFloat())
+        val coordinateAdjustedToEdgeOfVideoSizeOnSurfaceAndPlayerWindowWidth = coordinateAdjustedToSurfaceVideoWidth + pixelsToAddToCoordinate
+        val absoluteXPositionOfSurfaceVideo = centerXPositionOfVideoOnSurface - coordinateAdjustedToEdgeOfVideoSizeOnSurfaceAndPlayerWindowWidth
+        playerWindowView.updateXPosition(absoluteXPositionOfSurfaceVideo.toFloat())
     }
 
     // wykrycie przesunięcia wideo wyświetlanego na ekranie w lewo poza okno widoku playera

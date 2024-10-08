@@ -1,4 +1,4 @@
-package tv.pluto.dynamic.cropping.android.framework.gallery
+package tv.pluto.dynamic.cropping.android.framework.gallery.ui
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
@@ -6,7 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.gson.Gson
-import tv.pluto.dynamic.cropping.android.framework.demo.ExoPlayerManager
+import tv.pluto.dynamic.cropping.android.framework.gallery.ExoPlayerManager
 
 sealed class NavigationScreen(val name: String) {
     data object Selection : NavigationScreen("selection")
@@ -33,10 +33,10 @@ private fun GalleryAppNavHost(
     ) {
         composable(NavigationScreen.Selection.name) {
             SelectionScreen(
-                onClipSelected = { clip ->
+                onVideoSelected = { video ->
                     val galleryScreenInput = GalleryScreenInput(
-                        coordinates = clip.coordinates(),
-                        videoResId = clip.videoResId,
+                        coordinates = video.coordinates(),
+                        videoResId = video.videoResId,
                     )
                     val json = Gson().toJson(galleryScreenInput)
                     navController.navigate(NavigationScreen.Gallery.name + "/$json")

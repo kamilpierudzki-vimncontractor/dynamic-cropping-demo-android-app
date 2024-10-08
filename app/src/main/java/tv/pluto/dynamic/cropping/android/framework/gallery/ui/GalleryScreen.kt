@@ -1,4 +1,4 @@
-package tv.pluto.dynamic.cropping.android.framework.gallery
+package tv.pluto.dynamic.cropping.android.framework.gallery.ui
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
@@ -14,10 +14,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
-import com.google.android.exoplayer2.ui.StyledPlayerView
 import com.google.android.exoplayer2.upstream.RawResourceDataSource
 import tv.pluto.dynamic.cropping.android.framework.FixedAspectStyledPlayerView
-import tv.pluto.dynamic.cropping.android.framework.demo.ExoPlayerManager
+import tv.pluto.dynamic.cropping.android.framework.gallery.ExoPlayerManager
 
 data class GalleryScreenInput(val coordinates: DoubleArray, val videoResId: Int) {
 
@@ -51,7 +50,7 @@ fun GalleryScreen(
             .padding(contentPadding)
             .padding(16.dp)
             .fillMaxSize()) {
-            CroppedClipComponent(
+            GalleryVideoComponent(
                 exoPlayerManager = exoPlayerManager,
                 galleryScreenInput = galleryScreenInput,
                 modifier = Modifier
@@ -64,27 +63,7 @@ fun GalleryScreen(
 }
 
 @Composable
-private fun FullClipComponent(
-    galleryActivityExoPlayerManager: GalleryActivityExoPlayerManager,
-    galleryScreenInput: GalleryScreenInput,
-    modifier: Modifier,
-) {
-    AndroidView(
-        modifier = modifier.fillMaxWidth(),
-        factory = { context ->
-            StyledPlayerView(context)
-                .also { playerView ->
-                    galleryActivityExoPlayerManager.apply {
-                        setPlayerView(PlayerOnScreen.Full, playerView)
-                        setMediaItemAndPlay(PlayerOnScreen.Full, createMediaItem(galleryScreenInput))
-                    }
-                }
-        },
-    )
-}
-
-@Composable
-private fun CroppedClipComponent(
+private fun GalleryVideoComponent(
     exoPlayerManager: ExoPlayerManager,
     galleryScreenInput: GalleryScreenInput,
     modifier: Modifier,

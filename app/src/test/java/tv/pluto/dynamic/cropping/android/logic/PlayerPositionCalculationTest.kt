@@ -8,10 +8,10 @@ import org.mockito.kotlin.whenever
 
 class PlayerPositionCalculationTest {
 
-    private val playerWindowViewWrapper: PlayerWindowViewWrapper = mock()
+    private val playerWindowView: PlayerWindowView = mock()
     private val infiniteCoordinatesProvider: InfiniteCoordinatesProvider = mock()
 
-    private val tested = PlayerPositionCalculation(playerWindowViewWrapper, infiniteCoordinatesProvider)
+    private val tested = PlayerPositionCalculation(playerWindowView, infiniteCoordinatesProvider)
 
     @Test
     fun test_1() {
@@ -20,7 +20,7 @@ class PlayerPositionCalculationTest {
         val playerWindowWidth = 40
         val rawCoordinate = 60.0
 
-        whenever(playerWindowViewWrapper.width).doReturn(playerWindowWidth)
+        whenever(playerWindowView.width).doReturn(playerWindowWidth)
         whenever(infiniteCoordinatesProvider.getNextCoordinate()).doReturn(rawCoordinate)
         tested.videoSizeOnSurface = theSameSize
         tested.originalVideoSize = theSameSize
@@ -29,7 +29,7 @@ class PlayerPositionCalculationTest {
         tested.onNewFrame()
 
         // then
-        verify(playerWindowViewWrapper).setX(10f)
+        verify(playerWindowView).updateXPosition(10f)
     }
 
     @Test
@@ -39,7 +39,7 @@ class PlayerPositionCalculationTest {
         val playerWindowWidth = 40
         val rawCoordinate = 120.0
 
-        whenever(playerWindowViewWrapper.width).doReturn(playerWindowWidth)
+        whenever(playerWindowView.width).doReturn(playerWindowWidth)
         whenever(infiniteCoordinatesProvider.getNextCoordinate()).doReturn(rawCoordinate)
         tested.videoSizeOnSurface = theSameSize
         tested.originalVideoSize = theSameSize
@@ -48,7 +48,7 @@ class PlayerPositionCalculationTest {
         tested.onNewFrame()
 
         // then
-        verify(playerWindowViewWrapper).setX(-50f)
+        verify(playerWindowView).updateXPosition(-50f)
     }
 
     @Test
@@ -58,7 +58,7 @@ class PlayerPositionCalculationTest {
         val playerWindowWidth = 40
         val rawCoordinate = 130.0
 
-        whenever(playerWindowViewWrapper.width).doReturn(playerWindowWidth)
+        whenever(playerWindowView.width).doReturn(playerWindowWidth)
         whenever(infiniteCoordinatesProvider.getNextCoordinate()).doReturn(rawCoordinate)
         tested.videoSizeOnSurface = theSameSize
         tested.originalVideoSize = theSameSize
@@ -67,7 +67,7 @@ class PlayerPositionCalculationTest {
         tested.onNewFrame()
 
         // then
-        verify(playerWindowViewWrapper).setX(-50f)
+        verify(playerWindowView).updateXPosition(-50f)
     }
 
     @Test
@@ -77,7 +77,7 @@ class PlayerPositionCalculationTest {
         val playerWindowWidth = 40
         val rawCoordinate = 140.0
 
-        whenever(playerWindowViewWrapper.width).doReturn(playerWindowWidth)
+        whenever(playerWindowView.width).doReturn(playerWindowWidth)
         whenever(infiniteCoordinatesProvider.getNextCoordinate()).doReturn(rawCoordinate)
         tested.videoSizeOnSurface = theSameSize
         tested.originalVideoSize = theSameSize
@@ -86,7 +86,7 @@ class PlayerPositionCalculationTest {
         tested.onNewFrame()
 
         // then
-        verify(playerWindowViewWrapper).setX(-50f)
+        verify(playerWindowView).updateXPosition(-50f)
     }
 
     @Test
@@ -96,7 +96,7 @@ class PlayerPositionCalculationTest {
         val playerWindowWidth = 40
         val rawCoordinate = 20.0
 
-        whenever(playerWindowViewWrapper.width).doReturn(playerWindowWidth)
+        whenever(playerWindowView.width).doReturn(playerWindowWidth)
         whenever(infiniteCoordinatesProvider.getNextCoordinate()).doReturn(rawCoordinate)
         tested.videoSizeOnSurface = theSameSize
         tested.originalVideoSize = theSameSize
@@ -105,7 +105,7 @@ class PlayerPositionCalculationTest {
         tested.onNewFrame()
 
         // then
-        verify(playerWindowViewWrapper).setX(50f)
+        verify(playerWindowView).updateXPosition(50f)
     }
 
     @Test
@@ -115,7 +115,7 @@ class PlayerPositionCalculationTest {
         val playerWindowWidth = 40
         val rawCoordinate = 10.0
 
-        whenever(playerWindowViewWrapper.width).doReturn(playerWindowWidth)
+        whenever(playerWindowView.width).doReturn(playerWindowWidth)
         whenever(infiniteCoordinatesProvider.getNextCoordinate()).doReturn(rawCoordinate)
         tested.videoSizeOnSurface = theSameSize
         tested.originalVideoSize = theSameSize
@@ -124,7 +124,7 @@ class PlayerPositionCalculationTest {
         tested.onNewFrame()
 
         // then
-        verify(playerWindowViewWrapper).setX(50f)
+        verify(playerWindowView).updateXPosition(50f)
     }
 
     @Test
@@ -134,7 +134,7 @@ class PlayerPositionCalculationTest {
         val playerWindowWidth = 40
         val rawCoordinate = 0.0
 
-        whenever(playerWindowViewWrapper.width).doReturn(playerWindowWidth)
+        whenever(playerWindowView.width).doReturn(playerWindowWidth)
         whenever(infiniteCoordinatesProvider.getNextCoordinate()).doReturn(rawCoordinate)
         tested.videoSizeOnSurface = theSameSize
         tested.originalVideoSize = theSameSize
@@ -143,7 +143,7 @@ class PlayerPositionCalculationTest {
         tested.onNewFrame()
 
         // then
-        verify(playerWindowViewWrapper).setX(50f)
+        verify(playerWindowView).updateXPosition(50f)
     }
 
     @Test
@@ -154,7 +154,7 @@ class PlayerPositionCalculationTest {
         val playerWindowWidth = 40
         val rawCoordinate = 60.0
 
-        whenever(playerWindowViewWrapper.width).doReturn(playerWindowWidth)
+        whenever(playerWindowView.width).doReturn(playerWindowWidth)
         whenever(infiniteCoordinatesProvider.getNextCoordinate()).doReturn(rawCoordinate)
         tested.videoSizeOnSurface = surfaceVideoSize
         tested.originalVideoSize = originalVideoSize
@@ -163,7 +163,7 @@ class PlayerPositionCalculationTest {
         tested.onNewFrame()
 
         // then
-        verify(playerWindowViewWrapper).setX(-12f)
+        verify(playerWindowView).updateXPosition(-12f)
     }
 
     @Test
@@ -174,7 +174,7 @@ class PlayerPositionCalculationTest {
         val playerWindowWidth = 40
         val rawCoordinate = 80.0
 
-        whenever(playerWindowViewWrapper.width).doReturn(playerWindowWidth)
+        whenever(playerWindowView.width).doReturn(playerWindowWidth)
         whenever(infiniteCoordinatesProvider.getNextCoordinate()).doReturn(rawCoordinate)
         tested.videoSizeOnSurface = surfaceVideoSize
         tested.originalVideoSize = originalVideoSize
@@ -183,7 +183,7 @@ class PlayerPositionCalculationTest {
         tested.onNewFrame()
 
         // then
-        verify(playerWindowViewWrapper).setX(-36f)
+        verify(playerWindowView).updateXPosition(-36f)
     }
 
     @Test
@@ -194,7 +194,7 @@ class PlayerPositionCalculationTest {
         val playerWindowWidth = 40
         val rawCoordinate = 90.0
 
-        whenever(playerWindowViewWrapper.width).doReturn(playerWindowWidth)
+        whenever(playerWindowView.width).doReturn(playerWindowWidth)
         whenever(infiniteCoordinatesProvider.getNextCoordinate()).doReturn(rawCoordinate)
         tested.videoSizeOnSurface = surfaceVideoSize
         tested.originalVideoSize = originalVideoSize
@@ -203,7 +203,7 @@ class PlayerPositionCalculationTest {
         tested.onNewFrame()
 
         // then
-        verify(playerWindowViewWrapper).setX(-40f)
+        verify(playerWindowView).updateXPosition(-40f)
     }
 
     @Test
@@ -214,7 +214,7 @@ class PlayerPositionCalculationTest {
         val playerWindowWidth = 40
         val rawCoordinate = 100.0
 
-        whenever(playerWindowViewWrapper.width).doReturn(playerWindowWidth)
+        whenever(playerWindowView.width).doReturn(playerWindowWidth)
         whenever(infiniteCoordinatesProvider.getNextCoordinate()).doReturn(rawCoordinate)
         tested.videoSizeOnSurface = surfaceVideoSize
         tested.originalVideoSize = originalVideoSize
@@ -223,7 +223,7 @@ class PlayerPositionCalculationTest {
         tested.onNewFrame()
 
         // then
-        verify(playerWindowViewWrapper).setX(-40f)
+        verify(playerWindowView).updateXPosition(-40f)
     }
 
     @Test
@@ -234,7 +234,7 @@ class PlayerPositionCalculationTest {
         val playerWindowWidth = 40
         val rawCoordinate = 20.0
 
-        whenever(playerWindowViewWrapper.width).doReturn(playerWindowWidth)
+        whenever(playerWindowView.width).doReturn(playerWindowWidth)
         whenever(infiniteCoordinatesProvider.getNextCoordinate()).doReturn(rawCoordinate)
         tested.videoSizeOnSurface = surfaceVideoSize
         tested.originalVideoSize = originalVideoSize
@@ -243,7 +243,7 @@ class PlayerPositionCalculationTest {
         tested.onNewFrame()
 
         // then
-        verify(playerWindowViewWrapper).setX(36f)
+        verify(playerWindowView).updateXPosition(36f)
     }
 
     @Test
@@ -254,7 +254,7 @@ class PlayerPositionCalculationTest {
         val playerWindowWidth = 40
         val rawCoordinate = 10.0
 
-        whenever(playerWindowViewWrapper.width).doReturn(playerWindowWidth)
+        whenever(playerWindowView.width).doReturn(playerWindowWidth)
         whenever(infiniteCoordinatesProvider.getNextCoordinate()).doReturn(rawCoordinate)
         tested.videoSizeOnSurface = surfaceVideoSize
         tested.originalVideoSize = originalVideoSize
@@ -263,7 +263,7 @@ class PlayerPositionCalculationTest {
         tested.onNewFrame()
 
         // then
-        verify(playerWindowViewWrapper).setX(40f)
+        verify(playerWindowView).updateXPosition(40f)
     }
 
     @Test
@@ -274,7 +274,7 @@ class PlayerPositionCalculationTest {
         val playerWindowWidth = 40
         val rawCoordinate = 0.0
 
-        whenever(playerWindowViewWrapper.width).doReturn(playerWindowWidth)
+        whenever(playerWindowView.width).doReturn(playerWindowWidth)
         whenever(infiniteCoordinatesProvider.getNextCoordinate()).doReturn(rawCoordinate)
         tested.videoSizeOnSurface = surfaceVideoSize
         tested.originalVideoSize = originalVideoSize
@@ -283,7 +283,7 @@ class PlayerPositionCalculationTest {
         tested.onNewFrame()
 
         // then
-        verify(playerWindowViewWrapper).setX(40f)
+        verify(playerWindowView).updateXPosition(40f)
     }
 
     @Test
@@ -294,7 +294,7 @@ class PlayerPositionCalculationTest {
         val playerWindowWidth = 20
         val rawCoordinate = 40.0
 
-        whenever(playerWindowViewWrapper.width).doReturn(playerWindowWidth)
+        whenever(playerWindowView.width).doReturn(playerWindowWidth)
         whenever(infiniteCoordinatesProvider.getNextCoordinate()).doReturn(rawCoordinate)
         tested.videoSizeOnSurface = surfaceVideoSize
         tested.originalVideoSize = originalVideoSize
@@ -303,7 +303,7 @@ class PlayerPositionCalculationTest {
         tested.onNewFrame()
 
         // then
-        verify(playerWindowViewWrapper).setX(18f)
+        verify(playerWindowView).updateXPosition(18f)
     }
 
     @Test
@@ -314,7 +314,7 @@ class PlayerPositionCalculationTest {
         val playerWindowWidth = 20
         val rawCoordinate = 90.0
 
-        whenever(playerWindowViewWrapper.width).doReturn(playerWindowWidth)
+        whenever(playerWindowView.width).doReturn(playerWindowWidth)
         whenever(infiniteCoordinatesProvider.getNextCoordinate()).doReturn(rawCoordinate)
         tested.videoSizeOnSurface = surfaceVideoSize
         tested.originalVideoSize = originalVideoSize
@@ -323,7 +323,7 @@ class PlayerPositionCalculationTest {
         tested.onNewFrame()
 
         // then
-        verify(playerWindowViewWrapper).setX(-22f)
+        verify(playerWindowView).updateXPosition(-22f)
     }
 
     @Test
@@ -334,7 +334,7 @@ class PlayerPositionCalculationTest {
         val playerWindowWidth = 40
         val rawCoordinate = 110.0
 
-        whenever(playerWindowViewWrapper.width).doReturn(playerWindowWidth)
+        whenever(playerWindowView.width).doReturn(playerWindowWidth)
         whenever(infiniteCoordinatesProvider.getNextCoordinate()).doReturn(rawCoordinate)
         tested.videoSizeOnSurface = surfaceVideoSize
         tested.originalVideoSize = originalVideoSize
@@ -343,7 +343,7 @@ class PlayerPositionCalculationTest {
         tested.onNewFrame()
 
         // then
-        verify(playerWindowViewWrapper).setX(-30f)
+        verify(playerWindowView).updateXPosition(-30f)
     }
 
     @Test
@@ -354,7 +354,7 @@ class PlayerPositionCalculationTest {
         val playerWindowWidth = 40
         val rawCoordinate = 125.0
 
-        whenever(playerWindowViewWrapper.width).doReturn(playerWindowWidth)
+        whenever(playerWindowView.width).doReturn(playerWindowWidth)
         whenever(infiniteCoordinatesProvider.getNextCoordinate()).doReturn(rawCoordinate)
         tested.videoSizeOnSurface = surfaceVideoSize
         tested.originalVideoSize = originalVideoSize
@@ -363,7 +363,7 @@ class PlayerPositionCalculationTest {
         tested.onNewFrame()
 
         // then
-        verify(playerWindowViewWrapper).setX(-30f)
+        verify(playerWindowView).updateXPosition(-30f)
     }
 
     @Test
@@ -374,7 +374,7 @@ class PlayerPositionCalculationTest {
         val playerWindowWidth = 40
         val rawCoordinate = 40.0
 
-        whenever(playerWindowViewWrapper.width).doReturn(playerWindowWidth)
+        whenever(playerWindowView.width).doReturn(playerWindowWidth)
         whenever(infiniteCoordinatesProvider.getNextCoordinate()).doReturn(rawCoordinate)
         tested.videoSizeOnSurface = surfaceVideoSize
         tested.originalVideoSize = originalVideoSize
@@ -383,7 +383,7 @@ class PlayerPositionCalculationTest {
         tested.onNewFrame()
 
         // then
-        verify(playerWindowViewWrapper).setX(18f)
+        verify(playerWindowView).updateXPosition(18f)
     }
 
     @Test
@@ -394,7 +394,7 @@ class PlayerPositionCalculationTest {
         val playerWindowWidth = 40
         val rawCoordinate = 20.0
 
-        whenever(playerWindowViewWrapper.width).doReturn(playerWindowWidth)
+        whenever(playerWindowView.width).doReturn(playerWindowWidth)
         whenever(infiniteCoordinatesProvider.getNextCoordinate()).doReturn(rawCoordinate)
         tested.videoSizeOnSurface = surfaceVideoSize
         tested.originalVideoSize = originalVideoSize
@@ -403,7 +403,7 @@ class PlayerPositionCalculationTest {
         tested.onNewFrame()
 
         // then
-        verify(playerWindowViewWrapper).setX(30f)
+        verify(playerWindowView).updateXPosition(30f)
     }
 
     @Test
@@ -414,7 +414,7 @@ class PlayerPositionCalculationTest {
         val playerWindowWidth = 40
         val rawCoordinate = 0.0
 
-        whenever(playerWindowViewWrapper.width).doReturn(playerWindowWidth)
+        whenever(playerWindowView.width).doReturn(playerWindowWidth)
         whenever(infiniteCoordinatesProvider.getNextCoordinate()).doReturn(rawCoordinate)
         tested.videoSizeOnSurface = surfaceVideoSize
         tested.originalVideoSize = originalVideoSize
@@ -423,6 +423,6 @@ class PlayerPositionCalculationTest {
         tested.onNewFrame()
 
         // then
-        verify(playerWindowViewWrapper).setX(30f)
+        verify(playerWindowView).updateXPosition(30f)
     }
 }

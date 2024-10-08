@@ -1,4 +1,4 @@
-package tv.pluto.dynamic.cropping.android.framework.gallery
+package tv.pluto.dynamic.cropping.android.framework.gallery.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -17,9 +17,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import tv.pluto.dynamic.cropping.android.framework.Video
+import tv.pluto.dynamic.cropping.android.framework.createVideos
 
 @Composable
-fun SelectionScreen(onClipSelected: (Video) -> Unit) {
+fun SelectionScreen(onVideoSelected: (Video) -> Unit) {
     val scrollState = rememberScrollState()
 
     Scaffold { contentPadding ->
@@ -29,34 +30,25 @@ fun SelectionScreen(onClipSelected: (Video) -> Unit) {
                 .fillMaxSize()
                 .verticalScroll(state = scrollState),
         ) {
-            listOf(
-                Video.PainGain,
-                Video.GIJoeRetaliation,
-                Video.IndianaJonesAndTheKingdomOfTheCrystalSkull,
-                Video.IndianaJonesAndTheLastCrusade,
-                Video.IndianaJonesAndTheRaidersOfTheLostArk,
-                Video.IndianaJonesAndTheTempleOfDoom,
-                Video.SavingPrivateRyan,
-                Video.Gladiator,
-                Video.TerminatorGenisysCoordinates,
-            ).forEach { availableClip ->
-                TextButton(
-                    onClick = { onClipSelected(availableClip) }
-                ) {
-                    Text(
-                        text = availableClip.name,
+            createVideos()
+                .forEach { video ->
+                    TextButton(
+                        onClick = { onVideoSelected(video) }
+                    ) {
+                        Text(
+                            text = video.name,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                        )
+                    }
+                    Spacer(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
+                            .height(1.dp)
+                            .background(Color.Black)
+                            .fillMaxWidth(),
                     )
                 }
-                Spacer(
-                    modifier = Modifier
-                        .height(1.dp)
-                        .background(Color.Black)
-                        .fillMaxWidth(),
-                )
-            }
         }
     }
 }

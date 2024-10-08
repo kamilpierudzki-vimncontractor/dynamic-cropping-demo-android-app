@@ -1,27 +1,30 @@
-package tv.pluto.dynamic.cropping.android.framework.demo
+package tv.pluto.dynamic.cropping.android.framework.gallery
 
 import android.app.Activity
+import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.StyledPlayerView
 import com.google.android.exoplayer2.video.VideoSize
-import tv.pluto.dynamic.cropping.android.framework.PlayerWindowViewWrapperImpl
+import tv.pluto.dynamic.cropping.android.framework.PlayerWindowViewFactory
+import tv.pluto.dynamic.cropping.android.framework.Type
 import tv.pluto.dynamic.cropping.android.logic.Height
 import tv.pluto.dynamic.cropping.android.logic.InfiniteCoordinatesProvider
 import tv.pluto.dynamic.cropping.android.logic.PlayerPositionCalculation
 import tv.pluto.dynamic.cropping.android.logic.Size
 import tv.pluto.dynamic.cropping.android.logic.Width
 
-class ExoPlayerManagerImpl(
+class ExoPlayerManager(
     private val activity: Activity,
-) : ExoPlayerManager {
+) : DefaultLifecycleObserver {
 
+    private val playerWindowViewFactory = PlayerWindowViewFactory()
     private var exoPlayer: ExoPlayer? = null
     private var playerPositionCalculation: PlayerPositionCalculation? = null
 
-    override fun setPlayerView(playerView: StyledPlayerView, coordinates: DoubleArray) {
+    fun setPlayerView(playerView: StyledPlayerView, coordinates: DoubleArray) {
         ExoPlayer.Builder(activity).build().also { exoPlayer ->
             this.exoPlayer = exoPlayer
             exoPlayer.repeatMode = Player.REPEAT_MODE_ALL
@@ -29,7 +32,7 @@ class ExoPlayerManagerImpl(
             playerView.useController = false
 
             playerPositionCalculation = PlayerPositionCalculation(
-                PlayerWindowViewWrapperImpl(playerView),
+                playerWindowViewFactory.create(playerView, Type.TranslationXWithSkipping),
                 InfiniteCoordinatesProvider(coordinates),
             )
 
@@ -52,7 +55,7 @@ class ExoPlayerManagerImpl(
         }
     }
 
-    override fun setMediaItemAndPlay(mediaItem: MediaItem) {
+    fun setMediaItemAndPlay(mediaItem: MediaItem) {
         exoPlayer?.apply {
             setMediaItem(mediaItem)
             prepare()
@@ -76,7 +79,7 @@ class ExoPlayerManagerImpl(
         destroy()
     }
 
-    override fun destroy() {
+    fun destroy() {
         exoPlayer?.release()
         exoPlayer = null
         playerPositionCalculation = null

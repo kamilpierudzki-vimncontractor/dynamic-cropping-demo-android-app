@@ -21,7 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import tv.pluto.dynamic.cropping.android.framework.demo.ExoPlayerManagerV2
+import tv.pluto.dynamic.cropping.android.framework.demo.ExoPlayerManager
 
 private val backgroundGradientColors = listOf(
     Color.DarkGray,
@@ -31,7 +31,7 @@ private val backgroundGradientColors = listOf(
 
 @Composable
 fun HomeScreen(
-    exoPlayerManagers: List<ExoPlayerManagerV2>
+    exoPlayerManagers: List<ExoPlayerManager>
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -87,7 +87,7 @@ fun HomeScreen(
                         }
 
                         CardComponent(
-                            exoPlayerManagerV2 = exoPlayerManagers[index],
+                            exoPlayerManager = exoPlayerManagers[index],
                         )
                     }
                 }

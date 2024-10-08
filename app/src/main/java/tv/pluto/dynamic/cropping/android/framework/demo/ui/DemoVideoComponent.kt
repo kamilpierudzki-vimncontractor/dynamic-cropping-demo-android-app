@@ -6,11 +6,11 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.viewinterop.AndroidView
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
 import tv.pluto.dynamic.cropping.android.framework.FixedAspectStyledPlayerView
-import tv.pluto.dynamic.cropping.android.framework.demo.ExoPlayerManagerV2
+import tv.pluto.dynamic.cropping.android.framework.demo.ExoPlayerManager
 
 @Composable
-fun VideoComponent(
-    exoPlayerManagerV2: ExoPlayerManagerV2,
+fun DemoVideoComponent(
+    exoPlayerManager: ExoPlayerManager,
     modifier: Modifier = Modifier,
 ) {
     AndroidView(
@@ -20,7 +20,7 @@ fun VideoComponent(
                 .also { playerView ->
                     playerView.setAspectRatio(9, 16)
                     playerView.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIXED_HEIGHT
-                    exoPlayerManagerV2.initializeAndStartPlayback(playerView)
+                    exoPlayerManager.initializeAndStartPlayback(playerView)
                 }
         },
     )
