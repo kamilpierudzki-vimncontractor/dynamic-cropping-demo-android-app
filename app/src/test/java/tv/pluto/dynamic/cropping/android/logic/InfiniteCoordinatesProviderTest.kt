@@ -1,4 +1,4 @@
-package tv.pluto.dynamic.cropping.android.framework
+package tv.pluto.dynamic.cropping.android.logic
 
 import org.junit.Assert
 import org.junit.Test
