@@ -40,7 +40,7 @@ class PlayerWindowViewTranslationXWithSkippingFramesAnimation(private val player
         android.util.Log.d("test123",
             "PlayerWindowViewTranslationXWithSkippingFramesAnimation, translationX=$value")
         ObjectAnimator.ofFloat(playerWindowView, "translationX", value.toFloat()).apply {
-            duration = 15
+            duration = 16
             start()
         }
     }
