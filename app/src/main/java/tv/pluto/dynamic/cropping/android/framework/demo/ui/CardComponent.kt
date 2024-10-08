@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import tv.pluto.dynamic.cropping.android.R
+import tv.pluto.dynamic.cropping.android.framework.Video
 import tv.pluto.dynamic.cropping.android.framework.demo.ExoPlayerManager
 
 @Composable
@@ -34,14 +35,17 @@ fun CardComponent(
                 .padding(16.dp),
         )*/
         MetadataComponent(
-            title = exoPlayerManager.videoName,
-            details = "Drama R 1h 47m",
+            title = exoPlayerManager.video.title.value,
+            details = exoPlayerManager.video.formattedMetadata(),
             modifier = Modifier
                 .padding(16.dp)
                 .align(Alignment.BottomCenter),
         )
     }
 }
+
+private fun Video.formattedMetadata(): String =
+    "${year.value} ${genre.value} ${rating.value} ${time.value}"
 
 @Composable
 private fun CollapseButton(

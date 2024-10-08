@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import tv.pluto.dynamic.cropping.android.framework.Video
-import tv.pluto.dynamic.cropping.android.framework.createVideos
+import tv.pluto.dynamic.cropping.android.framework.getLocalVideos
 
 @Composable
 fun SelectionScreen(onVideoSelected: (Video) -> Unit) {
@@ -30,13 +30,13 @@ fun SelectionScreen(onVideoSelected: (Video) -> Unit) {
                 .fillMaxSize()
                 .verticalScroll(state = scrollState),
         ) {
-            createVideos()
+            (getLocalVideos() + Video.Benchmark)
                 .forEach { video ->
                     TextButton(
                         onClick = { onVideoSelected(video) }
                     ) {
                         Text(
-                            text = video.name,
+                            text = video.title.value,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(16.dp),

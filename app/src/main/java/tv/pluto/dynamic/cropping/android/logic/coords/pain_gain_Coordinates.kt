@@ -1,6 +1,6 @@
 package tv.pluto.dynamic.cropping.android.logic.coords
 
-val painGainCoordinates: DoubleArray = doubleArrayOf(
+val painAndGainCoordinates: DoubleArray = doubleArrayOf(
     834.4611672447595,
     838.5534610164381,
     843.0549841652843,

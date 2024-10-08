@@ -9,8 +9,9 @@ import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.StyledPlayerView
 import com.google.android.exoplayer2.upstream.RawResourceDataSource
 import com.google.android.exoplayer2.video.VideoSize
-import tv.pluto.dynamic.cropping.android.framework.PlayerWindowViewFactory
-import tv.pluto.dynamic.cropping.android.framework.Type
+import tv.pluto.dynamic.cropping.android.framework.window.PlayerWindowViewFactory
+import tv.pluto.dynamic.cropping.android.framework.window.Type
+import tv.pluto.dynamic.cropping.android.framework.Video
 import tv.pluto.dynamic.cropping.android.logic.Height
 import tv.pluto.dynamic.cropping.android.logic.InfiniteCoordinatesProvider
 import tv.pluto.dynamic.cropping.android.logic.PlayerPositionCalculation
@@ -26,9 +27,7 @@ private sealed interface PlaybackState {
 
 class ExoPlayerManager(
     private val activity: Activity,
-    private val videoResourceId: Int,
-    val videoName: String,
-    private val coordinates: () -> DoubleArray
+    val video: Video,
 ) : DefaultLifecycleObserver {
 
     private val playerWindowViewFactory = PlayerWindowViewFactory()
@@ -108,7 +107,7 @@ class ExoPlayerManager(
 
             playerPositionCalculation = PlayerPositionCalculation(
                 playerWindowViewFactory.create(playerView, Type.TranslationXWithAnimation),
-                InfiniteCoordinatesProvider(coordinates()),
+                InfiniteCoordinatesProvider(video.coordinates()),
             )
 
             exoPlayer.setVideoFrameMetadataListener { _, _, _, _ ->
@@ -138,7 +137,7 @@ class ExoPlayerManager(
     }
 
     private fun createMediaItem(): MediaItem {
-        val uri = RawResourceDataSource.buildRawResourceUri(videoResourceId)
+        val uri = RawResourceDataSource.buildRawResourceUri(video.videoResId)
         return MediaItem.fromUri(uri)
     }
 }

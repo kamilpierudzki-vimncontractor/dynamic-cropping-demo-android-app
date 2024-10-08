@@ -1,11 +1,13 @@
 package tv.pluto.dynamic.cropping.android.framework.demo
 
+import android.app.Activity
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import tv.pluto.dynamic.cropping.android.framework.createPlayerManagers
 import tv.pluto.dynamic.cropping.android.framework.demo.ui.DemoApp
+import tv.pluto.dynamic.cropping.android.framework.getLocalVideos
 import tv.pluto.dynamic.cropping.android.framework.theme.StaticCroppingDemoTheme
 
 class DemoActivity : ComponentActivity() {
@@ -14,6 +16,7 @@ class DemoActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         exoPlayerManagers = createPlayerManagers(this)
         exoPlayerManagers.forEach {
             lifecycle.addObserver(it)
@@ -31,4 +34,12 @@ class DemoActivity : ComponentActivity() {
             }
         }
     }
+
+    private fun createPlayerManagers(activity: Activity): List<ExoPlayerManager> =
+        getLocalVideos().map { video ->
+            ExoPlayerManager(
+                activity = activity,
+                video = video,
+            )
+        }
 }

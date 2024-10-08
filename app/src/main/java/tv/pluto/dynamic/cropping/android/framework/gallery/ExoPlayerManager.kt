@@ -8,8 +8,8 @@ import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.StyledPlayerView
 import com.google.android.exoplayer2.video.VideoSize
-import tv.pluto.dynamic.cropping.android.framework.PlayerWindowViewFactory
-import tv.pluto.dynamic.cropping.android.framework.Type
+import tv.pluto.dynamic.cropping.android.framework.window.PlayerWindowViewFactory
+import tv.pluto.dynamic.cropping.android.framework.window.Type
 import tv.pluto.dynamic.cropping.android.logic.Height
 import tv.pluto.dynamic.cropping.android.logic.InfiniteCoordinatesProvider
 import tv.pluto.dynamic.cropping.android.logic.PlayerPositionCalculation
