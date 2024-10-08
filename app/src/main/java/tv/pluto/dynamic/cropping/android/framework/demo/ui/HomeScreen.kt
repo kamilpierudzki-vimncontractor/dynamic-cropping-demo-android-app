@@ -24,9 +24,8 @@ import androidx.compose.ui.unit.dp
 import tv.pluto.dynamic.cropping.android.framework.demo.ExoPlayerManager
 
 private val backgroundGradientColors = listOf(
-    Color.DarkGray,
-    Color.Black,
-    Color.DarkGray,
+    Color(0x00151515),
+    Color(0xFF151515),
 )
 
 @Composable

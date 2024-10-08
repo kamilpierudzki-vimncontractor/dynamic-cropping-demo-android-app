@@ -18,9 +18,8 @@ private fun UiTest() {
     Spacer(modifier = Modifier
         .size(500.dp, 500.dp)
         .background(brush = Brush.verticalGradient(listOf(
-            Color.DarkGray,
-            Color.Black,
-            Color.DarkGray,
+            Color(0x00151515),
+            Color(0xFF151515)
         )))
     )
 }
