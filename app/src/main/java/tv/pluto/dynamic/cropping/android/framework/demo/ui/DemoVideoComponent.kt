@@ -18,7 +18,7 @@ fun DemoVideoComponent(
         factory = { context ->
             FixedAspectStyledPlayerView(context)
                 .also { playerView ->
-                    playerView.setAspectRatio(9, 16)
+                    playerView.setAspectRatio(10, 16)
                     playerView.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIXED_HEIGHT
                     exoPlayerManager.initializeAndStartPlayback(playerView)
                 }
