@@ -9,6 +9,7 @@ sealed interface Type {
     data object X : Type
     data object IntX : Type
     data object IntXWithSkipping : Type
+    data object TranslationXWithSkippingAnimation : Type
 }
 
 class PlayerWindowViewFactory {
@@ -17,6 +18,7 @@ class PlayerWindowViewFactory {
         when (type) {
             Type.TranslationX -> PlayerWindowViewTranslationX(playerWindowView)
             Type.TranslationXWithSkipping -> PlayerWindowViewTranslationXWithSkippingFrames(playerWindowView)
+            Type.TranslationXWithSkippingAnimation -> PlayerWindowViewTranslationXWithSkippingFramesAnimation(playerWindowView)
             Type.X -> PlayerWindowViewX(playerWindowView)
             Type.IntX -> PlayerWindowViewIntX(playerWindowView)
             Type.IntXWithSkipping -> PlayerWindowViewIntXWithSkippingFrames(playerWindowView)
