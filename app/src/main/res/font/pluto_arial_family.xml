@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<font-family xmlns:app="http://schemas.android.com/apk/res-auto">
+    <font
+            app:font="@font/pluto_tv_arial_narrow_mt_std_regular"
+            app:fontStyle="normal"
+            app:fontWeight="400" />
+</font-family>
