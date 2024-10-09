@@ -8,7 +8,7 @@ sealed interface Decision {
     data class SameValue(val value: Int) : Decision
 }
 
-class SkippingCalculation(private val skipIfPositionDiffIsLessThan: Int = 10) {
+class SkippingCalculation(private val skipIfPositionDiffIsLessThan: Int = 8) {
 
     private var memory: Int? = null
 
