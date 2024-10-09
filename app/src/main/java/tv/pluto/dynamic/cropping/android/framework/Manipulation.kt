@@ -1,9 +1,9 @@
 package tv.pluto.dynamic.cropping.android.framework
 
 import com.google.android.exoplayer2.ui.StyledPlayerView
+import tv.pluto.dynamic.cropping.android.framework.window.AlgorithmType
 import tv.pluto.dynamic.cropping.android.framework.window.PlayerWindowViewInfoRetrieverImpl
 import tv.pluto.dynamic.cropping.android.framework.window.PlayerWindowViewManipulationFactory
-import tv.pluto.dynamic.cropping.android.framework.window.AlgorithmType
 import tv.pluto.dynamic.cropping.android.logic.InfiniteCoordinatesProvider
 import tv.pluto.dynamic.cropping.android.logic.PlayerPositionCalculation
 import tv.pluto.dynamic.cropping.android.logic.PlayerWindowViewManipulation
@@ -19,15 +19,16 @@ class Manipulation(
     private var playerWindowViewManipulation: PlayerWindowViewManipulation? = null
 
     init {
-        val playerWindowViewInfoRetriever = PlayerWindowViewInfoRetrieverImpl(playerView)
         val infiniteCoordinatesProvider = InfiniteCoordinatesProvider(coordinates)
+        val playerWindowViewInfoRetriever = PlayerWindowViewInfoRetrieverImpl(playerView)
         playerPositionCalculation = PlayerPositionCalculation(
             playerWindowViewInfoRetriever,
             infiniteCoordinatesProvider,
         )
         playerWindowViewManipulation = playerWindowViewManipulationFactory.create(
             playerWindowView = playerView,
-            algorithmType = AlgorithmType.OnlyWithAnimation,
+            algorithmType = AlgorithmType.BothSkippingAndSyntheticAnimation,
+            playerWindowViewInfoRetriever = playerWindowViewInfoRetriever,
         )
     }
 

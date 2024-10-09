@@ -17,7 +17,7 @@ class PlayerWindowViewAnimation(
 
     fun start(durationMs: Long, targetValue: Float) {
         cancel()
-        android.util.Log.d("test123", "Animation, start ${playerWindowView.translationX} -> ${targetValue.toInt()}")
+        android.util.Log.d("test123", "Animation, start ${playerWindowView.translationX} -> ${targetValue.toInt()}, durationMs=$durationMs")
         animator = ObjectAnimator.ofFloat(playerWindowView, "translationX", targetValue.toInt().toFloat()).apply {
             duration = durationMs
             addUpdateListener { v ->

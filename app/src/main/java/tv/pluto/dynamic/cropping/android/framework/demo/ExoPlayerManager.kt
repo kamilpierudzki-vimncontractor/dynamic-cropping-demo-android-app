@@ -101,7 +101,11 @@ class ExoPlayerManager(
             playerView.player = exoPlayer
             playerView.useController = false
 
-            manipulation = Manipulation(playerView, video.coordinates(), PlayerWindowViewManipulationFactory())
+            manipulation = Manipulation(
+                playerView = playerView,
+                coordinates = video.coordinates(),
+                playerWindowViewManipulationFactory = PlayerWindowViewManipulationFactory(),
+            )
 
             exoPlayer.setVideoFrameMetadataListener { _, _, _, _ -> manipulation?.onNewFrame() }
             exoPlayer.addListener(object : Player.Listener {

@@ -7,4 +7,7 @@ class PlayerWindowViewInfoRetrieverImpl(private val playerWindowView: View) : Pl
 
     override val width: Int
         get() = playerWindowView.width
+
+    override val translationX: Float
+        get() = playerWindowView.translationX
 }

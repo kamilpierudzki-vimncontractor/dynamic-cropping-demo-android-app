@@ -18,7 +18,6 @@ class PlayerWindowViewManipulationWithAnimation(
 
     private fun animateTranslationX(value: Float) {
         playerWindowViewAnimation.cancel()
-
         val averageDurationBetweenFrames = (averageTimeCalculation.calculateAverageTimeBetweenFrames() ?: 0.0).toLong()
         android.util.Log.d("test123",
             "PlayerWindowViewManipulationWithAnimation, translationX=$value, averageDurationBetweenFrames=$averageDurationBetweenFrames"
