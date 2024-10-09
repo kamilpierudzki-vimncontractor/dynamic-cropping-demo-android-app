@@ -8,9 +8,7 @@ sealed interface Decision {
     data class SameValue(val value: Int) : Decision
 }
 
-private const val SKIP_IF_POSITION_DIFF_IS_LESS_THAN = 8
-
-class SkippingCalculation {
+class SkippingCalculation(private val skipIfPositionDiffIsLessThan: Int = 8) {
 
     private var memory: Int? = null
 
@@ -21,7 +19,7 @@ class SkippingCalculation {
             if (newValue != lastValue) {
                 val diff = (lastValue - newValue)
                 val absoluteDiff = diff.absoluteValue
-                if (absoluteDiff > SKIP_IF_POSITION_DIFF_IS_LESS_THAN) {
+                if (absoluteDiff > skipIfPositionDiffIsLessThan) {
                     Decision.Accepted
                 } else {
                     Decision.TooLittleDiff(diff)

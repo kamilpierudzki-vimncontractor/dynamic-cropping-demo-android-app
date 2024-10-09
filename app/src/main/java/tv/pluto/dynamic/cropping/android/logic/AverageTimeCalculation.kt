@@ -1,18 +1,20 @@
-package tv.pluto.dynamic.cropping.android.framework
+package tv.pluto.dynamic.cropping.android.logic
 
-class AverageTimeCalculation {
+class AverageTimeCalculation(
+    private val timestampProvider: TimestampProvider,
+    private val maxSizeOfBuffer: Int = 60,
+) {
 
-    private val maxSizeOfBuffer = 60
     private val buffer = mutableListOf<Long>()
 
     fun calculateAverageTimeBetweenFrames(): Double? {
-        val newTimestamp = System.currentTimeMillis()
+        val newTimestamp = timestampProvider.timestampMs
         if (buffer.size == maxSizeOfBuffer) {
             buffer.removeAt(0)
         }
         buffer.add(newTimestamp)
 
-        return if (buffer.isNotEmpty()) {
+        return if (buffer.size > 1) {
             val intervals: List<Long> = buffer.zipWithNext { a, b -> b - a }
             intervals.average()
         } else {

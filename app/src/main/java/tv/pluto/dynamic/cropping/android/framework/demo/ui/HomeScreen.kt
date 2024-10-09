@@ -23,7 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import tv.pluto.dynamic.cropping.android.framework.demo.ExoPlayerManager
 
-private val backgroundGradientColors = listOf(
+private val gradientColors = listOf(
     Color.Black,
     Color.DarkGray,
     Color.Gray,
@@ -42,7 +42,7 @@ fun HomeScreen(
                 modifier = Modifier
                     .padding(innerPadding)
                     .fillMaxSize()
-                    .background(brush = Brush.verticalGradient(backgroundGradientColors)),
+                    .background(brush = Brush.verticalGradient(gradientColors)),
             ) {
                 val lazyListState = rememberLazyListState()
                 val snapBehavior = rememberSnapFlingBehavior(lazyListState)

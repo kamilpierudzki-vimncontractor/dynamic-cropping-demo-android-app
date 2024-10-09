@@ -1,6 +1,6 @@
 package tv.pluto.dynamic.cropping.android.framework.window
 
-import tv.pluto.dynamic.cropping.android.framework.AverageTimeCalculation
+import tv.pluto.dynamic.cropping.android.logic.AverageTimeCalculation
 import tv.pluto.dynamic.cropping.android.logic.Decision
 import tv.pluto.dynamic.cropping.android.logic.PlayerWindowViewManipulation
 import tv.pluto.dynamic.cropping.android.logic.SkippingCalculation

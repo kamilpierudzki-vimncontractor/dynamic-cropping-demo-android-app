@@ -1,7 +1,8 @@
 package tv.pluto.dynamic.cropping.android.framework.window
 
 import android.view.View
-import tv.pluto.dynamic.cropping.android.framework.AverageTimeCalculation
+import tv.pluto.dynamic.cropping.android.framework.SystemTimestamp
+import tv.pluto.dynamic.cropping.android.logic.AverageTimeCalculation
 import tv.pluto.dynamic.cropping.android.logic.PlayerWindowViewManipulation
 import tv.pluto.dynamic.cropping.android.logic.SkippingCalculation
 
@@ -15,7 +16,7 @@ sealed interface AlgorithmType {
 class PlayerWindowViewManipulationFactory {
 
     fun create(playerWindowView: View, algorithmType: AlgorithmType): PlayerWindowViewManipulation {
-        val averageTimeCalculation = AverageTimeCalculation()
+        val averageTimeCalculation = AverageTimeCalculation(SystemTimestamp())
         val playerWindowViewAnimation = PlayerWindowViewAnimation(playerWindowView)
         val skippingCalculation = SkippingCalculation()
         return when (algorithmType) {

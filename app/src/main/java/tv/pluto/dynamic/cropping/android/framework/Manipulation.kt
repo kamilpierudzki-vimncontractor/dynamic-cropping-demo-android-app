@@ -27,7 +27,7 @@ class Manipulation(
         )
         playerWindowViewManipulation = playerWindowViewManipulationFactory.create(
             playerWindowView = playerView,
-            algorithmType = AlgorithmType.BothWithSkippingAndAnimation,
+            algorithmType = AlgorithmType.OnlyWithAnimation,
         )
     }
 
