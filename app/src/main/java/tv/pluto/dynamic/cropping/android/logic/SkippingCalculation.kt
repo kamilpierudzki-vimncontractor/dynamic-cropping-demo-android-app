@@ -8,9 +8,10 @@ sealed interface Decision {
     data class SameValue(val value: Int) : Decision
 }
 
+private const val SKIP_IF_POSITION_DIFF_IS_LESS_THAN = 8
+
 class SkippingCalculation {
 
-    private val SKIP_IF_POSITION_DIFF_IS_LESS_THAN = 8
     private var memory: Int? = null
 
     fun valueAccepted(absoluteXPosition: Double): Decision {
