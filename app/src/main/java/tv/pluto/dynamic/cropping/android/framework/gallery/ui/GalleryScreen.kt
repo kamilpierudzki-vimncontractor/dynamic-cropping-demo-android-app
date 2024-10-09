@@ -1,5 +1,6 @@
 package tv.pluto.dynamic.cropping.android.framework.gallery.ui
 
+import android.view.LayoutInflater
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,6 +16,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
 import com.google.android.exoplayer2.upstream.RawResourceDataSource
+import tv.pluto.dynamic.cropping.android.R
 import tv.pluto.dynamic.cropping.android.framework.FixedAspectStyledPlayerView
 import tv.pluto.dynamic.cropping.android.framework.gallery.ExoPlayerManager
 
@@ -50,7 +52,7 @@ fun GalleryScreen(
             .padding(contentPadding)
             .padding(16.dp)
             .fillMaxSize()) {
-            GalleryVideoComponent(
+            ExperimentalGalleryVideoComponent(
                 exoPlayerManager = exoPlayerManager,
                 galleryScreenInput = galleryScreenInput,
                 modifier = Modifier
@@ -60,6 +62,33 @@ fun GalleryScreen(
         }
     }
     BackHandler(onBack = onBack)
+}
+
+@Composable
+private fun ExperimentalGalleryVideoComponent(
+    exoPlayerManager: ExoPlayerManager,
+    galleryScreenInput: GalleryScreenInput,
+    modifier: Modifier,
+) {
+    AndroidView(
+        modifier = modifier
+            .fillMaxWidth()
+            .clipToBounds(),
+        factory = { context ->
+            val view = LayoutInflater.from(context).inflate(R.layout.experimental_player_layout, null, false)
+            (view as FixedAspectStyledPlayerView)
+                .apply {
+                    setAspectRatio(9, 16)
+                    resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIXED_HEIGHT
+                }
+                .also { playerView ->
+                    exoPlayerManager.apply {
+                        setPlayerView(playerView, galleryScreenInput.coordinates)
+                        setMediaItemAndPlay(createMediaItem(galleryScreenInput))
+                    }
+                }
+        },
+    )
 }
 
 @Composable

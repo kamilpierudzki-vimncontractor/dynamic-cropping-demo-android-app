@@ -106,7 +106,7 @@ class ExoPlayerManager(
             playerView.useController = false
 
             playerPositionCalculation = PlayerPositionCalculation(
-                playerWindowViewFactory.create(playerView, Type.TranslationX),
+                playerWindowViewFactory.create(playerView, Type.TranslationXWithAnimation),
                 InfiniteCoordinatesProvider(video.coordinates()),
             )
 

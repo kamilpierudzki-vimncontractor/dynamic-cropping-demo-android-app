@@ -7,6 +7,8 @@ import tv.pluto.dynamic.cropping.android.logic.PlayerWindowView
 class PlayerWindowViewTranslationXWithAnimation(private val playerWindowView: View) : PlayerWindowView {
 
     private var animator: ObjectAnimator? = null
+    private val maxSizeOfBuffer = 60
+    private val buffer = mutableListOf<Long>()
 
     override val width: Int
         get() = playerWindowView.width
@@ -21,14 +23,30 @@ class PlayerWindowViewTranslationXWithAnimation(private val playerWindowView: Vi
         animator?.cancel()
         animator?.removeAllListeners()
 
-        android.util.Log.d("test123", "PlayerWindowViewTranslationXWithAnimation, start translation $value")
+        val averageDurationBetweenFrames = (calculateAverageTimeBetweenFrames() ?: 0.0).toLong()
+        android.util.Log.d("test123", "PlayerWindowViewTranslationXWithAnimation, translationX=$value, averageDurationBetweenFrames=$averageDurationBetweenFrames")
         animator = ObjectAnimator.ofFloat(playerWindowView, "translationX", value).apply {
-            duration = 20
+            duration = averageDurationBetweenFrames
             addUpdateListener { v ->
                 val lastAnimatorValue = (v.animatedValue as Float)
-                android.util.Log.d("test123", "PlayerWindowViewTranslationXWithAnimation, BETWEEN, $lastAnimatorValue")
+                android.util.Log.d("test123", "PlayerWindowViewTranslationXWithAnimation, BETWEEN pos=$lastAnimatorValue")
             }
             start()
+        }
+    }
+
+    private fun calculateAverageTimeBetweenFrames(): Double? {
+        val newTimestamp = System.currentTimeMillis()
+        if (buffer.size == maxSizeOfBuffer) {
+            buffer.removeAt(0)
+        }
+        buffer.add(newTimestamp)
+
+        return if (buffer.isNotEmpty()) {
+            val intervals: List<Long> = buffer.zipWithNext { a, b -> b - a }
+            intervals.average()
+        } else {
+            null
         }
     }
 }
