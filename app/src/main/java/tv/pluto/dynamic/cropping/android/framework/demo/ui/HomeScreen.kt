@@ -41,7 +41,6 @@ private val gradientOnVideos = listOf(
     Color.Transparent,
     Color.Transparent,
     Color.Transparent,
-    Color.Transparent,
     Color.DarkGray.copy(alpha = alpha),
     Color.Black.copy(alpha = alpha),
 )
