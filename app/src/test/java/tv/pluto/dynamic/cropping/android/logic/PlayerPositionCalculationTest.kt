@@ -26,7 +26,7 @@ class PlayerPositionCalculationTest {
         tested.originalVideoSize = theSameSize
 
         // when
-        tested.onNewFrame()
+        tested.calculateNextAbsoluteXPosition()
 
         // then
         verify(playerWindowView).updateXPosition(10f)
@@ -45,7 +45,7 @@ class PlayerPositionCalculationTest {
         tested.originalVideoSize = theSameSize
 
         // when
-        tested.onNewFrame()
+        tested.calculateNextAbsoluteXPosition()
 
         // then
         verify(playerWindowView).updateXPosition(-50f)
@@ -64,7 +64,7 @@ class PlayerPositionCalculationTest {
         tested.originalVideoSize = theSameSize
 
         // when
-        tested.onNewFrame()
+        tested.calculateNextAbsoluteXPosition()
 
         // then
         verify(playerWindowView).updateXPosition(-50f)
@@ -83,7 +83,7 @@ class PlayerPositionCalculationTest {
         tested.originalVideoSize = theSameSize
 
         // when
-        tested.onNewFrame()
+        tested.calculateNextAbsoluteXPosition()
 
         // then
         verify(playerWindowView).updateXPosition(-50f)
@@ -102,7 +102,7 @@ class PlayerPositionCalculationTest {
         tested.originalVideoSize = theSameSize
 
         // when
-        tested.onNewFrame()
+        tested.calculateNextAbsoluteXPosition()
 
         // then
         verify(playerWindowView).updateXPosition(50f)
@@ -121,7 +121,7 @@ class PlayerPositionCalculationTest {
         tested.originalVideoSize = theSameSize
 
         // when
-        tested.onNewFrame()
+        tested.calculateNextAbsoluteXPosition()
 
         // then
         verify(playerWindowView).updateXPosition(50f)
@@ -140,7 +140,7 @@ class PlayerPositionCalculationTest {
         tested.originalVideoSize = theSameSize
 
         // when
-        tested.onNewFrame()
+        tested.calculateNextAbsoluteXPosition()
 
         // then
         verify(playerWindowView).updateXPosition(50f)
@@ -160,7 +160,7 @@ class PlayerPositionCalculationTest {
         tested.originalVideoSize = originalVideoSize
 
         // when
-        tested.onNewFrame()
+        tested.calculateNextAbsoluteXPosition()
 
         // then
         verify(playerWindowView).updateXPosition(-12f)
@@ -180,7 +180,7 @@ class PlayerPositionCalculationTest {
         tested.originalVideoSize = originalVideoSize
 
         // when
-        tested.onNewFrame()
+        tested.calculateNextAbsoluteXPosition()
 
         // then
         verify(playerWindowView).updateXPosition(-36f)
@@ -200,7 +200,7 @@ class PlayerPositionCalculationTest {
         tested.originalVideoSize = originalVideoSize
 
         // when
-        tested.onNewFrame()
+        tested.calculateNextAbsoluteXPosition()
 
         // then
         verify(playerWindowView).updateXPosition(-40f)
@@ -220,7 +220,7 @@ class PlayerPositionCalculationTest {
         tested.originalVideoSize = originalVideoSize
 
         // when
-        tested.onNewFrame()
+        tested.calculateNextAbsoluteXPosition()
 
         // then
         verify(playerWindowView).updateXPosition(-40f)
@@ -240,7 +240,7 @@ class PlayerPositionCalculationTest {
         tested.originalVideoSize = originalVideoSize
 
         // when
-        tested.onNewFrame()
+        tested.calculateNextAbsoluteXPosition()
 
         // then
         verify(playerWindowView).updateXPosition(36f)
@@ -260,7 +260,7 @@ class PlayerPositionCalculationTest {
         tested.originalVideoSize = originalVideoSize
 
         // when
-        tested.onNewFrame()
+        tested.calculateNextAbsoluteXPosition()
 
         // then
         verify(playerWindowView).updateXPosition(40f)
@@ -280,7 +280,7 @@ class PlayerPositionCalculationTest {
         tested.originalVideoSize = originalVideoSize
 
         // when
-        tested.onNewFrame()
+        tested.calculateNextAbsoluteXPosition()
 
         // then
         verify(playerWindowView).updateXPosition(40f)
@@ -300,7 +300,7 @@ class PlayerPositionCalculationTest {
         tested.originalVideoSize = originalVideoSize
 
         // when
-        tested.onNewFrame()
+        tested.calculateNextAbsoluteXPosition()
 
         // then
         verify(playerWindowView).updateXPosition(18f)
@@ -320,7 +320,7 @@ class PlayerPositionCalculationTest {
         tested.originalVideoSize = originalVideoSize
 
         // when
-        tested.onNewFrame()
+        tested.calculateNextAbsoluteXPosition()
 
         // then
         verify(playerWindowView).updateXPosition(-22f)
@@ -340,7 +340,7 @@ class PlayerPositionCalculationTest {
         tested.originalVideoSize = originalVideoSize
 
         // when
-        tested.onNewFrame()
+        tested.calculateNextAbsoluteXPosition()
 
         // then
         verify(playerWindowView).updateXPosition(-30f)
@@ -360,7 +360,7 @@ class PlayerPositionCalculationTest {
         tested.originalVideoSize = originalVideoSize
 
         // when
-        tested.onNewFrame()
+        tested.calculateNextAbsoluteXPosition()
 
         // then
         verify(playerWindowView).updateXPosition(-30f)
@@ -380,7 +380,7 @@ class PlayerPositionCalculationTest {
         tested.originalVideoSize = originalVideoSize
 
         // when
-        tested.onNewFrame()
+        tested.calculateNextAbsoluteXPosition()
 
         // then
         verify(playerWindowView).updateXPosition(18f)
@@ -400,7 +400,7 @@ class PlayerPositionCalculationTest {
         tested.originalVideoSize = originalVideoSize
 
         // when
-        tested.onNewFrame()
+        tested.calculateNextAbsoluteXPosition()
 
         // then
         verify(playerWindowView).updateXPosition(30f)
@@ -420,7 +420,7 @@ class PlayerPositionCalculationTest {
         tested.originalVideoSize = originalVideoSize
 
         // when
-        tested.onNewFrame()
+        tested.calculateNextAbsoluteXPosition()
 
         // then
         verify(playerWindowView).updateXPosition(30f)

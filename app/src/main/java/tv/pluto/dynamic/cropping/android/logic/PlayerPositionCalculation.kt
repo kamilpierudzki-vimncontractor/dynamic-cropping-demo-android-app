@@ -1,7 +1,7 @@
 package tv.pluto.dynamic.cropping.android.logic
 
 class PlayerPositionCalculation(
-    private val playerWindowView: PlayerWindowView,
+    private val playerWindowViewInfoRetriever: PlayerWindowViewInfoRetriever,
     private val infiniteCoordinatesProvider: InfiniteCoordinatesProvider,
 ) {
 
@@ -14,21 +14,21 @@ class PlayerPositionCalculation(
     var videoSizeOnSurface = Size(Width(0), Height(0))
     var originalVideoSize = Size(Width(0), Height(0))
 
-    fun onNewFrame() {
+    fun calculateNextAbsoluteXPosition(): Double? {
         val coordinate = infiniteCoordinatesProvider.getNextCoordinate()
         if (videoSizeOnSurface.isEmpty || originalVideoSize.isEmpty) {
-            return
+            return null
         }
 
-        movePlayerWindowView(coordinate)
+        return movePlayerWindowView(coordinate)
     }
 
-    private fun movePlayerWindowView(coordinate: Double) {
+    private fun movePlayerWindowView(coordinate: Double): Double {
         val originalVideoWidthAndSurfaceVideoWidthRatio =
             (1.0 * videoSizeOnSurface.width.value) / originalVideoSize.width.value
         val coordinateAdjustedToSurfaceVideoWidth = coordinate * originalVideoWidthAndSurfaceVideoWidthRatio
         val centerXPositionOfVideoOnSurface = videoSizeOnSurface.width.value / 2.0
-        val halfOfWidthOfPlayerWindow = playerWindowView.width / 2.0
+        val halfOfWidthOfPlayerWindow = playerWindowViewInfoRetriever.width / 2.0
 
         val pixelsToAddToCoordinate = if (willSurfaceVideoMoveTooMuchLeftOnPlayerWindow(
                 coordinateAdjustedToSurfaceVideoWidth,
@@ -45,18 +45,18 @@ class PlayerPositionCalculation(
             0.0
         }
 
-        val coordinateAdjustedToEdgeOfVideoSizeOnSurfaceAndPlayerWindowWidth = coordinateAdjustedToSurfaceVideoWidth + pixelsToAddToCoordinate
-        val absoluteXPositionOfSurfaceVideo = centerXPositionOfVideoOnSurface - coordinateAdjustedToEdgeOfVideoSizeOnSurfaceAndPlayerWindowWidth
-        playerWindowView.updateXPosition(absoluteXPositionOfSurfaceVideo.toFloat())
+        val coordinateAdjustedToEdgeOfVideoSizeOnSurfaceAndPlayerWindowWidth =
+            coordinateAdjustedToSurfaceVideoWidth + pixelsToAddToCoordinate
+        val absoluteXPositionOfSurfaceVideo =
+            centerXPositionOfVideoOnSurface - coordinateAdjustedToEdgeOfVideoSizeOnSurfaceAndPlayerWindowWidth
+        return absoluteXPositionOfSurfaceVideo
     }
 
-    // wykrycie przesunięcia wideo wyświetlanego na ekranie w lewo poza okno widoku playera
     private fun willSurfaceVideoMoveTooMuchLeftOnPlayerWindow(
         coordinateAdjustedToSurfaceVideoWidth: Double,
         halfOfWidthOfPlayerWindow: Double,
     ): Boolean = coordinateAdjustedToSurfaceVideoWidth + halfOfWidthOfPlayerWindow > videoSizeOnSurface.width.value
 
-    // wykrycie przesunięcia wideo wyświetlanego na ekranie w prawo poza okno widoku playera
     private fun willSurfaceVideoMoveTooMuchRightOnPlayerWindow(
         coordinateAdjustedToSurfaceVideoWidth: Double,
         halfOfWidthOfPlayerWindow: Double,

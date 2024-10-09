@@ -52,7 +52,7 @@ fun GalleryScreen(
             .padding(contentPadding)
             .padding(16.dp)
             .fillMaxSize()) {
-            ExperimentalGalleryVideoComponent(
+            GalleryVideoComponent(
                 exoPlayerManager = exoPlayerManager,
                 galleryScreenInput = galleryScreenInput,
                 modifier = Modifier
