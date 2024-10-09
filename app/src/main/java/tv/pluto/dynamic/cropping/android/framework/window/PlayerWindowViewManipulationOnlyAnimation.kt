@@ -3,7 +3,7 @@ package tv.pluto.dynamic.cropping.android.framework.window
 import tv.pluto.dynamic.cropping.android.logic.AverageTimeCalculation
 import tv.pluto.dynamic.cropping.android.logic.PlayerWindowViewManipulation
 
-class PlayerWindowViewManipulationWithAnimation(
+class PlayerWindowViewManipulationOnlyAnimation(
     private val averageTimeCalculation: AverageTimeCalculation,
     private val playerWindowViewAnimation: PlayerWindowViewAnimation,
 ) : PlayerWindowViewManipulation {
@@ -19,9 +19,10 @@ class PlayerWindowViewManipulationWithAnimation(
     private fun animateTranslationX(value: Float) {
         playerWindowViewAnimation.cancel()
         val averageDurationBetweenFrames = (averageTimeCalculation.calculateAverageTimeBetweenFrames() ?: 0.0).toLong()
+        val targetValue = value.toInt()
         android.util.Log.d("test123",
-            "PlayerWindowViewManipulationWithAnimation, translationX=$value, averageDurationBetweenFrames=$averageDurationBetweenFrames"
+            "PlayerWindowViewManipulationOnlyAnimation, translationX=$targetValue, averageDurationBetweenFrames=$averageDurationBetweenFrames"
         )
-        playerWindowViewAnimation.start(averageDurationBetweenFrames, value)
+        playerWindowViewAnimation.start(averageDurationBetweenFrames, targetValue)
     }
 }

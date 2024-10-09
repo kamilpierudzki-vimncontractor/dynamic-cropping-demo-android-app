@@ -31,11 +31,10 @@ class PlayerWindowViewSyntheticAnimation(
             doubleArrayOf(startPosition.toDouble()) + pointsBetween + doubleArrayOf(targetValue)
         val delayForEachMoveMs = ((1.0 * durationMs) / absoluteXPositionsInFrame.size).toLong()
         cancel()
-        android.util.Log.d("test123",
-            "Animation, start ${viewTranslationX.translationX} -> $targetValue, durationMs=$durationMs, delayForEachMoveMs=$delayForEachMoveMs")
+        android.util.Log.d("test123", "Animation, start ${viewTranslationX.translationX} -> ${targetValue.toInt()}, durationMs=$durationMs, delayForEachMoveMs=$delayForEachMoveMs")
         absoluteXPositionsInFrame
             .map { it.toInt() }
-            .forEachIndexed { index, absoluteXPosition ->
+            .forEachIndexed { index, absoluteXPosition: Int ->
                 val runnable = Runnable {
                     android.util.Log.d("test123", "Synthetic Animation, inside runnable, point between frames: $absoluteXPosition")
                     viewTranslationX.translationX = absoluteXPosition.toFloat()

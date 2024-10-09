@@ -3,7 +3,7 @@ package tv.pluto.dynamic.cropping.android.framework.window
 import tv.pluto.dynamic.cropping.android.logic.LastTwoFramesTimestampDiff
 import tv.pluto.dynamic.cropping.android.logic.PlayerWindowViewManipulation
 
-class PlayerWindowViewManipulationWithSyntheticAnimation(
+class PlayerWindowViewManipulationOnlySyntheticAnimation(
     private val playerWindowViewSyntheticAnimation: PlayerWindowViewSyntheticAnimation,
     private val lastTwoFramesTimestampDiff: LastTwoFramesTimestampDiff,
 ) : PlayerWindowViewManipulation {

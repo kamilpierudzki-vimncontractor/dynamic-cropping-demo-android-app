@@ -15,10 +15,10 @@ class PlayerWindowViewAnimation(
         animator = null
     }
 
-    fun start(durationMs: Long, targetValue: Float) {
+    fun start(durationMs: Long, targetValue: Int) {
         cancel()
-        android.util.Log.d("test123", "Animation, start ${playerWindowView.translationX} -> ${targetValue.toInt()}, durationMs=$durationMs")
-        animator = ObjectAnimator.ofFloat(playerWindowView, "translationX", targetValue.toInt().toFloat()).apply {
+        android.util.Log.d("test123", "Animation, start ${playerWindowView.translationX} -> $targetValue, durationMs=$durationMs")
+        animator = ObjectAnimator.ofFloat(playerWindowView, "translationX", targetValue.toFloat()).apply {
             duration = durationMs
             addUpdateListener { v ->
                 val lastAnimatorValue = (v.animatedValue as Float)

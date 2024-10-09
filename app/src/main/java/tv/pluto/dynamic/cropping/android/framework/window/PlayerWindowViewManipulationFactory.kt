@@ -11,10 +11,10 @@ import tv.pluto.dynamic.cropping.android.logic.SkippingCalculation
 
 sealed interface AlgorithmType {
     data object Simple : AlgorithmType
-    data object OnlyWithSkipping : AlgorithmType
-    data object OnlyWithAnimation : AlgorithmType
+    data object OnlySkipping : AlgorithmType
+    data object OnlyAnimation : AlgorithmType
     data object BothSkippingAndAnimation : AlgorithmType
-    data object OnlyWithSyntheticAnimation : AlgorithmType
+    data object OnlySyntheticAnimation : AlgorithmType
     data object BothSkippingAndSyntheticAnimation : AlgorithmType
 }
 
@@ -39,12 +39,12 @@ class PlayerWindowViewManipulationFactory {
         return when (algorithmType) {
             AlgorithmType.Simple -> PlayerWindowViewManipulationSimple(playerWindowView)
 
-            AlgorithmType.OnlyWithAnimation -> PlayerWindowViewManipulationWithAnimation(
+            AlgorithmType.OnlyAnimation -> PlayerWindowViewManipulationOnlyAnimation(
                 averageTimeCalculation,
                 playerWindowViewAnimation,
             )
 
-            AlgorithmType.OnlyWithSkipping -> PlayerWindowViewManipulationWithSkipping(
+            AlgorithmType.OnlySkipping -> PlayerWindowViewManipulationWithSkipping(
                 playerWindowView,
                 skippingCalculation,
             )
@@ -55,7 +55,7 @@ class PlayerWindowViewManipulationFactory {
                 playerWindowViewAnimation,
             )
 
-            AlgorithmType.OnlyWithSyntheticAnimation -> PlayerWindowViewManipulationWithSyntheticAnimation(
+            AlgorithmType.OnlySyntheticAnimation -> PlayerWindowViewManipulationOnlySyntheticAnimation(
                 playerWindowViewSyntheticAnimation,
                 lastTwoFramesTimestampDiff,
             )
