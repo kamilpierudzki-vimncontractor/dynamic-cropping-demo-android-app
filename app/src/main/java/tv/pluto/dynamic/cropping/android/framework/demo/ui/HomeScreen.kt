@@ -5,6 +5,7 @@ import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -23,13 +24,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import tv.pluto.dynamic.cropping.android.framework.demo.ExoPlayerManager
 
-private val gradientColors = listOf(
+private val backgroundGradientColors = listOf(
     Color.Black,
     Color.DarkGray,
     Color.Gray,
     Color.DarkGray,
-    Color.Black
+    Color.Black,
 )
+
+private val gradientOnVideos = backgroundGradientColors
+    .map { color ->
+        color.copy(alpha = 0.3f)
+    }
 
 @Composable
 fun HomeScreen(
@@ -42,7 +48,7 @@ fun HomeScreen(
                 modifier = Modifier
                     .padding(innerPadding)
                     .fillMaxSize()
-                    .background(brush = Brush.verticalGradient(gradientColors)),
+                    .background(brush = Brush.verticalGradient(backgroundGradientColors)),
             ) {
                 val lazyListState = rememberLazyListState()
                 val snapBehavior = rememberSnapFlingBehavior(lazyListState)
@@ -93,6 +99,11 @@ fun HomeScreen(
                         )
                     }
                 }
+                Spacer(
+                    modifier = Modifier
+                        .matchParentSize()
+                        .background(brush = Brush.verticalGradient(gradientOnVideos))
+                )
                 TopSelectionComponent(
                     modifier = Modifier
                         .fillMaxWidth()
