@@ -32,10 +32,19 @@ private val backgroundGradientColors = listOf(
     Color.Black,
 )
 
-private val gradientOnVideos = backgroundGradientColors
-    .map { color ->
-        color.copy(alpha = 0.3f)
-    }
+private val alpha = 0.7f
+private val gradientOnVideos = listOf(
+    Color.Black.copy(alpha = alpha),
+    Color.DarkGray.copy(alpha = alpha),
+    Color.Transparent,
+    Color.Transparent,
+    Color.Transparent,
+    Color.Transparent,
+    Color.Transparent,
+    Color.Transparent,
+    Color.DarkGray.copy(alpha = alpha),
+    Color.Black.copy(alpha = alpha),
+)
 
 @Composable
 fun HomeScreen(
