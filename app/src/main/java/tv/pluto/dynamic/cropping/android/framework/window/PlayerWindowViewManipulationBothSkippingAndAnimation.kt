@@ -5,7 +5,7 @@ import tv.pluto.dynamic.cropping.android.logic.Decision
 import tv.pluto.dynamic.cropping.android.logic.PlayerWindowViewManipulation
 import tv.pluto.dynamic.cropping.android.logic.SkippingCalculation
 
-class PlayerWindowViewManipulationBothWithSkippingAndAnimation(
+class PlayerWindowViewManipulationBothSkippingAndAnimation(
     private val skippingCalculation: SkippingCalculation,
     private val averageTimeCalculation: AverageTimeCalculation,
     private val playerWindowViewAnimation: PlayerWindowViewAnimation,

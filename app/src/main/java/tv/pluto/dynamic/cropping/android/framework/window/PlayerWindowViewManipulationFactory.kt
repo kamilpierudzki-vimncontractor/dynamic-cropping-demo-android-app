@@ -49,7 +49,7 @@ class PlayerWindowViewManipulationFactory {
                 skippingCalculation,
             )
 
-            AlgorithmType.BothSkippingAndAnimation -> PlayerWindowViewManipulationBothWithSkippingAndAnimation(
+            AlgorithmType.BothSkippingAndAnimation -> PlayerWindowViewManipulationBothSkippingAndAnimation(
                 skippingCalculation,
                 averageTimeCalculation,
                 playerWindowViewAnimation,
