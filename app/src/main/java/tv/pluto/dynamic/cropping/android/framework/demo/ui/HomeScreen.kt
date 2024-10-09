@@ -53,7 +53,7 @@ fun HomeScreen(
                     flingBehavior = snapBehavior,
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(32.dp),
-                    contentPadding = PaddingValues(top = 64.dp, bottom = 56.dp),
+                    contentPadding = PaddingValues(top = 64.dp, bottom = 64.dp),
                 ) {
                     items(exoPlayerManagers.size) { index ->
                         LaunchedEffect(key1 = index) {
