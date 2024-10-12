@@ -2,6 +2,7 @@ package tv.pluto.dynamic.cropping.android.framework.gallery.ui
 
 import android.view.LayoutInflater
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.google.android.exoplayer2.MediaItem
@@ -18,7 +20,9 @@ import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
 import com.google.android.exoplayer2.upstream.RawResourceDataSource
 import tv.pluto.dynamic.cropping.android.R
 import tv.pluto.dynamic.cropping.android.framework.FixedAspectStyledPlayerView
+import tv.pluto.dynamic.cropping.android.framework.FixedAspectTextureView
 import tv.pluto.dynamic.cropping.android.framework.gallery.ExoPlayerManager
+import tv.pluto.dynamic.cropping.android.framework.gallery.VideoProcessorPlayerManager
 
 data class GalleryScreenInput(val coordinates: DoubleArray, val videoResId: Int) {
 
@@ -44,6 +48,7 @@ data class GalleryScreenInput(val coordinates: DoubleArray, val videoResId: Int)
 @Composable
 fun GalleryScreen(
     exoPlayerManager: ExoPlayerManager,
+    videoProcessorPlayerManager: VideoProcessorPlayerManager,
     galleryScreenInput: GalleryScreenInput,
     onBack: () -> Unit,
 ) {
@@ -52,8 +57,8 @@ fun GalleryScreen(
             .padding(contentPadding)
             .padding(16.dp)
             .fillMaxSize()) {
-            GalleryVideoComponent(
-                exoPlayerManager = exoPlayerManager,
+            VideoProcessingGalleryVideoComponent(
+                videoProcessorPlayerManager = videoProcessorPlayerManager,
                 galleryScreenInput = galleryScreenInput,
                 modifier = Modifier
                     .fillMaxSize()
@@ -71,9 +76,7 @@ private fun ExperimentalGalleryVideoComponent(
     modifier: Modifier,
 ) {
     AndroidView(
-        modifier = modifier
-            .fillMaxWidth()
-            .clipToBounds(),
+        modifier = modifier.fillMaxWidth(),/*.clipToBounds()*/
         factory = { context ->
             val view = LayoutInflater.from(context).inflate(R.layout.experimental_player_layout, null, false)
             (view as FixedAspectStyledPlayerView)
@@ -84,6 +87,29 @@ private fun ExperimentalGalleryVideoComponent(
                 .also { playerView ->
                     exoPlayerManager.apply {
                         setPlayerView(playerView, galleryScreenInput.coordinates)
+                        setMediaItemAndPlay(createMediaItem(galleryScreenInput))
+                    }
+                }
+        },
+    )
+}
+
+@Composable
+private fun VideoProcessingGalleryVideoComponent(
+    videoProcessorPlayerManager: VideoProcessorPlayerManager,
+    galleryScreenInput: GalleryScreenInput,
+    modifier: Modifier,
+) {
+    AndroidView(
+        modifier = modifier.clipToBounds().fillMaxWidth().background(Color.Red),
+        factory = { context ->
+            FixedAspectTextureView(context)
+                .apply {
+                    setAspectRatio(9, 16)
+                }
+                .also { textureView ->
+                    videoProcessorPlayerManager.apply {
+                        setPlayerView(textureView, galleryScreenInput.coordinates)
                         setMediaItemAndPlay(createMediaItem(galleryScreenInput))
                     }
                 }

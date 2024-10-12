@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.gson.Gson
 import tv.pluto.dynamic.cropping.android.framework.gallery.ExoPlayerManager
+import tv.pluto.dynamic.cropping.android.framework.gallery.VideoProcessorPlayerManager
 
 sealed class NavigationScreen(val name: String) {
     data object Selection : NavigationScreen("selection")
@@ -14,11 +15,15 @@ sealed class NavigationScreen(val name: String) {
 }
 
 @Composable
-fun GalleryApp(exoPlayerManager: ExoPlayerManager) {
+fun GalleryApp(
+    exoPlayerManager: ExoPlayerManager,
+    videoProcessorPlayerManager: VideoProcessorPlayerManager,
+) {
     val navController: NavHostController = rememberNavController()
     GalleryAppNavHost(
         navController = navController,
         exoPlayerManager = exoPlayerManager,
+        videoProcessorPlayerManager = videoProcessorPlayerManager,
     )
 }
 
@@ -26,6 +31,7 @@ fun GalleryApp(exoPlayerManager: ExoPlayerManager) {
 private fun GalleryAppNavHost(
     navController: NavHostController,
     exoPlayerManager: ExoPlayerManager,
+    videoProcessorPlayerManager: VideoProcessorPlayerManager,
 ) {
     NavHost(
         navController = navController,
@@ -49,6 +55,7 @@ private fun GalleryAppNavHost(
             val galleryScreenInput = Gson().fromJson(json, GalleryScreenInput::class.java)
             GalleryScreen(
                 exoPlayerManager = exoPlayerManager,
+                videoProcessorPlayerManager = videoProcessorPlayerManager,
                 galleryScreenInput = galleryScreenInput,
                 onBack = {
                     exoPlayerManager.destroy()

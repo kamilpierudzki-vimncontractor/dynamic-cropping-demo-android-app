@@ -11,50 +11,52 @@ class PlayerPositionCalculation(
     * of the scaled video played on it.
     * */
 
-    var videoSizeOnSurface = Size(Width(0), Height(0))
-    var originalVideoSize = Size(Width(0), Height(0))
-
-    fun calculateNextAbsoluteXPosition(): Double? {
+    fun calculateNextAbsoluteXPosition(
+        videoSizeOnSurface: Size,
+        originalVideoSize: Size,
+    ): Double? {
         val coordinate = infiniteCoordinatesProvider.getNextCoordinate()
-        if (videoSizeOnSurface.isEmpty || originalVideoSize.isEmpty) {
+        /*if (videoSizeOnSurface.isEmpty || originalVideoSize.isEmpty) {
             return null
-        }
+        }*/
 
-        return movePlayerWindowView(coordinate)
+        return movePlayerWindowView(
+            coordinate,
+            videoSizeOnSurface,
+            originalVideoSize,
+        )
     }
 
-    private fun movePlayerWindowView(coordinate: Double): Double {
+    private fun movePlayerWindowView(
+        coordinate: Double,
+        videoSizeOnSurface: Size,
+        originalVideoSize: Size,
+    ): Double {
         val originalVideoWidthAndSurfaceVideoWidthRatio =
             (1.0 * videoSizeOnSurface.width.value) / originalVideoSize.width.value
         val coordinateAdjustedToSurfaceVideoWidth = coordinate * originalVideoWidthAndSurfaceVideoWidthRatio
         val centerXPositionOfVideoOnSurface = videoSizeOnSurface.width.value / 2.0
         val halfOfWidthOfPlayerWindow = playerWindowViewInfoRetriever.width / 2.0
 
-        val pixelsToAddToCoordinate = if (willSurfaceVideoMoveTooMuchLeftOnPlayerWindow(
-                coordinateAdjustedToSurfaceVideoWidth,
-                halfOfWidthOfPlayerWindow)) {
-            val pixelsOfPlayerWindowOutsideOfVideoSizeOnSurface =
-                coordinateAdjustedToSurfaceVideoWidth + halfOfWidthOfPlayerWindow - videoSizeOnSurface.width.value
+        val pixelsToAddToCoordinate = if (willSurfaceVideoMoveTooMuchLeftOnPlayerWindow(coordinateAdjustedToSurfaceVideoWidth, halfOfWidthOfPlayerWindow, videoSizeOnSurface, )) {
+            val pixelsOfPlayerWindowOutsideOfVideoSizeOnSurface = coordinateAdjustedToSurfaceVideoWidth + halfOfWidthOfPlayerWindow - videoSizeOnSurface.width.value
             -1.0 * pixelsOfPlayerWindowOutsideOfVideoSizeOnSurface
-        } else if (willSurfaceVideoMoveTooMuchRightOnPlayerWindow(coordinateAdjustedToSurfaceVideoWidth,
-                halfOfWidthOfPlayerWindow)) {
-            val pixelsOfPlayerWindowOutsideOfVideoSizeOnSurface =
-                halfOfWidthOfPlayerWindow - coordinateAdjustedToSurfaceVideoWidth
+        } else if (willSurfaceVideoMoveTooMuchRightOnPlayerWindow(coordinateAdjustedToSurfaceVideoWidth, halfOfWidthOfPlayerWindow)) {
+            val pixelsOfPlayerWindowOutsideOfVideoSizeOnSurface = halfOfWidthOfPlayerWindow - coordinateAdjustedToSurfaceVideoWidth
             pixelsOfPlayerWindowOutsideOfVideoSizeOnSurface
         } else {
             0.0
         }
 
-        val coordinateAdjustedToEdgeOfVideoSizeOnSurfaceAndPlayerWindowWidth =
-            coordinateAdjustedToSurfaceVideoWidth + pixelsToAddToCoordinate
-        val absoluteXPositionOfSurfaceVideo =
-            centerXPositionOfVideoOnSurface - coordinateAdjustedToEdgeOfVideoSizeOnSurfaceAndPlayerWindowWidth
+        val coordinateAdjustedToEdgeOfVideoSizeOnSurfaceAndPlayerWindowWidth = coordinateAdjustedToSurfaceVideoWidth + pixelsToAddToCoordinate
+        val absoluteXPositionOfSurfaceVideo = centerXPositionOfVideoOnSurface - coordinateAdjustedToEdgeOfVideoSizeOnSurfaceAndPlayerWindowWidth
         return absoluteXPositionOfSurfaceVideo
     }
 
     private fun willSurfaceVideoMoveTooMuchLeftOnPlayerWindow(
         coordinateAdjustedToSurfaceVideoWidth: Double,
         halfOfWidthOfPlayerWindow: Double,
+        videoSizeOnSurface: Size,
     ): Boolean = coordinateAdjustedToSurfaceVideoWidth + halfOfWidthOfPlayerWindow > videoSizeOnSurface.width.value
 
     private fun willSurfaceVideoMoveTooMuchRightOnPlayerWindow(

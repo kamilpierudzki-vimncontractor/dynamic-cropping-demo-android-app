@@ -27,7 +27,7 @@ class Manipulation(
         )
         playerWindowViewManipulation = playerWindowViewManipulationFactory.create(
             playerWindowView = playerView,
-            algorithmType = AlgorithmType.BothSkippingAndSyntheticAnimation,
+            algorithmType = AlgorithmType.Simple,
             playerWindowViewInfoRetriever = playerWindowViewInfoRetriever,
         )
     }
@@ -36,17 +36,25 @@ class Manipulation(
         playerWindowViewManipulation?.cancelOngoingOperations()
     }
 
-    fun onNewFrame() {
-        playerPositionCalculation?.calculateNextAbsoluteXPosition()?.let { newAbsoluteXPosition ->
+    fun onNewFrame(
+        videoSizeOnSurface: Size,
+        originalVideoSize: Size,
+    ) {
+        playerPositionCalculation?.calculateNextAbsoluteXPosition(
+            videoSizeOnSurface,
+            originalVideoSize,
+        )?.let { newAbsoluteXPosition ->
             playerWindowViewManipulation?.updateXPosition(newAbsoluteXPosition)
         }
     }
 
+    fun onNewFrameV2(videoSizeOnSurface: Size, originalVideoSize: Size): Double? {
+        return playerPositionCalculation?.calculateNextAbsoluteXPosition(videoSizeOnSurface, originalVideoSize)
+    }
+
     fun onSurfaceSizeChanged(size: Size) {
-        playerPositionCalculation?.videoSizeOnSurface = size
     }
 
     fun onVideoSizeChanged(size: Size) {
-        playerPositionCalculation?.originalVideoSize = size
     }
 }

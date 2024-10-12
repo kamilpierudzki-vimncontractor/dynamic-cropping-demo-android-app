@@ -22,3 +22,9 @@ value class Rating(val value: String)
 
 @JvmInline
 value class Time(val value: String)
+
+@JvmInline
+value class VideoResolution(val value: Size)
+
+@JvmInline
+value class TextureSize(val value: Size)

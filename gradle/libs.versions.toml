@@ -46,7 +46,9 @@ avia-tracking = { group = "com.paramount.android.avia", name = "avia-tracking", 
 
 #Player Google
 exoplayer = { group = "com.google.android.exoplayer", name = "exoplayer", version.ref = "exoplayer-ui-version" }
+exoplayer-core = { group = "com.google.android.exoplayer", name = "exoplayer-core", version.ref = "exoplayer-ui-version" }
 exoplayer-ui = { group = "com.google.android.exoplayer", name = "exoplayer-ui", version.ref = "exoplayer-ui-version" }
+exoplayer-extension-opengl = { group = "com.google.android.exoplayer", name = "extension-opengl", version.ref = "exoplayer-ui-version" }
 interactivemedia = { group = "com.google.ads.interactivemedia.v3", name = "interactivemedia", version.ref = "interactivemedia-version" }
 
 mockito = { group = "org.mockito", name = "mockito-core", version.ref = "mockito-version" }

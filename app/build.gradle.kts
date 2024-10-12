@@ -77,8 +77,11 @@ dependencies {
     implementation(libs.avia.common)
     implementation(libs.avia.player)
     implementation(libs.avia.tracking)
+
     implementation(libs.exoplayer)
+    implementation(libs.exoplayer.core)
     implementation(libs.exoplayer.ui)
+
     implementation(libs.interactivemedia)
 
     implementation(libs.gson)

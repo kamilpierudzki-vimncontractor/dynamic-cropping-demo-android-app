@@ -7,7 +7,7 @@ class PlayerWindowViewManipulationSimple(private val playerWindowView: View) : P
 
     override fun updateXPosition(absoluteXPosition: Double) {
         android.util.Log.d("test123", "PlayerWindowViewManipulationSimple, translationX=$absoluteXPosition")
-        playerWindowView.translationX = absoluteXPosition.toFloat()
+//        playerWindowView.translationX = absoluteXPosition.toFloat()
     }
 
     override fun cancelOngoingOperations() {

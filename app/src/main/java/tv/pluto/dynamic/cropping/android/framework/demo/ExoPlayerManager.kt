@@ -107,7 +107,9 @@ class ExoPlayerManager(
                 playerWindowViewManipulationFactory = PlayerWindowViewManipulationFactory(),
             )
 
-            exoPlayer.setVideoFrameMetadataListener { _, _, _, _ -> manipulation?.onNewFrame() }
+            exoPlayer.setVideoFrameMetadataListener { _, _, _, _ ->
+//                manipulation?.onNewFrame()
+            }
             exoPlayer.addListener(object : Player.Listener {
                 override fun onSurfaceSizeChanged(width: Int, height: Int) {
                     manipulation?.onSurfaceSizeChanged(Size(Width(width), Height(height)))
