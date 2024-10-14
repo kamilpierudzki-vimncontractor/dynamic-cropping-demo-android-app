@@ -1,18 +1,18 @@
 package tv.pluto.dynamic.cropping.android.logic
 
-class TextureOffsetCalculation(
+class CalculateTextureXAxisAbsoluteOffset(
     private val scaleCoordinate: ScaleCoordinate,
-    private val offScreenOffsetCalculation: OffScreenOffsetCalculation,
+    private val calculateOffScreenOffset: CalculateOffScreenOffset,
 ) {
 
-    fun calculateXAxisAbsoluteOffset(
+    fun calculated(
         coordinate: Double,
         videoResolution: VideoResolution,
         textureViewWidth: Int,
         textureSize: TextureSize,
     ): Double {
         val scaledCoordinate = scaleCoordinate.scaled(videoResolution, textureSize, coordinate)
-        val offScreenOffset = offScreenOffsetCalculation.calculate(scaledCoordinate, textureViewWidth, textureSize)
+        val offScreenOffset = calculateOffScreenOffset.calculated(scaledCoordinate, textureViewWidth, textureSize)
         val coordinateWithOffset = scaledCoordinate + offScreenOffset
         val xAxisAbsoluteOffset = (textureViewWidth / 2.0) - coordinateWithOffset
         return xAxisAbsoluteOffset

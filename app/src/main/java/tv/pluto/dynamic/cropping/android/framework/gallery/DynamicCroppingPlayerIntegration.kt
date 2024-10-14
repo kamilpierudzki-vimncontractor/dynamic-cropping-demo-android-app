@@ -12,15 +12,14 @@ import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.upstream.RawResourceDataSource
 import com.google.android.exoplayer2.video.VideoSize
 import tv.pluto.dynamic.cropping.android.framework.DynamicCroppingCalculation
-import tv.pluto.dynamic.cropping.android.framework.ViewSizeProvider
 import tv.pluto.dynamic.cropping.android.framework.gallery.ui.GalleryScreenInput
 import tv.pluto.dynamic.cropping.android.logic.CalculateNewTextureSize
 import tv.pluto.dynamic.cropping.android.logic.Height
 import tv.pluto.dynamic.cropping.android.logic.InfiniteCoordinatesProvider
-import tv.pluto.dynamic.cropping.android.logic.OffScreenOffsetCalculation
+import tv.pluto.dynamic.cropping.android.logic.CalculateOffScreenOffset
 import tv.pluto.dynamic.cropping.android.logic.ScaleCoordinate
 import tv.pluto.dynamic.cropping.android.logic.Size
-import tv.pluto.dynamic.cropping.android.logic.TextureOffsetCalculation
+import tv.pluto.dynamic.cropping.android.logic.CalculateTextureXAxisAbsoluteOffset
 import tv.pluto.dynamic.cropping.android.logic.VideoResolution
 import tv.pluto.dynamic.cropping.android.logic.Width
 
@@ -67,9 +66,8 @@ class DynamicCroppingPlayerIntegration(
 
             val dynamicCroppingCalculation = DynamicCroppingCalculation(
                 InfiniteCoordinatesProvider(coordinates),
-                TextureOffsetCalculation(ScaleCoordinate(), OffScreenOffsetCalculation()),
+                CalculateTextureXAxisAbsoluteOffset(ScaleCoordinate(), CalculateOffScreenOffset()),
                 CalculateNewTextureSize(),
-                ViewSizeProvider(),
             )
 
             exoPlayer.setVideoFrameMetadataListener { _, _, _, _ ->

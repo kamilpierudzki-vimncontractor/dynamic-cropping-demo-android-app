@@ -2,17 +2,20 @@ package tv.pluto.dynamic.cropping.android.framework
 
 import android.graphics.Matrix
 import android.view.TextureView
+import android.view.View
 import tv.pluto.dynamic.cropping.android.logic.CalculateNewTextureSize
+import tv.pluto.dynamic.cropping.android.logic.CalculateTextureXAxisAbsoluteOffset
+import tv.pluto.dynamic.cropping.android.logic.Height
 import tv.pluto.dynamic.cropping.android.logic.InfiniteCoordinatesProvider
-import tv.pluto.dynamic.cropping.android.logic.VideoResolution
+import tv.pluto.dynamic.cropping.android.logic.Size
 import tv.pluto.dynamic.cropping.android.logic.TextureSize
-import tv.pluto.dynamic.cropping.android.logic.TextureOffsetCalculation
+import tv.pluto.dynamic.cropping.android.logic.VideoResolution
+import tv.pluto.dynamic.cropping.android.logic.Width
 
 class DynamicCroppingCalculation(
     private val infiniteCoordinatesProvider: InfiniteCoordinatesProvider,
-    private val textureOffsetCalculation: TextureOffsetCalculation,
+    private val calculateTextureXAxisAbsoluteOffset: CalculateTextureXAxisAbsoluteOffset,
     private val calculateNewTextureSize: CalculateNewTextureSize,
-    private val viewSizeProvider: ViewSizeProvider,
 ) {
 
     private var scaleMatrix: Matrix? = null
@@ -23,7 +26,7 @@ class DynamicCroppingCalculation(
         this.videoResolution = videoResolution
         val newTextureSize = calculateNewTextureSize.calculate(
             videoResolution = videoResolution,
-            textureViewSize = viewSizeProvider.getSize(textureView),
+            textureViewSize = textureView.getSize(),
         ).also {
             this.textureSize = it
         }
@@ -46,7 +49,7 @@ class DynamicCroppingCalculation(
         val txSize = textureSize
         val res = videoResolution
         if (txSize != null && res != null) {
-            val absoluteOffset = textureOffsetCalculation.calculateXAxisAbsoluteOffset(
+            val absoluteOffset = calculateTextureXAxisAbsoluteOffset.calculated(
                 coordinate = coordinate,
                 videoResolution = res,
                 textureViewWidth = textureView.width,
@@ -73,3 +76,5 @@ class DynamicCroppingCalculation(
         }
     }
 }
+
+private fun View.getSize() = Size(Width(width), Height(height))

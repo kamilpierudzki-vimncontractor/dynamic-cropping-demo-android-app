@@ -9,6 +9,12 @@ value class Height(val value: Int)
 data class Size(val width: Width, val height: Height)
 
 @JvmInline
+value class VideoResolution(val value: Size)
+
+@JvmInline
+value class TextureSize(val value: Size)
+
+@JvmInline
 value class Title(val value: String)
 
 @JvmInline
@@ -22,9 +28,3 @@ value class Rating(val value: String)
 
 @JvmInline
 value class Time(val value: String)
-
-@JvmInline
-value class VideoResolution(val value: Size)
-
-@JvmInline
-value class TextureSize(val value: Size)

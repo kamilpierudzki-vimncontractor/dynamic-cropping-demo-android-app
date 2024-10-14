@@ -1,14 +1,14 @@
 package tv.pluto.dynamic.cropping.android.logic
 
-class OffScreenOffsetCalculation {
+class CalculateOffScreenOffset {
 
-    fun calculate(textureCoordinate: Double, textureViewWidth: Int, textureSize: TextureSize): Double =
+    fun calculated(textureCoordinate: Double, textureViewWidth: Int, textureSize: TextureSize): Double =
         if (textureGoTooFarRight(textureCoordinate, textureViewWidth, textureSize)) {
             val diff = (textureViewWidth / 2.0) - textureCoordinate
             diff
         } else if (textureGoTooFarLeft(textureCoordinate, textureSize, textureViewWidth)) {
-            val pixelsToRightOfCoordOnTexture = textureSize.value.width.value - textureCoordinate
-            val diff = (textureViewWidth / 2.0) - pixelsToRightOfCoordOnTexture
+            val pixelsToRightOfCoordinateOnTexture = textureSize.value.width.value - textureCoordinate
+            val diff = (textureViewWidth / 2.0) - pixelsToRightOfCoordinateOnTexture
             -1.0 * diff
         } else {
             0.0

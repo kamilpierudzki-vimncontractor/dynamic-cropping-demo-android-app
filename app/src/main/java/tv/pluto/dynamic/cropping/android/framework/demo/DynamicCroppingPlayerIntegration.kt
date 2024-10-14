@@ -17,14 +17,13 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import tv.pluto.dynamic.cropping.android.framework.DynamicCroppingCalculation
 import tv.pluto.dynamic.cropping.android.framework.Video
-import tv.pluto.dynamic.cropping.android.framework.ViewSizeProvider
 import tv.pluto.dynamic.cropping.android.logic.CalculateNewTextureSize
+import tv.pluto.dynamic.cropping.android.logic.CalculateOffScreenOffset
+import tv.pluto.dynamic.cropping.android.logic.CalculateTextureXAxisAbsoluteOffset
 import tv.pluto.dynamic.cropping.android.logic.Height
 import tv.pluto.dynamic.cropping.android.logic.InfiniteCoordinatesProvider
-import tv.pluto.dynamic.cropping.android.logic.OffScreenOffsetCalculation
 import tv.pluto.dynamic.cropping.android.logic.ScaleCoordinate
 import tv.pluto.dynamic.cropping.android.logic.Size
-import tv.pluto.dynamic.cropping.android.logic.TextureOffsetCalculation
 import tv.pluto.dynamic.cropping.android.logic.VideoResolution
 import tv.pluto.dynamic.cropping.android.logic.Width
 
@@ -160,9 +159,8 @@ class DynamicCroppingPlayerIntegration(
 
             dynamicCroppingCalculation = DynamicCroppingCalculation(
                 InfiniteCoordinatesProvider(video.coordinates()),
-                TextureOffsetCalculation(ScaleCoordinate(), OffScreenOffsetCalculation()),
+                CalculateTextureXAxisAbsoluteOffset(ScaleCoordinate(), CalculateOffScreenOffset()),
                 CalculateNewTextureSize(),
-                ViewSizeProvider(),
             )
 
             exoPlayer.setVideoFrameMetadataListener(videoFrameMetadataListener)
