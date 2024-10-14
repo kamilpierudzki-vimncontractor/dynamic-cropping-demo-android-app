@@ -12,7 +12,6 @@ import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.upstream.RawResourceDataSource
 import com.google.android.exoplayer2.video.VideoSize
 import tv.pluto.dynamic.cropping.android.framework.DynamicCroppingCalculation
-import tv.pluto.dynamic.cropping.android.framework.Manipulation
 import tv.pluto.dynamic.cropping.android.framework.Video
 import tv.pluto.dynamic.cropping.android.framework.ViewSizeProvider
 import tv.pluto.dynamic.cropping.android.logic.CalculateNewTextureSize
@@ -38,7 +37,6 @@ class DynamicCroppingPlayerIntegration(
 ) : DefaultLifecycleObserver {
 
     private var exoPlayer: ExoPlayer? = null
-    private var manipulation: Manipulation? = null
 
     private var playbackState: PlaybackState = PlaybackState.PausedForegrounded
 
@@ -52,7 +50,6 @@ class DynamicCroppingPlayerIntegration(
             player.pause()
             playbackState = PlaybackState.PausedForegrounded
         }
-        manipulation?.cancelOngoingOperations()
     }
 
     fun play() {
@@ -94,13 +91,11 @@ class DynamicCroppingPlayerIntegration(
                 else -> {}
             }
         }
-        manipulation?.cancelOngoingOperations()
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
         exoPlayer?.release()
         exoPlayer = null
-        manipulation = null
     }
 
     private fun setPlayerView(textureView: TextureView) {
