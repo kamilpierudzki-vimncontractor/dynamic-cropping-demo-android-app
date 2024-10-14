@@ -10,7 +10,6 @@ import tv.pluto.dynamic.cropping.android.logic.TextureOffsetCalculation
 
 class DynamicCroppingCalculation(
     private val infiniteCoordinatesProvider: InfiniteCoordinatesProvider,
-    private val textureView: TextureView,
     private val textureOffsetCalculation: TextureOffsetCalculation,
     private val calculateNewTextureSize: CalculateNewTextureSize,
     private val viewSizeProvider: ViewSizeProvider,
@@ -20,7 +19,7 @@ class DynamicCroppingCalculation(
     private var textureSize: TextureSize? = null
     private var videoResolution: VideoResolution? = null
 
-    fun applyInitialSetupOfTexture(videoResolution: VideoResolution) {
+    fun applyInitialSetupOfTexture(textureView: TextureView, videoResolution: VideoResolution) {
         this.videoResolution = videoResolution
         val newTextureSize = calculateNewTextureSize.calculate(
             videoResolution = videoResolution,
@@ -28,21 +27,21 @@ class DynamicCroppingCalculation(
         ).also {
             this.textureSize = it
         }
-        this.scaleMatrix = scale(newTextureSize).also { scale ->
+        this.scaleMatrix = scale(textureView, newTextureSize).also { scale ->
             textureView.setTransform(scale)
         }
-        moveTextureToCenter()
+        moveTextureToCenter(textureView)
     }
 
-    private fun moveTextureToCenter() {
+    private fun moveTextureToCenter(textureView: TextureView) {
         textureSize?.let { txSize ->
             val centerOfTexture = (txSize.value.width.value / 2.0)
             val textureAbsolutePositionMovedToLeft = centerOfTexture * (-1.0)
-            moveTexture(textureAbsolutePositionMovedToLeft.toFloat())
+            moveTexture(textureView, textureAbsolutePositionMovedToLeft.toFloat())
         }
     }
 
-    fun onNewFrame() {
+    fun onNewFrame(textureView: TextureView) {
         val coordinate = infiniteCoordinatesProvider.getNextCoordinate()
         val txSize = textureSize
         val res = videoResolution
@@ -53,11 +52,11 @@ class DynamicCroppingCalculation(
                 textureViewWidth = textureView.width,
                 textureSize = txSize,
             )
-            moveTexture(absoluteOffset.toFloat())
+            moveTexture(textureView, absoluteOffset.toFloat())
         }
     }
 
-    private fun moveTexture(translationX: Float) {
+    private fun moveTexture(textureView: TextureView, translationX: Float) {
         val matrix = scaleMatrix
         if (matrix != null) {
             val translationMatrix = Matrix(matrix)
@@ -66,7 +65,7 @@ class DynamicCroppingCalculation(
         }
     }
 
-    private fun scale(targetTextureSize: TextureSize): Matrix {
+    private fun scale(textureView: TextureView, targetTextureSize: TextureSize): Matrix {
         val scaleX = (1.0 * targetTextureSize.value.width.value) / textureView.width
         val scaleY = (1.0 * targetTextureSize.value.height.value) / textureView.height
         return Matrix().apply {

@@ -67,20 +67,19 @@ class DynamicCroppingPlayerIntegration(
 
             val dynamicCroppingCalculation = DynamicCroppingCalculation(
                 InfiniteCoordinatesProvider(coordinates),
-                textureView,
                 TextureOffsetCalculation(ScaleCoordinate(), OffScreenOffsetCalculation()),
                 CalculateNewTextureSize(),
                 ViewSizeProvider(),
             )
 
             exoPlayer.setVideoFrameMetadataListener { _, _, _, _ ->
-                dynamicCroppingCalculation.onNewFrame()
+                dynamicCroppingCalculation.onNewFrame(textureView)
             }
 
             exoPlayer.addListener(object : Player.Listener {
                 override fun onVideoSizeChanged(videoSize: VideoSize) {
                     val resolution = VideoResolution(Size(Width(videoSize.width), Height(videoSize.height)))
-                    dynamicCroppingCalculation.applyInitialSetupOfTexture(resolution)
+                    dynamicCroppingCalculation.applyInitialSetupOfTexture(textureView, resolution)
                 }
             })
 

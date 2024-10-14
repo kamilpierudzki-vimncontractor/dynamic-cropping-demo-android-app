@@ -14,8 +14,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -60,6 +63,7 @@ fun HomeScreen(
             ) {
                 val lazyListState = rememberLazyListState()
                 val snapBehavior = rememberSnapFlingBehavior(lazyListState)
+                var lastSelectedIndex by remember { mutableIntStateOf(-1) }
 
                 LazyColumn(
                     modifier = Modifier.matchParentSize(),
@@ -70,14 +74,14 @@ fun HomeScreen(
                     contentPadding = PaddingValues(top = 64.dp, bottom = 64.dp),
                 ) {
                     items(dynamicCroppingPlayerIntegrations.size) { index ->
-                        LaunchedEffect(key1 = index) {
+                        /*LaunchedEffect(key1 = index) {
                             dynamicCroppingPlayerIntegrations.getOrNull(index)?.play()
-                        }
-                        DisposableEffect(key1 = index) {
+                        }*/
+                        /*DisposableEffect(key1 = index) {
                             onDispose {
                                 dynamicCroppingPlayerIntegrations.getOrNull(index)?.pause()
                             }
-                        }
+                        }*/
 
                         LaunchedEffect(lazyListState) {
                             snapshotFlow { lazyListState.layoutInfo }
@@ -92,11 +96,12 @@ fun HomeScreen(
                                             itemStart >= viewportStart && itemEnd <= viewportEnd
                                         }
 
-                                    fullyVisibleItems.firstOrNull()?.let { focusedItemInfo ->
-                                        dynamicCroppingPlayerIntegrations.getOrNull(focusedItemInfo.index)?.play()
-
+                                    val firstFullyVisibleItemInfoIndex = fullyVisibleItems.firstOrNull()?.index ?: 0
+                                    if (lastSelectedIndex != firstFullyVisibleItemInfoIndex) {
+                                        lastSelectedIndex = firstFullyVisibleItemInfoIndex
+                                        dynamicCroppingPlayerIntegrations.getOrNull(lastSelectedIndex)?.play()
                                         dynamicCroppingPlayerIntegrations
-                                            .filterIndexed { managerIndex, _ -> managerIndex != focusedItemInfo.index }
+                                            .filterIndexed { managerIndex, _ -> managerIndex != lastSelectedIndex }
                                             .forEach { manager -> manager.pause() }
                                     }
                                 }
