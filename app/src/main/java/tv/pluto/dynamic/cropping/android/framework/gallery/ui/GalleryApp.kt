@@ -6,8 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.gson.Gson
-import tv.pluto.dynamic.cropping.android.framework.gallery.ExoPlayerManager
-import tv.pluto.dynamic.cropping.android.framework.gallery.VideoProcessorPlayerManager
+import tv.pluto.dynamic.cropping.android.framework.gallery.DynamicCroppingPlayerManager
 
 sealed class NavigationScreen(val name: String) {
     data object Selection : NavigationScreen("selection")
@@ -16,22 +15,19 @@ sealed class NavigationScreen(val name: String) {
 
 @Composable
 fun GalleryApp(
-    exoPlayerManager: ExoPlayerManager,
-    videoProcessorPlayerManager: VideoProcessorPlayerManager,
+    dynamicCroppingPlayerManager: DynamicCroppingPlayerManager,
 ) {
     val navController: NavHostController = rememberNavController()
     GalleryAppNavHost(
         navController = navController,
-        exoPlayerManager = exoPlayerManager,
-        videoProcessorPlayerManager = videoProcessorPlayerManager,
+        dynamicCroppingPlayerManager = dynamicCroppingPlayerManager,
     )
 }
 
 @Composable
 private fun GalleryAppNavHost(
     navController: NavHostController,
-    exoPlayerManager: ExoPlayerManager,
-    videoProcessorPlayerManager: VideoProcessorPlayerManager,
+    dynamicCroppingPlayerManager: DynamicCroppingPlayerManager,
 ) {
     NavHost(
         navController = navController,
@@ -54,11 +50,10 @@ private fun GalleryAppNavHost(
             val json = backStackEntry.arguments?.getString("galleryScreenInput")
             val galleryScreenInput = Gson().fromJson(json, GalleryScreenInput::class.java)
             GalleryScreen(
-                exoPlayerManager = exoPlayerManager,
-                videoProcessorPlayerManager = videoProcessorPlayerManager,
+                dynamicCroppingPlayerManager = dynamicCroppingPlayerManager,
                 galleryScreenInput = galleryScreenInput,
                 onBack = {
-                    exoPlayerManager.destroy()
+                    dynamicCroppingPlayerManager.destroy()
                     navController.navigateUp()
                 }
             )

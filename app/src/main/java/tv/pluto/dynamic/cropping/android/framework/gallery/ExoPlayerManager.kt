@@ -16,7 +16,7 @@ import tv.pluto.dynamic.cropping.android.logic.Width
 
 class ExoPlayerManager(
     private val activity: Activity,
-) : DefaultLifecycleObserver {
+) : DefaultLifecycleObserver { // todo remove
 
     private var exoPlayer: ExoPlayer? = null
     private var manipulation: Manipulation? = null

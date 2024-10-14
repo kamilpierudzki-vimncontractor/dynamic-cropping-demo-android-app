@@ -1,11 +1,10 @@
 package tv.pluto.dynamic.cropping.android.logic
 
-import org.junit.Assert
 import org.junit.Test
 
-class CalculateCoordinateOffsetTest {
+class OffScreenOffsetCalculationTest {
 
-    private val tested = CalculateCoordinateOffset()
+    private val tested = OffScreenOffsetCalculation()
 
     @Test
     fun test_1() {

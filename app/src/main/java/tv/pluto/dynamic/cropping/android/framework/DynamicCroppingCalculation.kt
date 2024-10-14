@@ -6,12 +6,12 @@ import tv.pluto.dynamic.cropping.android.logic.CalculateNewTextureSize
 import tv.pluto.dynamic.cropping.android.logic.InfiniteCoordinatesProvider
 import tv.pluto.dynamic.cropping.android.logic.VideoResolution
 import tv.pluto.dynamic.cropping.android.logic.TextureSize
-import tv.pluto.dynamic.cropping.android.logic.WindowCalculation
+import tv.pluto.dynamic.cropping.android.logic.TextureOffsetCalculation
 
-class TextureCalculation(
+class DynamicCroppingCalculation(
     private val infiniteCoordinatesProvider: InfiniteCoordinatesProvider,
     private val textureView: TextureView,
-    private val windowCalculation: WindowCalculation,
+    private val textureOffsetCalculation: TextureOffsetCalculation,
     private val calculateNewTextureSize: CalculateNewTextureSize,
     private val viewSizeProvider: ViewSizeProvider,
 ) {
@@ -38,7 +38,7 @@ class TextureCalculation(
         val txSize = textureSize
         val res = videoResolution
         if (txSize != null && res != null) {
-            val newTranslationX = windowCalculation.calculateAbsoluteTranslationX(
+            val newTranslationX = textureOffsetCalculation.calculateXAxisAbsoluteOffset(
                 coordinate = coordinate,
                 videoResolution = res,
                 textureViewWidth = textureView.width,
