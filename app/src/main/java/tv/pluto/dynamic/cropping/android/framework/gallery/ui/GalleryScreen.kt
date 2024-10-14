@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import tv.pluto.dynamic.cropping.android.framework.FixedAspectTextureView
-import tv.pluto.dynamic.cropping.android.framework.gallery.DynamicCroppingPlayerManager
+import tv.pluto.dynamic.cropping.android.framework.gallery.DynamicCroppingPlayerIntegration
 
 data class GalleryScreenInput(val coordinates: DoubleArray, val videoResId: Int) {
 
@@ -40,7 +40,7 @@ data class GalleryScreenInput(val coordinates: DoubleArray, val videoResId: Int)
 
 @Composable
 fun GalleryScreen(
-    dynamicCroppingPlayerManager: DynamicCroppingPlayerManager,
+    dynamicCroppingPlayerIntegration: DynamicCroppingPlayerIntegration,
     galleryScreenInput: GalleryScreenInput,
     onBack: () -> Unit,
 ) {
@@ -50,7 +50,7 @@ fun GalleryScreen(
             .padding(16.dp)
             .fillMaxSize()) {
             DynamicCroppingVideoComponent(
-                dynamicCroppingPlayerManager = dynamicCroppingPlayerManager,
+                dynamicCroppingPlayerIntegration = dynamicCroppingPlayerIntegration,
                 galleryScreenInput = galleryScreenInput,
                 modifier = Modifier
                     .fillMaxSize()
@@ -63,7 +63,7 @@ fun GalleryScreen(
 
 @Composable
 private fun DynamicCroppingVideoComponent(
-    dynamicCroppingPlayerManager: DynamicCroppingPlayerManager,
+    dynamicCroppingPlayerIntegration: DynamicCroppingPlayerIntegration,
     galleryScreenInput: GalleryScreenInput,
     modifier: Modifier,
 ) {
@@ -78,7 +78,7 @@ private fun DynamicCroppingVideoComponent(
                     setAspectRatio(9, 16)
                 }
                 .also { textureView ->
-                    dynamicCroppingPlayerManager.initializeAndStartPlayback(
+                    dynamicCroppingPlayerIntegration.initializeAndStartPlayback(
                         textureView,
                         galleryScreenInput,
                     )

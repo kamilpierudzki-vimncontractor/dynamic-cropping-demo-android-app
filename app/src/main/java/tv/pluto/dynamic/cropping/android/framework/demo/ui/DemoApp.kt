@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import tv.pluto.dynamic.cropping.android.framework.demo.ExoPlayerManager
+import tv.pluto.dynamic.cropping.android.framework.demo.DynamicCroppingPlayerIntegration
 
 sealed class NavigationScreen(val name: String) {
     data object Home : NavigationScreen("demo_home")
@@ -13,18 +13,18 @@ sealed class NavigationScreen(val name: String) {
 }
 
 @Composable
-fun DemoApp(exoPlayerManagers: List<ExoPlayerManager>) {
+fun DemoApp(dynamicCroppingPlayerIntegrations: List<DynamicCroppingPlayerIntegration>) {
     val navController: NavHostController = rememberNavController()
     DemoAppNavHost(
         navController = navController,
-        exoPlayerManagers = exoPlayerManagers,
+        dynamicCroppingPlayerIntegrations = dynamicCroppingPlayerIntegrations,
     )
 }
 
 @Composable
 fun DemoAppNavHost(
     navController: NavHostController,
-    exoPlayerManagers: List<ExoPlayerManager>,
+    dynamicCroppingPlayerIntegrations: List<DynamicCroppingPlayerIntegration>,
 ) {
     NavHost(
         navController = navController,
@@ -32,7 +32,7 @@ fun DemoAppNavHost(
     ) {
         composable(NavigationScreen.Home.name) {
             HomeScreen(
-                exoPlayerManagers = exoPlayerManagers,
+                dynamicCroppingPlayerIntegrations = dynamicCroppingPlayerIntegrations,
             )
         }
         composable(NavigationScreen.Player.name) {

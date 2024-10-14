@@ -13,7 +13,7 @@ class Manipulation(
     playerView: StyledPlayerView,
     coordinates: DoubleArray,
     playerWindowViewManipulationFactory: PlayerWindowViewManipulationFactory,
-) {
+) { // todo remove
 
     private var playerPositionCalculation: PlayerPositionCalculation? = null
     private var playerWindowViewManipulation: PlayerWindowViewManipulation? = null

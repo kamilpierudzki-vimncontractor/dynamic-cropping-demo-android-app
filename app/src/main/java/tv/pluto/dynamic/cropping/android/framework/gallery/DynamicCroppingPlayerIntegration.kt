@@ -24,7 +24,7 @@ import tv.pluto.dynamic.cropping.android.logic.TextureOffsetCalculation
 import tv.pluto.dynamic.cropping.android.logic.VideoResolution
 import tv.pluto.dynamic.cropping.android.logic.Width
 
-class DynamicCroppingPlayerManager(
+class DynamicCroppingPlayerIntegration(
     private val activity: Activity,
 ) : DefaultLifecycleObserver {
 

@@ -9,12 +9,12 @@ import tv.pluto.dynamic.cropping.android.framework.theme.StaticCroppingDemoTheme
 
 class GalleryActivity : ComponentActivity() {
 
-    private val dynamicCroppingPlayerManager = DynamicCroppingPlayerManager(this)
+    private val dynamicCroppingPlayerIntegration = DynamicCroppingPlayerIntegration(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        lifecycle.addObserver(dynamicCroppingPlayerManager)
+        lifecycle.addObserver(dynamicCroppingPlayerIntegration)
         setupUi()
     }
 
@@ -22,7 +22,7 @@ class GalleryActivity : ComponentActivity() {
         setContent {
             StaticCroppingDemoTheme {
                 GalleryApp(
-                    dynamicCroppingPlayerManager = dynamicCroppingPlayerManager,
+                    dynamicCroppingPlayerIntegration = dynamicCroppingPlayerIntegration,
                 )
             }
         }

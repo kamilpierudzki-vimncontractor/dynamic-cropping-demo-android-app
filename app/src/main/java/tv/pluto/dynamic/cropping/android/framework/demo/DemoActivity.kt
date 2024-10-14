@@ -12,15 +12,15 @@ import tv.pluto.dynamic.cropping.android.framework.theme.StaticCroppingDemoTheme
 
 class DemoActivity : ComponentActivity() {
 
-    private lateinit var exoPlayerManagers: List<ExoPlayerManager>
+    private lateinit var dynamicCroppingPlayerIntegrations: List<DynamicCroppingPlayerIntegration>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        exoPlayerManagers = createPlayerManagers(this)
-        exoPlayerManagers.forEach {
-            lifecycle.addObserver(it)
-        }
+        dynamicCroppingPlayerIntegrations = createDynamicCroppingPlayerIntegrations(this)
+            .onEach {
+                lifecycle.addObserver(it)
+            }
         setupUi()
     }
 
@@ -29,15 +29,15 @@ class DemoActivity : ComponentActivity() {
         setContent {
             StaticCroppingDemoTheme {
                 DemoApp(
-                    exoPlayerManagers = exoPlayerManagers,
+                    dynamicCroppingPlayerIntegrations = dynamicCroppingPlayerIntegrations,
                 )
             }
         }
     }
 
-    private fun createPlayerManagers(activity: Activity): List<ExoPlayerManager> =
+    private fun createDynamicCroppingPlayerIntegrations(activity: Activity): List<DynamicCroppingPlayerIntegration> =
         getLocalVideos().map { video ->
-            ExoPlayerManager(
+            DynamicCroppingPlayerIntegration(
                 activity = activity,
                 video = video,
             )

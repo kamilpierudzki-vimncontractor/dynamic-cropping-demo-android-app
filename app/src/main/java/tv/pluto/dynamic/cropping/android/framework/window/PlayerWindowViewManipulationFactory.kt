@@ -18,7 +18,7 @@ sealed interface AlgorithmType {
     data object BothSkippingAndSyntheticAnimation : AlgorithmType
 }
 
-class PlayerWindowViewManipulationFactory {
+class PlayerWindowViewManipulationFactory { // todo remove
 
     fun create(
         playerWindowView: View,

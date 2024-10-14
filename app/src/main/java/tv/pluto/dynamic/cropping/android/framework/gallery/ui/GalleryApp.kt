@@ -6,7 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.gson.Gson
-import tv.pluto.dynamic.cropping.android.framework.gallery.DynamicCroppingPlayerManager
+import tv.pluto.dynamic.cropping.android.framework.gallery.DynamicCroppingPlayerIntegration
 
 sealed class NavigationScreen(val name: String) {
     data object Selection : NavigationScreen("selection")
@@ -15,19 +15,19 @@ sealed class NavigationScreen(val name: String) {
 
 @Composable
 fun GalleryApp(
-    dynamicCroppingPlayerManager: DynamicCroppingPlayerManager,
+    dynamicCroppingPlayerIntegration: DynamicCroppingPlayerIntegration,
 ) {
     val navController: NavHostController = rememberNavController()
     GalleryAppNavHost(
         navController = navController,
-        dynamicCroppingPlayerManager = dynamicCroppingPlayerManager,
+        dynamicCroppingPlayerIntegration = dynamicCroppingPlayerIntegration,
     )
 }
 
 @Composable
 private fun GalleryAppNavHost(
     navController: NavHostController,
-    dynamicCroppingPlayerManager: DynamicCroppingPlayerManager,
+    dynamicCroppingPlayerIntegration: DynamicCroppingPlayerIntegration,
 ) {
     NavHost(
         navController = navController,
@@ -50,10 +50,10 @@ private fun GalleryAppNavHost(
             val json = backStackEntry.arguments?.getString("galleryScreenInput")
             val galleryScreenInput = Gson().fromJson(json, GalleryScreenInput::class.java)
             GalleryScreen(
-                dynamicCroppingPlayerManager = dynamicCroppingPlayerManager,
+                dynamicCroppingPlayerIntegration = dynamicCroppingPlayerIntegration,
                 galleryScreenInput = galleryScreenInput,
                 onBack = {
-                    dynamicCroppingPlayerManager.destroy()
+                    dynamicCroppingPlayerIntegration.destroy()
                     navController.navigateUp()
                 }
             )

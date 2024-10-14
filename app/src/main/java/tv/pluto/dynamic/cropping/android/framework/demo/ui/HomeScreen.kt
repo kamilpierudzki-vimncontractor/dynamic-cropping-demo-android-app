@@ -22,7 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import tv.pluto.dynamic.cropping.android.framework.demo.ExoPlayerManager
+import tv.pluto.dynamic.cropping.android.framework.demo.DynamicCroppingPlayerIntegration
 
 private val backgroundGradientColors = listOf(
     Color.Black,
@@ -47,7 +47,7 @@ private val gradientOnVideos = listOf(
 
 @Composable
 fun HomeScreen(
-    exoPlayerManagers: List<ExoPlayerManager>
+    dynamicCroppingPlayerIntegrations: List<DynamicCroppingPlayerIntegration>
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -69,13 +69,13 @@ fun HomeScreen(
                     verticalArrangement = Arrangement.spacedBy(32.dp),
                     contentPadding = PaddingValues(top = 64.dp, bottom = 64.dp),
                 ) {
-                    items(exoPlayerManagers.size) { index ->
+                    items(dynamicCroppingPlayerIntegrations.size) { index ->
                         LaunchedEffect(key1 = index) {
-                            exoPlayerManagers[index].play()
+                            dynamicCroppingPlayerIntegrations[index].play()
                         }
                         DisposableEffect(key1 = index) {
                             onDispose {
-                                exoPlayerManagers[index].pause()
+                                dynamicCroppingPlayerIntegrations[index].pause()
                             }
                         }
 
@@ -93,9 +93,9 @@ fun HomeScreen(
                                         }
 
                                     fullyVisibleItems.firstOrNull()?.let { focusedItemInfo ->
-                                        exoPlayerManagers[index].play()
+                                        dynamicCroppingPlayerIntegrations[index].play()
 
-                                        exoPlayerManagers
+                                        dynamicCroppingPlayerIntegrations
                                             .filterIndexed { managerIndex, _ -> managerIndex != focusedItemInfo.index }
                                             .forEach { manager -> manager.pause() }
                                     }
@@ -103,7 +103,7 @@ fun HomeScreen(
                         }
 
                         CardComponent(
-                            exoPlayerManager = exoPlayerManagers[index],
+                            dynamicCroppingPlayerIntegration = dynamicCroppingPlayerIntegrations[index],
                         )
                     }
                 }

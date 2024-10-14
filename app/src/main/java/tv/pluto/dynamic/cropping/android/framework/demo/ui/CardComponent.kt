@@ -9,24 +9,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import tv.pluto.dynamic.cropping.android.framework.Video
-import tv.pluto.dynamic.cropping.android.framework.demo.ExoPlayerManager
+import tv.pluto.dynamic.cropping.android.framework.demo.DynamicCroppingPlayerIntegration
 
 @Composable
 fun CardComponent(
-    exoPlayerManager: ExoPlayerManager,
+    dynamicCroppingPlayerIntegration: DynamicCroppingPlayerIntegration,
     modifier: Modifier = Modifier,
 ) {
     Box(modifier = modifier) {
-        DemoVideoComponent(
-            exoPlayerManager = exoPlayerManager,
+        DynamicCroppingVideoComponent(
+            dynamicCroppingPlayerIntegration = dynamicCroppingPlayerIntegration,
             modifier = Modifier
                 .height(500.dp)
                 .clip(RoundedCornerShape(16.dp))
                 .align(Alignment.Center),
         )
         MetadataComponent(
-            title = exoPlayerManager.video.title.value,
-            details = exoPlayerManager.video.formattedMetadata(),
+            title = dynamicCroppingPlayerIntegration.video.title.value,
+            details = dynamicCroppingPlayerIntegration.video.formattedMetadata(),
             modifier = Modifier.align(Alignment.BottomCenter),
         )
     }
