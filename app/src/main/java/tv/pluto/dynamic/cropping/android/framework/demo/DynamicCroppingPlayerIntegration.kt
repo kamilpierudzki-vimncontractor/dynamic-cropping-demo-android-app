@@ -46,7 +46,7 @@ class DynamicCroppingPlayerIntegration(
     private var playbackState: PlaybackState = PlaybackState.PausedForegrounded
     private var playOnlyOneFrame: Boolean = /*true*/false
 
-    fun initializeAndStartPlayback(textureView: TextureView) {
+    fun initialize(textureView: TextureView) {
         setPlayerView(textureView)
         setMediaItem(createMediaItem())
     }

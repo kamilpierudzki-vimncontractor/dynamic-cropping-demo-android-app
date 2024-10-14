@@ -20,7 +20,7 @@ fun DynamicCroppingVideoComponent(
                     setAspectRatio(10, 16)
                 }
                 .also { playerView ->
-                    dynamicCroppingPlayerIntegration.initializeAndStartPlayback(playerView)
+                    dynamicCroppingPlayerIntegration.initialize(playerView)
                 }
         },
     )
