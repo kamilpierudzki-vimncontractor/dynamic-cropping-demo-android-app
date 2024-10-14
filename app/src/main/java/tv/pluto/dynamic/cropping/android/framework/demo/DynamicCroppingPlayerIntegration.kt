@@ -5,12 +5,15 @@ import android.graphics.SurfaceTexture
 import android.view.Surface
 import android.view.TextureView
 import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.upstream.RawResourceDataSource
 import com.google.android.exoplayer2.video.VideoSize
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.launch
 import tv.pluto.dynamic.cropping.android.framework.DynamicCroppingCalculation
 import tv.pluto.dynamic.cropping.android.framework.Video
 import tv.pluto.dynamic.cropping.android.framework.ViewSizeProvider
@@ -33,12 +36,15 @@ private sealed interface PlaybackState {
 
 class DynamicCroppingPlayerIntegration(
     private val activity: Activity,
+    private val lifecycleCoroutineScope: LifecycleCoroutineScope,
+    private val mainDispatcher: CoroutineDispatcher,
     val video: Video,
 ) : DefaultLifecycleObserver {
 
     private var exoPlayer: ExoPlayer? = null
 
     private var playbackState: PlaybackState = PlaybackState.PausedForegrounded
+    private var playOnlyOneFrame: Boolean = /*true*/false
 
     fun initializeAndStartPlayback(textureView: TextureView) {
         setPlayerView(textureView)
@@ -52,8 +58,9 @@ class DynamicCroppingPlayerIntegration(
         }
     }
 
-    fun play() {
+    fun play(playOnlyOneFrame: Boolean = false) {
         exoPlayer?.let { player ->
+            this.playOnlyOneFrame = playOnlyOneFrame
             player.play()
             playbackState = PlaybackState.PlayingForegrounded
         }
@@ -113,20 +120,30 @@ class DynamicCroppingPlayerIntegration(
             )
 
             exoPlayer.setVideoFrameMetadataListener { _, _, _, _ ->
-                dynamicCroppingCalculation.onNewFrame()
+                lifecycleCoroutineScope.launch(mainDispatcher) {
+                    dynamicCroppingCalculation.onNewFrame()
+                    if (playOnlyOneFrame) {
+                        playOnlyOneFrame = false
+                        pause()
+                    }
+                }
             }
 
             exoPlayer.addListener(object : Player.Listener {
                 override fun onVideoSizeChanged(videoSize: VideoSize) {
-                    val resolution = VideoResolution(Size(Width(videoSize.width), Height(videoSize.height)))
-                    dynamicCroppingCalculation.applyScaleToTextureAccordingToVideoSize(resolution)
+                    lifecycleCoroutineScope.launch(mainDispatcher) {
+                        val resolution = VideoResolution(Size(Width(videoSize.width), Height(videoSize.height)))
+                        dynamicCroppingCalculation.applyInitialSetupOfTexture(resolution)
+                    }
                 }
             })
 
             textureView.surfaceTextureListener = object : TextureView.SurfaceTextureListener {
                 override fun onSurfaceTextureAvailable(surfaceTexture: SurfaceTexture, p1: Int, p2: Int) {
-                    val surface = Surface(surfaceTexture)
-                    exoPlayer.setVideoSurface(surface)
+                    lifecycleCoroutineScope.launch(mainDispatcher) {
+                        val surface = Surface(surfaceTexture)
+                        exoPlayer.setVideoSurface(surface)
+                    }
                 }
 
                 override fun onSurfaceTextureSizeChanged(p0: SurfaceTexture, p1: Int, p2: Int) {

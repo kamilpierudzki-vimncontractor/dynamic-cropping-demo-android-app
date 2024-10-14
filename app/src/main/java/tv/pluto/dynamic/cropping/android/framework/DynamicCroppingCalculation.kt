@@ -20,7 +20,7 @@ class DynamicCroppingCalculation(
     private var textureSize: TextureSize? = null
     private var videoResolution: VideoResolution? = null
 
-    fun applyScaleToTextureAccordingToVideoSize(videoResolution: VideoResolution) {
+    fun applyInitialSetupOfTexture(videoResolution: VideoResolution) {
         this.videoResolution = videoResolution
         val newTextureSize = calculateNewTextureSize.calculate(
             videoResolution = videoResolution,
@@ -31,6 +31,15 @@ class DynamicCroppingCalculation(
         this.scaleMatrix = scale(newTextureSize).also { scale ->
             textureView.setTransform(scale)
         }
+        moveTextureToCenter()
+    }
+
+    private fun moveTextureToCenter() {
+        textureSize?.let { txSize ->
+            val centerOfTexture = (txSize.value.width.value / 2.0)
+            val textureAbsolutePositionMovedToLeft = centerOfTexture * (-1.0)
+            moveTexture(textureAbsolutePositionMovedToLeft.toFloat())
+        }
     }
 
     fun onNewFrame() {
@@ -38,13 +47,13 @@ class DynamicCroppingCalculation(
         val txSize = textureSize
         val res = videoResolution
         if (txSize != null && res != null) {
-            val newTranslationX = textureOffsetCalculation.calculateXAxisAbsoluteOffset(
+            val absoluteOffset = textureOffsetCalculation.calculateXAxisAbsoluteOffset(
                 coordinate = coordinate,
                 videoResolution = res,
                 textureViewWidth = textureView.width,
                 textureSize = txSize,
             )
-            moveTexture(newTranslationX.toFloat())
+            moveTexture(absoluteOffset.toFloat())
         }
     }
 

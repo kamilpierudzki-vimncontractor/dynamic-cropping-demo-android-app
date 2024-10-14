@@ -6,6 +6,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
 import tv.pluto.dynamic.cropping.android.framework.demo.ui.DemoApp
 import tv.pluto.dynamic.cropping.android.framework.getLocalVideos
 import tv.pluto.dynamic.cropping.android.framework.theme.StaticCroppingDemoTheme
@@ -38,6 +40,8 @@ class DemoActivity : ComponentActivity() {
     private fun createDynamicCroppingPlayerIntegrations(activity: Activity): List<DynamicCroppingPlayerIntegration> =
         getLocalVideos().map { video ->
             DynamicCroppingPlayerIntegration(
+                lifecycleCoroutineScope = lifecycleScope,
+                mainDispatcher = Dispatchers.Main,
                 activity = activity,
                 video = video,
             )
