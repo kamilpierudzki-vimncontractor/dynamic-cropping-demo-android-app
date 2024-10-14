@@ -71,11 +71,11 @@ fun HomeScreen(
                 ) {
                     items(dynamicCroppingPlayerIntegrations.size) { index ->
                         LaunchedEffect(key1 = index) {
-                            dynamicCroppingPlayerIntegrations[index].play()
+                            dynamicCroppingPlayerIntegrations.getOrNull(index)?.play()
                         }
                         DisposableEffect(key1 = index) {
                             onDispose {
-                                dynamicCroppingPlayerIntegrations[index].pause()
+                                dynamicCroppingPlayerIntegrations.getOrNull(index)?.pause()
                             }
                         }
 
@@ -93,7 +93,7 @@ fun HomeScreen(
                                         }
 
                                     fullyVisibleItems.firstOrNull()?.let { focusedItemInfo ->
-                                        dynamicCroppingPlayerIntegrations[index].play()
+                                        dynamicCroppingPlayerIntegrations.getOrNull(focusedItemInfo.index)?.play()
 
                                         dynamicCroppingPlayerIntegrations
                                             .filterIndexed { managerIndex, _ -> managerIndex != focusedItemInfo.index }
