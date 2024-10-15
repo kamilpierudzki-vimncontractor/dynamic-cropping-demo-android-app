@@ -27,6 +27,15 @@ sealed class Metadata(
     val coordinates: () -> DoubleArray,
     val videoResId: Int,
 ) {
+    data object Empty: Metadata(
+        Title(""),
+        Genre(""),
+        Year(""),
+        Rating(""),
+        Time(""),
+        { doubleArrayOf() },
+        R.raw.benchmark,
+    )
 
     data object Benchmark : Metadata(
         Title("Benchmark"),

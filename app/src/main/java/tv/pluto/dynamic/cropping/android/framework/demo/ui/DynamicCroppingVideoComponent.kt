@@ -20,18 +20,17 @@ fun DynamicCroppingVideoComponent(
     staticMetadata: Metadata,
     playbackState: Boolean,
     initialPlaybackPositionMs: Long,
-    modifier: Modifier = Modifier,
     onPlaybackPositionChanged: (Long) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     var dynamicCroppingPlayerIntegration by remember { mutableStateOf<DynamicCroppingPlayerIntegration?>(null) }
 
     AndroidView(
-        modifier = modifier.clipToBounds(),
         factory = { context ->
             android.util.Log.d("test123", "factory {}, ${staticMetadata.title}")
             FixedAspectTextureView(context)
                 .apply {
-                    setAspectRatio(10, 16)
+                    setAspectRatio(9, 16)
                 }
                 .also { textureView ->
                     dynamicCroppingPlayerIntegration = DynamicCroppingPlayerIntegration(
@@ -45,6 +44,7 @@ fun DynamicCroppingVideoComponent(
                     )
                 }
         },
+        modifier = modifier.clipToBounds(),
         onRelease = {
             android.util.Log.d("test123", "onRelease {}, ${staticMetadata.title}")
             dynamicCroppingPlayerIntegration?.destroy()

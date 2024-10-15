@@ -16,6 +16,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import tv.pluto.dynamic.cropping.android.framework.DynamicCroppingCalculation
 import tv.pluto.dynamic.cropping.android.framework.Metadata
+import tv.pluto.dynamic.cropping.android.framework.PlaybackState
 import tv.pluto.dynamic.cropping.android.logic.CalculateNewTextureSize
 import tv.pluto.dynamic.cropping.android.logic.CalculateOffScreenOffset
 import tv.pluto.dynamic.cropping.android.logic.CalculateTextureXAxisAbsoluteOffset
@@ -25,13 +26,6 @@ import tv.pluto.dynamic.cropping.android.logic.ScaleCoordinate
 import tv.pluto.dynamic.cropping.android.logic.Size
 import tv.pluto.dynamic.cropping.android.logic.VideoResolution
 import tv.pluto.dynamic.cropping.android.logic.Width
-
-private sealed interface PlaybackState {
-    data object PausedForegrounded : PlaybackState
-    data object PausedBackgrounded : PlaybackState
-    data object PlayingForegrounded : PlaybackState
-    data object PlayingBackgrounded : PlaybackState
-}
 
 class DynamicCroppingPlayerIntegration(
     private val lifecycleOwner: LifecycleOwner,
@@ -59,15 +53,23 @@ class DynamicCroppingPlayerIntegration(
     }
 
     fun pause() {
-        android.util.Log.d("test123", "\tpause, ${staticMetadata.title}")
-        exoPlayer?.pause()
-        playbackState = PlaybackState.PausedForegrounded
+        if (playbackState != PlaybackState.PausedForegrounded) {
+            android.util.Log.d("test123", "\tpause, ${staticMetadata.title}")
+            playbackState = PlaybackState.PausedForegrounded
+            exoPlayer?.pause()
+        }
     }
 
     fun play() {
-        android.util.Log.d("test123", "\tplay, ${staticMetadata.title}")
-        exoPlayer?.play()
-        playbackState = PlaybackState.PlayingForegrounded
+        if (playbackState != PlaybackState.PlayingForegrounded) {
+            android.util.Log.d("test123", "\tplay, ${staticMetadata.title}")
+            android.util.Log.d("test-seeking", "DynamicCroppingPlayerIntegration, seekTo: $initialPlaybackPositionMs")
+            playbackState = PlaybackState.PlayingForegrounded
+            exoPlayer?.apply {
+                play()
+                seekTo(initialPlaybackPositionMs)
+            }
+        }
     }
 
     override fun onStart(owner: LifecycleOwner) {
@@ -151,9 +153,6 @@ class DynamicCroppingPlayerIntegration(
                 override fun onSurfaceTextureUpdated(p0: SurfaceTexture) {
                 }
             }
-
-            android.util.Log.d("test321", "seekTo: $initialPlaybackPositionMs")
-            exoPlayer.seekTo(initialPlaybackPositionMs)
         }
     }
 
