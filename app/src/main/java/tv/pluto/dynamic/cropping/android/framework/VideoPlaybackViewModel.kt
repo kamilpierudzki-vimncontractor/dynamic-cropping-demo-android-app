@@ -29,14 +29,6 @@ class VideoPlaybackViewModel : ViewModel(), DefaultLifecycleObserver {
     private val _currentPlaybackPositionState = mutableLongStateOf(0L)
     val currentPlaybackPositionState: State<Long> = _currentPlaybackPositionState
 
-    init {
-        android.util.Log.d("test123", "VideoPlaybackViewModel#init {}")
-    }
-
-    override fun onCleared() {
-        android.util.Log.d("test123", "VideoPlaybackViewModel#onCleared()")
-    }
-
     fun onIndexOfPlayingComponentChanged(indexOfPlayingComponent: Int) {
         _videoPlayingStates.value = _videoPlayingStates.value.toMutableMap().apply {
             keys.forEach { put(it, false) }
@@ -53,6 +45,6 @@ class VideoPlaybackViewModel : ViewModel(), DefaultLifecycleObserver {
         _currentVideoPlayingState.value = videoPlayingStates.value[indexOfPlayingComponent] ?: false
         _currentPlaybackPositionState.longValue = videoPositionStates.value[indexOfPlayingComponent] ?: 0L
 
-        android.util.Log.d("test-seeking", "VideoPlaybackViewModel, update, index: $indexOfPlayingComponent, value: $newPosition")
+        android.util.Log.d("test-seeking", "VideoPlaybackViewModel, update, index: $indexOfPlayingComponent, ${currentMetadata.value.title.value} value: $newPosition")
     }
 }

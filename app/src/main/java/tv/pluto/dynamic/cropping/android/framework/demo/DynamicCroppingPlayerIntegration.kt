@@ -33,7 +33,6 @@ class DynamicCroppingPlayerIntegration(
     private val mainDispatcher: CoroutineDispatcher,
     private val textureView: TextureView,
     private val staticMetadata: Metadata,
-    private val initialPlaybackPositionMs: Long,
     val onPlaybackPositionChanged: (Long) -> Unit,
 ) : DefaultLifecycleObserver {
 
@@ -54,20 +53,18 @@ class DynamicCroppingPlayerIntegration(
 
     fun pause() {
         if (playbackState != PlaybackState.PausedForegrounded) {
-            android.util.Log.d("test123", "\tpause, ${staticMetadata.title}")
             playbackState = PlaybackState.PausedForegrounded
             exoPlayer?.pause()
         }
     }
 
-    fun play() {
+    fun play(startFromPositionMs: Long) {
         if (playbackState != PlaybackState.PlayingForegrounded) {
-            android.util.Log.d("test123", "\tplay, ${staticMetadata.title}")
-            android.util.Log.d("test-seeking", "DynamicCroppingPlayerIntegration, seekTo: $initialPlaybackPositionMs")
+            android.util.Log.d("test-seeking", "DynamicCroppingPlayerIntegration($this), ${staticMetadata.title.value}, seekTo: $startFromPositionMs")
             playbackState = PlaybackState.PlayingForegrounded
             exoPlayer?.apply {
                 play()
-                seekTo(initialPlaybackPositionMs)
+                seekTo(startFromPositionMs)
             }
         }
     }

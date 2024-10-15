@@ -98,12 +98,12 @@ fun HomeScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
                         }
 
                         val videoPlayingState = videoPlayingStates[globalIndex] ?: false
-                        val videoPositionState = videoPositionStates[globalIndex] ?: 0
+                        val playbackPositionMs = videoPositionStates[globalIndex] ?: 0
 
                         CardComponentV2(
                             staticMetadata = videoPlaybackViewModel.metadatas[globalIndex],
                             playbackState = videoPlayingState,
-                            initialPlaybackPositionMs = videoPositionState,
+                            playbackPositionMs = playbackPositionMs,
                             onPlaybackPositionChanged = { newPositionMs ->
                                 videoPlaybackViewModel.onVideoPositionChanged(globalIndex, newPositionMs)
                             }

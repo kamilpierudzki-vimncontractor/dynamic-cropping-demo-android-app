@@ -1,6 +1,7 @@
 package tv.pluto.dynamic.cropping.android.framework.demo.ui
 
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -15,7 +16,7 @@ import tv.pluto.dynamic.cropping.android.framework.Metadata
 fun CardComponentV2(
     staticMetadata: Metadata,
     playbackState: Boolean,
-    initialPlaybackPositionMs: Long,
+    playbackPositionMs: Long,
     modifier: Modifier = Modifier,
     onPlaybackPositionChanged: (Long) -> Unit,
 ) {
@@ -26,7 +27,7 @@ fun CardComponentV2(
             lifecycleOwner = LocalLifecycleOwner.current,
             staticMetadata = staticMetadata,
             playbackState = playbackState,
-            initialPlaybackPositionMs = initialPlaybackPositionMs,
+            playbackPositionMs=playbackPositionMs,
             modifier = Modifier
                 .constrainAs(videoComponent) {
                     top.linkTo(parent.top)

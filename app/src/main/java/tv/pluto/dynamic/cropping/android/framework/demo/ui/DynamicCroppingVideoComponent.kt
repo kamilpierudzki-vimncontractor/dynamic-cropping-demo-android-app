@@ -19,7 +19,7 @@ fun DynamicCroppingVideoComponent(
     lifecycleOwner: LifecycleOwner,
     staticMetadata: Metadata,
     playbackState: Boolean,
-    initialPlaybackPositionMs: Long,
+    playbackPositionMs: Long,
     onPlaybackPositionChanged: (Long) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -27,7 +27,6 @@ fun DynamicCroppingVideoComponent(
 
     AndroidView(
         factory = { context ->
-            android.util.Log.d("test123", "factory {}, ${staticMetadata.title}")
             FixedAspectTextureView(context)
                 .apply {
                     setAspectRatio(9, 16)
@@ -39,20 +38,17 @@ fun DynamicCroppingVideoComponent(
                         mainDispatcher = Dispatchers.Main,
                         textureView = textureView,
                         staticMetadata = staticMetadata,
-                        initialPlaybackPositionMs = initialPlaybackPositionMs,
                         onPlaybackPositionChanged = onPlaybackPositionChanged,
                     )
                 }
         },
         modifier = modifier.clipToBounds(),
         onRelease = {
-            android.util.Log.d("test123", "onRelease {}, ${staticMetadata.title}")
             dynamicCroppingPlayerIntegration?.destroy()
         },
         update = {
-            android.util.Log.d("test123", "update {}, ${staticMetadata.title}, play: ${playbackState}")
             if (playbackState) {
-                dynamicCroppingPlayerIntegration?.play()
+                dynamicCroppingPlayerIntegration?.play(playbackPositionMs)
             } else {
                 dynamicCroppingPlayerIntegration?.pause()
             }
