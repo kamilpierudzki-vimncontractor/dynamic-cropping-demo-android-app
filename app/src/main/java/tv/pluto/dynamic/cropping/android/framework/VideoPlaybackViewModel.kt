@@ -44,7 +44,5 @@ class VideoPlaybackViewModel : ViewModel(), DefaultLifecycleObserver {
         _currentMetadata.value = metadatas[indexOfPlayingComponent]
         _currentVideoPlayingState.value = videoPlayingStates.value[indexOfPlayingComponent] ?: false
         _currentPlaybackPositionState.longValue = videoPositionStates.value[indexOfPlayingComponent] ?: 0L
-
-        android.util.Log.d("test-seeking", "VideoPlaybackViewModel, update, index: $indexOfPlayingComponent, ${currentMetadata.value.title.value} value: $newPosition")
     }
 }

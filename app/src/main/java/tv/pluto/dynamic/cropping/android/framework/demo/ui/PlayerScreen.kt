@@ -58,7 +58,6 @@ private fun SimpleVideoComponent(
 
     AndroidView(
         factory = { context ->
-            android.util.Log.d("test123", "SimpleVideoComponent, factory {}, ${staticMetadata.title}")
             StyledPlayerView(context)
                 .apply {
                     useController = false
@@ -78,7 +77,6 @@ private fun SimpleVideoComponent(
         },
         modifier = modifier.background(Color.Black),
         onRelease = {
-            android.util.Log.d("test123", "SimpleVideoComponent, onRelease {}, ${staticMetadata.title}")
             playerIntegration?.destroy()
         },
     )

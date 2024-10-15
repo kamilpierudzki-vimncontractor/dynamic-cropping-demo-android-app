@@ -10,8 +10,11 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.Tracks
 import com.google.android.exoplayer2.upstream.RawResourceDataSource
+import com.google.android.exoplayer2.util.MimeTypes
 import com.google.android.exoplayer2.video.VideoSize
+import kotlin.math.roundToInt
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import tv.pluto.dynamic.cropping.android.framework.DynamicCroppingCalculation
@@ -21,7 +24,7 @@ import tv.pluto.dynamic.cropping.android.logic.CalculateNewTextureSize
 import tv.pluto.dynamic.cropping.android.logic.CalculateOffScreenOffset
 import tv.pluto.dynamic.cropping.android.logic.CalculateTextureXAxisAbsoluteOffset
 import tv.pluto.dynamic.cropping.android.logic.Height
-import tv.pluto.dynamic.cropping.android.logic.InfiniteCoordinatesProvider
+import tv.pluto.dynamic.cropping.android.logic.IndexBasedCoordinatesProvider
 import tv.pluto.dynamic.cropping.android.logic.ScaleCoordinate
 import tv.pluto.dynamic.cropping.android.logic.Size
 import tv.pluto.dynamic.cropping.android.logic.VideoResolution
@@ -33,11 +36,13 @@ class DynamicCroppingPlayerIntegration(
     private val mainDispatcher: CoroutineDispatcher,
     private val textureView: TextureView,
     private val staticMetadata: Metadata,
+    private val initialPlaybackPositionMs: Long,
     val onPlaybackPositionChanged: (Long) -> Unit,
 ) : DefaultLifecycleObserver {
 
     private var exoPlayer: ExoPlayer? = null
     private var playbackState: PlaybackState = PlaybackState.PausedForegrounded
+    private var currentFrameRate: Float = 0f
 
     init {
         lifecycleOwner.lifecycle.addObserver(this)
@@ -60,11 +65,10 @@ class DynamicCroppingPlayerIntegration(
 
     fun play(startFromPositionMs: Long) {
         if (playbackState != PlaybackState.PlayingForegrounded) {
-            android.util.Log.d("test-seeking", "DynamicCroppingPlayerIntegration($this), ${staticMetadata.title.value}, seekTo: $startFromPositionMs")
             playbackState = PlaybackState.PlayingForegrounded
             exoPlayer?.apply {
-                play()
                 seekTo(startFromPositionMs)
+                play()
             }
         }
     }
@@ -112,7 +116,7 @@ class DynamicCroppingPlayerIntegration(
             exoPlayer.setVideoTextureView(textureView)
 
             val dynamicCroppingCalculation = DynamicCroppingCalculation(
-                InfiniteCoordinatesProvider(staticMetadata.coordinates()),
+                IndexBasedCoordinatesProvider(staticMetadata.coordinates()),
                 textureView,
                 CalculateTextureXAxisAbsoluteOffset(ScaleCoordinate(), CalculateOffScreenOffset()),
                 CalculateNewTextureSize(),
@@ -121,7 +125,11 @@ class DynamicCroppingPlayerIntegration(
             exoPlayer.setVideoFrameMetadataListener { _, _, _, _ ->
                 lifecycleOwner.lifecycleScope.launch(mainDispatcher) {
                     onPlaybackPositionChanged(exoPlayer.currentPosition)
-                    dynamicCroppingCalculation.onNewFrame()
+
+                    val currentPositionMs = exoPlayer.currentPosition
+                    val currentFrame = ((currentPositionMs / 1000.0) * currentFrameRate)
+
+                    dynamicCroppingCalculation.onNewFrame(currentFrame.roundToInt())
                 }
             }
 
@@ -130,6 +138,21 @@ class DynamicCroppingPlayerIntegration(
                     lifecycleOwner.lifecycleScope.launch(mainDispatcher) {
                         val resolution = VideoResolution(Size(Width(videoSize.width), Height(videoSize.height)))
                         dynamicCroppingCalculation.applyInitialSetupOfTexture(resolution)
+                    }
+                }
+
+                override fun onTracksChanged(tracks: Tracks) {
+                    lifecycleOwner.lifecycleScope.launch(mainDispatcher) {
+                        val trackGroups = tracks.groups
+                        for (i in 0 until trackGroups.size) {
+                            val trackGroup = trackGroups[i]
+                            for (j in 0 until trackGroup.length) {
+                                val format = trackGroup.getTrackFormat(j)
+                                if (MimeTypes.isVideo(format.sampleMimeType)) {
+                                    currentFrameRate = format.frameRate
+                                }
+                            }
+                        }
                     }
                 }
             })
@@ -157,6 +180,7 @@ class DynamicCroppingPlayerIntegration(
         exoPlayer?.apply {
             setMediaItem(mediaItem)
             prepare()
+            seekTo(initialPlaybackPositionMs)
         }
     }
 

@@ -2,15 +2,14 @@ package tv.pluto.dynamic.cropping.android.logic
 
 import org.junit.Assert
 import org.junit.Test
-import tv.pluto.dynamic.cropping.android.logic.InfiniteCoordinatesProvider
 
-class InfiniteCoordinatesProviderTest {
+class InfiniteCoordinatesProviderImplTest {
 
     @Test
     fun test_1() {
         // given
         val array = doubleArrayOf(1.0, 2.0, 3.0)
-        val tested = InfiniteCoordinatesProvider(array)
+        val tested = InfiniteCoordinatesProviderImpl(array)
 
         // when
         val result1 = tested.getNextCoordinate()

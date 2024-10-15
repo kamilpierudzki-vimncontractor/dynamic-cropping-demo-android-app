@@ -38,6 +38,7 @@ fun DynamicCroppingVideoComponent(
                         mainDispatcher = Dispatchers.Main,
                         textureView = textureView,
                         staticMetadata = staticMetadata,
+                        initialPlaybackPositionMs = playbackPositionMs,
                         onPlaybackPositionChanged = onPlaybackPositionChanged,
                     )
                 }

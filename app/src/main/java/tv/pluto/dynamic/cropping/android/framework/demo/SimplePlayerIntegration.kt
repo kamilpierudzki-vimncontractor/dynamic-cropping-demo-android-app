@@ -94,7 +94,6 @@ class SimplePlayerIntegration(
             setMediaItem(mediaItem)
             prepare()
             play()
-            android.util.Log.d("test-seeking", "SimplePlayerIntegration, seekTo: $initialPlaybackPositionMs")
             seekTo(initialPlaybackPositionMs)
         }
     }
