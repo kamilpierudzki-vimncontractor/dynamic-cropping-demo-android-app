@@ -34,6 +34,7 @@ private val backgroundGradientColors = listOf(
     Color.DarkGray,
     Color.Black,
 )
+private val backgroundColor = Color.Black
 
 private val alpha = 0.7f
 private val gradientOnVideos = listOf(
@@ -57,12 +58,13 @@ fun HomeScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
                 modifier = Modifier
                     .padding(innerPadding)
                     .fillMaxSize()
-                    .background(brush = Brush.verticalGradient(backgroundGradientColors)),
+                    .background(color = backgroundColor),
             ) {
                 val lazyListState = rememberLazyListState()
                 val snapBehavior = rememberSnapFlingBehavior(lazyListState)
                 var lastSelectedIndex by remember { mutableIntStateOf(-1) }
                 val videoPlayingStates by videoPlaybackViewModel.videoPlayingStates
+                val videoPositionStates by videoPlaybackViewModel.videoPositionStates
 
                 LazyColumn(
                     modifier = Modifier.matchParentSize(),
@@ -90,18 +92,20 @@ fun HomeScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
                                     val firstFullyVisibleItemInfoIndex = fullyVisibleItems.firstOrNull()?.index ?: 0
                                     if (lastSelectedIndex != firstFullyVisibleItemInfoIndex) {
                                         lastSelectedIndex = firstFullyVisibleItemInfoIndex
-                                        videoPlaybackViewModel.updateCurrentlyPlayingVideo(lastSelectedIndex)
+                                        videoPlaybackViewModel.onIndexOfPlayingComponentChanged(lastSelectedIndex)
                                     }
                                 }
                         }
 
                         val videoPlayingState = videoPlayingStates[globalIndex] ?: false
+                        val videoPositionState = videoPositionStates[globalIndex] ?: 0
 
                         CardComponent(
                             staticMetadata = videoPlaybackViewModel.metadatas[globalIndex],
                             playbackState = videoPlayingState,
+                            initialPlaybackPositionMs = videoPositionState,
                             onPlaybackPositionChanged = { newPositionMs ->
-                                videoPlaybackViewModel.updateVideoPosition(globalIndex, newPositionMs)
+                                videoPlaybackViewModel.onVideoPositionChanged(globalIndex, newPositionMs)
                             }
                         )
                     }

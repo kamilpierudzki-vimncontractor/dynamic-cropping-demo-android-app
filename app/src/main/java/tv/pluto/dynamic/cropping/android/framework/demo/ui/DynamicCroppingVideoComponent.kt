@@ -19,6 +19,7 @@ fun DynamicCroppingVideoComponent(
     lifecycleOwner: LifecycleOwner,
     staticMetadata: Metadata,
     playbackState: Boolean,
+    initialPlaybackPositionMs: Long,
     modifier: Modifier = Modifier,
     onPlaybackPositionChanged: (Long) -> Unit,
 ) {
@@ -39,6 +40,7 @@ fun DynamicCroppingVideoComponent(
                         mainDispatcher = Dispatchers.Main,
                         textureView = textureView,
                         staticMetadata = staticMetadata,
+                        initialPlaybackPositionMs = initialPlaybackPositionMs,
                         onPlaybackPositionChanged = onPlaybackPositionChanged,
                     )
                 }

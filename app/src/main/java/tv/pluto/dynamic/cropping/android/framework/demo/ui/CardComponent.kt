@@ -15,6 +15,7 @@ import tv.pluto.dynamic.cropping.android.framework.Metadata
 fun CardComponent(
     staticMetadata: Metadata,
     playbackState: Boolean,
+    initialPlaybackPositionMs: Long,
     modifier: Modifier = Modifier,
     onPlaybackPositionChanged: (Long) -> Unit,
 ) {
@@ -23,6 +24,7 @@ fun CardComponent(
             lifecycleOwner = LocalLifecycleOwner.current,
             staticMetadata = staticMetadata,
             playbackState = playbackState,
+            initialPlaybackPositionMs = initialPlaybackPositionMs,
             modifier = Modifier
                 .height(500.dp)
                 .clip(RoundedCornerShape(16.dp))

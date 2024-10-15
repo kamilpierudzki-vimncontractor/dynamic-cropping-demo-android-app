@@ -13,7 +13,6 @@ import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.upstream.RawResourceDataSource
 import com.google.android.exoplayer2.video.VideoSize
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import tv.pluto.dynamic.cropping.android.framework.DynamicCroppingCalculation
 import tv.pluto.dynamic.cropping.android.framework.Metadata
@@ -40,6 +39,7 @@ class DynamicCroppingPlayerIntegration(
     private val mainDispatcher: CoroutineDispatcher,
     private val textureView: TextureView,
     private val staticMetadata: Metadata,
+    private val initialPlaybackPositionMs: Long,
     val onPlaybackPositionChanged: (Long) -> Unit,
 ) : DefaultLifecycleObserver {
 
@@ -152,7 +152,8 @@ class DynamicCroppingPlayerIntegration(
                 }
             }
 
-            //            exoPlayer.seekTo(videoState.positionMs)
+            android.util.Log.d("test321", "seekTo: $initialPlaybackPositionMs")
+            exoPlayer.seekTo(initialPlaybackPositionMs)
         }
     }
 
