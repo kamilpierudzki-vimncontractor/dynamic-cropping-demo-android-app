@@ -37,7 +37,7 @@ class DynamicCroppingPlayerIntegration(
     private val textureView: TextureView,
     private val staticMetadata: Metadata,
     private val initialPlaybackPositionMs: Long,
-    val onPlaybackPositionChanged: (Long) -> Unit,
+    private val onPlaybackPositionChanged: (Long) -> Unit,
 ) : DefaultLifecycleObserver {
 
     private var exoPlayer: ExoPlayer? = null
@@ -150,6 +150,8 @@ class DynamicCroppingPlayerIntegration(
                                 val format = trackGroup.getTrackFormat(j)
                                 if (MimeTypes.isVideo(format.sampleMimeType)) {
                                     currentFrameRate = format.frameRate
+                                    val resolution = VideoResolution(Size(Width(format.width), Height(format.height)))
+                                    dynamicCroppingCalculation.applyInitialSetupOfTexture(resolution)
                                 }
                             }
                         }
