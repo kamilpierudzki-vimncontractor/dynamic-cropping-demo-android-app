@@ -1,59 +1,57 @@
 package tv.pluto.dynamic.cropping.android.experiments
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.layout.Layout
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import tv.pluto.dynamic.cropping.android.R
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 
-@Preview
 @Composable
-private fun UiTest() {
-    Box(
-        modifier = Modifier
-            .size(500.dp, 500.dp)
-            .background(Color.Red)
-    ) {
-        Box(
+private fun UiTest(modifier: Modifier) {
+    ConstraintLayout(modifier = modifier.background(Color.Magenta)) {
+        val (videoComponent, metadataComponent) = createRefs()
+
+        VideoComponent(
             modifier = Modifier
-                .size(200.dp, 400.dp)
-                .background(Color.Blue)
-                .align(Alignment.Center)
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.car),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(300.dp, 200.dp)
-                    .graphicsLayer(clip = false)
-                    .background(Color.Green.copy(alpha = 1.0f))
-                    .align(Alignment.Center)
-            )
-        }
+                .constrainAs(videoComponent) {
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                }
+                .background(Color.Green)
+        )
+
+        Spacer(
+            modifier = Modifier
+                .constrainAs(metadataComponent) {
+                    start.linkTo(videoComponent.start)
+                    end.linkTo(videoComponent.end)
+                    bottom.linkTo(videoComponent.bottom)
+                    width = Dimension.fillToConstraints
+                }
+                .background(Color.Blue.copy(alpha = 0.5f))
+                .padding(16.dp)
+        )
     }
 }
 
 @Composable
-fun CustomLayout(
-    modifier: Modifier = Modifier,
-    content: @Composable () -> Unit,
-) {
-    Layout(
-        modifier = modifier,
-        content = content
-    ) { measurables, constraints ->
-        val placeable = measurables[0].measure(constraints)
-        layout(constraints.maxWidth, constraints.maxHeight) {
-            placeable.placeRelative(-50, 0) // Przesunięcie o 50 dp w lewo
-        }
-    }
+private fun VideoComponent(modifier: Modifier = Modifier) {
+    Spacer(modifier = modifier
+        .size(300.dp, 500.dp)
+        .background(Color.Green)
+    )
+}
+
+@Preview
+@Composable
+fun UiTestPrev() {
+    UiTest(modifier = Modifier.size(500.dp, 500.dp))
 }

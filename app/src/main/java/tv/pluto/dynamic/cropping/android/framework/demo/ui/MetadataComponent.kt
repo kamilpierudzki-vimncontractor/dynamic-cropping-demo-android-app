@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Icon
@@ -40,9 +39,7 @@ fun MetadataComponent(
     details: String,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier.padding(40.dp),
-    ) {
+    Column(modifier = modifier.padding(8.dp)) {
         Text(
             text = title,
             fontFamily = plutoTVSans10,
@@ -107,9 +104,9 @@ fun MetadataComponent(
 private fun MetadataComponentPreview1() {
     MetadataComponent(
         title = "Indiana Jones And The Kingdom Of The Crystal Skull",
-        details = "Drama R 1h 47m",
+        details = "Drama R 1H 47M",
         modifier = Modifier
-            .width(360.dp)
+            .size(500.dp)
             .background(Color.Black),
     )
 }
