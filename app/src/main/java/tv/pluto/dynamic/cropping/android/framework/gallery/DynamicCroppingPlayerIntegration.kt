@@ -14,12 +14,12 @@ import com.google.android.exoplayer2.video.VideoSize
 import tv.pluto.dynamic.cropping.android.framework.DynamicCroppingCalculation
 import tv.pluto.dynamic.cropping.android.framework.gallery.ui.GalleryScreenInput
 import tv.pluto.dynamic.cropping.android.logic.CalculateNewTextureSize
+import tv.pluto.dynamic.cropping.android.logic.CalculateOffScreenOffset
+import tv.pluto.dynamic.cropping.android.logic.CalculateTextureXAxisAbsoluteOffset
 import tv.pluto.dynamic.cropping.android.logic.Height
 import tv.pluto.dynamic.cropping.android.logic.InfiniteCoordinatesProvider
-import tv.pluto.dynamic.cropping.android.logic.CalculateOffScreenOffset
 import tv.pluto.dynamic.cropping.android.logic.ScaleCoordinate
 import tv.pluto.dynamic.cropping.android.logic.Size
-import tv.pluto.dynamic.cropping.android.logic.CalculateTextureXAxisAbsoluteOffset
 import tv.pluto.dynamic.cropping.android.logic.VideoResolution
 import tv.pluto.dynamic.cropping.android.logic.Width
 
@@ -66,18 +66,19 @@ class DynamicCroppingPlayerIntegration(
 
             val dynamicCroppingCalculation = DynamicCroppingCalculation(
                 InfiniteCoordinatesProvider(coordinates),
+                textureView,
                 CalculateTextureXAxisAbsoluteOffset(ScaleCoordinate(), CalculateOffScreenOffset()),
                 CalculateNewTextureSize(),
             )
 
             exoPlayer.setVideoFrameMetadataListener { _, _, _, _ ->
-                dynamicCroppingCalculation.onNewFrame(textureView)
+                dynamicCroppingCalculation.onNewFrame()
             }
 
             exoPlayer.addListener(object : Player.Listener {
                 override fun onVideoSizeChanged(videoSize: VideoSize) {
                     val resolution = VideoResolution(Size(Width(videoSize.width), Height(videoSize.height)))
-                    dynamicCroppingCalculation.applyInitialSetupOfTexture(textureView, resolution)
+                    dynamicCroppingCalculation.applyInitialSetupOfTexture(resolution)
                 }
             })
 

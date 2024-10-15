@@ -8,29 +8,34 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import tv.pluto.dynamic.cropping.android.framework.Video
-import tv.pluto.dynamic.cropping.android.framework.demo.DynamicCroppingPlayerIntegration
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import tv.pluto.dynamic.cropping.android.framework.Metadata
 
 @Composable
 fun CardComponent(
-    dynamicCroppingPlayerIntegration: DynamicCroppingPlayerIntegration,
+    staticMetadata: Metadata,
+    playbackState: Boolean,
     modifier: Modifier = Modifier,
+    onPlaybackPositionChanged: (Long) -> Unit,
 ) {
     Box(modifier = modifier) {
         DynamicCroppingVideoComponent(
-            dynamicCroppingPlayerIntegration = dynamicCroppingPlayerIntegration,
+            lifecycleOwner = LocalLifecycleOwner.current,
+            staticMetadata = staticMetadata,
+            playbackState = playbackState,
             modifier = Modifier
                 .height(500.dp)
                 .clip(RoundedCornerShape(16.dp))
                 .align(Alignment.Center),
+            onPlaybackPositionChanged = onPlaybackPositionChanged,
         )
         MetadataComponent(
-            title = dynamicCroppingPlayerIntegration.video.title.value,
-            details = dynamicCroppingPlayerIntegration.video.formattedMetadata(),
+            title = staticMetadata.title.value,
+            details = staticMetadata.formattedMetadata(),
             modifier = Modifier.align(Alignment.BottomCenter),
         )
     }
 }
 
-private fun Video.formattedMetadata(): String =
+private fun Metadata.formattedMetadata(): String =
     "${year.value} ${genre.value} ${rating.value} ${time.value}"

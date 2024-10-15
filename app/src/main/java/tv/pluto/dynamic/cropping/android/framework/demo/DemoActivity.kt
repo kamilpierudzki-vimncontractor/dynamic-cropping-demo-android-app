@@ -1,28 +1,23 @@
 package tv.pluto.dynamic.cropping.android.framework.demo
 
-import android.app.Activity
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.Dispatchers
+import androidx.activity.viewModels
+import tv.pluto.dynamic.cropping.android.framework.VideoPlaybackViewModel
 import tv.pluto.dynamic.cropping.android.framework.demo.ui.DemoApp
-import tv.pluto.dynamic.cropping.android.framework.getLocalVideos
 import tv.pluto.dynamic.cropping.android.framework.theme.StaticCroppingDemoTheme
 
 class DemoActivity : ComponentActivity() {
 
-    private lateinit var dynamicCroppingPlayerIntegrations: List<DynamicCroppingPlayerIntegration>
+    private val videoPlaybackViewModel: VideoPlaybackViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        lifecycle.addObserver(videoPlaybackViewModel)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        dynamicCroppingPlayerIntegrations = createDynamicCroppingPlayerIntegrations(this)
-            .onEach {
-                lifecycle.addObserver(it)
-            }
         setupUi()
     }
 
@@ -30,20 +25,8 @@ class DemoActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             StaticCroppingDemoTheme {
-                DemoApp(
-                    dynamicCroppingPlayerIntegrations = dynamicCroppingPlayerIntegrations,
-                )
+                DemoApp(videoPlaybackViewModel = videoPlaybackViewModel)
             }
         }
     }
-
-    private fun createDynamicCroppingPlayerIntegrations(activity: Activity): List<DynamicCroppingPlayerIntegration> =
-        getLocalVideos().map { video ->
-            DynamicCroppingPlayerIntegration(
-                lifecycleCoroutineScope = lifecycleScope,
-                mainDispatcher = Dispatchers.Main,
-                activity = activity,
-                video = video,
-            )
-        }
 }

@@ -25,7 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import tv.pluto.dynamic.cropping.android.framework.demo.DynamicCroppingPlayerIntegration
+import tv.pluto.dynamic.cropping.android.framework.VideoPlaybackViewModel
 
 private val backgroundGradientColors = listOf(
     Color.Black,
@@ -49,9 +49,7 @@ private val gradientOnVideos = listOf(
 )
 
 @Composable
-fun HomeScreen(
-    dynamicCroppingPlayerIntegrations: List<DynamicCroppingPlayerIntegration>
-) {
+fun HomeScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         content = { innerPadding ->
@@ -64,6 +62,7 @@ fun HomeScreen(
                 val lazyListState = rememberLazyListState()
                 val snapBehavior = rememberSnapFlingBehavior(lazyListState)
                 var lastSelectedIndex by remember { mutableIntStateOf(-1) }
+                val videoPlayingStates by videoPlaybackViewModel.videoPlayingStates
 
                 LazyColumn(
                     modifier = Modifier.matchParentSize(),
@@ -73,16 +72,8 @@ fun HomeScreen(
                     verticalArrangement = Arrangement.spacedBy(32.dp),
                     contentPadding = PaddingValues(top = 64.dp, bottom = 64.dp),
                 ) {
-                    items(dynamicCroppingPlayerIntegrations.size) { index ->
-                        /*LaunchedEffect(key1 = index) {
-                            dynamicCroppingPlayerIntegrations.getOrNull(index)?.play()
-                        }*/
-                        /*DisposableEffect(key1 = index) {
-                            onDispose {
-                                dynamicCroppingPlayerIntegrations.getOrNull(index)?.pause()
-                            }
-                        }*/
 
+                    items(videoPlaybackViewModel.metadatas.size) { globalIndex ->
                         LaunchedEffect(lazyListState) {
                             snapshotFlow { lazyListState.layoutInfo }
                                 .collect { layoutInfo ->
@@ -99,16 +90,19 @@ fun HomeScreen(
                                     val firstFullyVisibleItemInfoIndex = fullyVisibleItems.firstOrNull()?.index ?: 0
                                     if (lastSelectedIndex != firstFullyVisibleItemInfoIndex) {
                                         lastSelectedIndex = firstFullyVisibleItemInfoIndex
-                                        dynamicCroppingPlayerIntegrations.getOrNull(lastSelectedIndex)?.play()
-                                        dynamicCroppingPlayerIntegrations
-                                            .filterIndexed { managerIndex, _ -> managerIndex != lastSelectedIndex }
-                                            .forEach { manager -> manager.pause() }
+                                        videoPlaybackViewModel.updateCurrentlyPlayingVideo(lastSelectedIndex)
                                     }
                                 }
                         }
 
+                        val videoPlayingState = videoPlayingStates[globalIndex] ?: false
+
                         CardComponent(
-                            dynamicCroppingPlayerIntegration = dynamicCroppingPlayerIntegrations[index],
+                            staticMetadata = videoPlaybackViewModel.metadatas[globalIndex],
+                            playbackState = videoPlayingState,
+                            onPlaybackPositionChanged = { newPositionMs ->
+                                videoPlaybackViewModel.updateVideoPosition(globalIndex, newPositionMs)
+                            }
                         )
                     }
                 }

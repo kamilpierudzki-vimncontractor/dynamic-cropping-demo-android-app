@@ -1,6 +1,5 @@
 package tv.pluto.dynamic.cropping.android.framework.demo.ui
 
-import android.view.TextureView
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -9,36 +8,51 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.lifecycle.LifecycleOwner
+import kotlinx.coroutines.Dispatchers
 import tv.pluto.dynamic.cropping.android.framework.FixedAspectTextureView
+import tv.pluto.dynamic.cropping.android.framework.Metadata
 import tv.pluto.dynamic.cropping.android.framework.demo.DynamicCroppingPlayerIntegration
 
 @Composable
 fun DynamicCroppingVideoComponent(
-    dynamicCroppingPlayerIntegration: DynamicCroppingPlayerIntegration,
+    lifecycleOwner: LifecycleOwner,
+    staticMetadata: Metadata,
+    playbackState: Boolean,
     modifier: Modifier = Modifier,
+    onPlaybackPositionChanged: (Long) -> Unit,
 ) {
-    var lastTextureView by remember { mutableStateOf<TextureView?>(null) }
+    var dynamicCroppingPlayerIntegration by remember { mutableStateOf<DynamicCroppingPlayerIntegration?>(null) }
 
     AndroidView(
         modifier = modifier.clipToBounds(),
         factory = { context ->
-            android.util.Log.d("test123", "factory {}, ${dynamicCroppingPlayerIntegration.video.title}")
+            android.util.Log.d("test123", "factory {}, ${staticMetadata.title}")
             FixedAspectTextureView(context)
                 .apply {
                     setAspectRatio(10, 16)
                 }
                 .also { textureView ->
-                    lastTextureView = textureView
+                    dynamicCroppingPlayerIntegration = DynamicCroppingPlayerIntegration(
+                        lifecycleOwner = lifecycleOwner,
+                        context = context,
+                        mainDispatcher = Dispatchers.Main,
+                        textureView = textureView,
+                        staticMetadata = staticMetadata,
+                        onPlaybackPositionChanged = onPlaybackPositionChanged,
+                    )
                 }
         },
         onRelease = {
-            android.util.Log.d("test123", "onRelease {}, ${dynamicCroppingPlayerIntegration.video.title}")
-            dynamicCroppingPlayerIntegration.onUiReleased()
+            android.util.Log.d("test123", "onRelease {}, ${staticMetadata.title}")
+            dynamicCroppingPlayerIntegration?.destroy()
         },
         update = {
-            android.util.Log.d("test123", "update {}, ${dynamicCroppingPlayerIntegration.video.title}")
-            lastTextureView?.let {
-                dynamicCroppingPlayerIntegration.onUiCreated(it)
+            android.util.Log.d("test123", "update {}, ${staticMetadata.title}, play: ${playbackState}")
+            if (playbackState) {
+                dynamicCroppingPlayerIntegration?.play()
+            } else {
+                dynamicCroppingPlayerIntegration?.pause()
             }
         }
     )
