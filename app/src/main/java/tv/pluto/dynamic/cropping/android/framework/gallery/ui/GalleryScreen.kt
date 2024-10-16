@@ -1,47 +1,21 @@
 package tv.pluto.dynamic.cropping.android.framework.gallery.ui
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
-import tv.pluto.dynamic.cropping.android.framework.FixedAspectTextureView
-import tv.pluto.dynamic.cropping.android.framework.gallery.DynamicCroppingPlayerIntegration
-
-data class GalleryScreenInput(val coordinates: DoubleArray, val videoResId: Int) {
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as GalleryScreenInput
-
-        if (!coordinates.contentEquals(other.coordinates)) return false
-        if (videoResId != other.videoResId) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = coordinates.contentHashCode()
-        result = 31 * result + videoResId
-        return result
-    }
-}
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import tv.pluto.dynamic.cropping.android.framework.Metadata
+import tv.pluto.dynamic.cropping.android.framework.ui.DynamicCroppingVideoComponent
 
 @Composable
 fun GalleryScreen(
-    dynamicCroppingPlayerIntegration: DynamicCroppingPlayerIntegration,
-    galleryScreenInput: GalleryScreenInput,
+    metadata: Metadata,
     onBack: () -> Unit,
 ) {
     Scaffold { contentPadding ->
@@ -50,8 +24,14 @@ fun GalleryScreen(
             .padding(16.dp)
             .fillMaxSize()) {
             DynamicCroppingVideoComponent(
-                dynamicCroppingPlayerIntegration = dynamicCroppingPlayerIntegration,
-                galleryScreenInput = galleryScreenInput,
+                lifecycleOwner = LocalLifecycleOwner.current,
+                staticMetadata = metadata,
+                playbackState = true,
+                playbackPositionMs = 0,
+                coordinateIndex = 0,
+                onPlaybackPositionChanged = {},
+                onCoordinateIndexConsumed = {},
+                onVideoEnded = {},
                 modifier = Modifier
                     .fillMaxSize()
                     .align(Alignment.Center),
@@ -59,30 +39,4 @@ fun GalleryScreen(
         }
     }
     BackHandler(onBack = onBack)
-}
-
-@Composable
-private fun DynamicCroppingVideoComponent(
-    dynamicCroppingPlayerIntegration: DynamicCroppingPlayerIntegration,
-    galleryScreenInput: GalleryScreenInput,
-    modifier: Modifier,
-) {
-    AndroidView(
-        modifier = modifier
-            .clipToBounds()
-            .fillMaxWidth()
-            .background(Color.Red),
-        factory = { context ->
-            FixedAspectTextureView(context)
-                .apply {
-                    setAspectRatio(9, 16)
-                }
-                .also { textureView ->
-                    dynamicCroppingPlayerIntegration.initializeAndStartPlayback(
-                        textureView,
-                        galleryScreenInput,
-                    )
-                }
-        },
-    )
 }

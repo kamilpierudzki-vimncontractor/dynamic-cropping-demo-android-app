@@ -16,11 +16,13 @@ class InfiniteCoordinatesProviderImplTest {
         val result2 = tested.getNextCoordinate()
         val result3 = tested.getNextCoordinate()
         val result4 = tested.getNextCoordinate()
+        val result5 = tested.getNextCoordinate()
 
         // then
         Assert.assertEquals(1.0, result1, 0.0)
         Assert.assertEquals(2.0, result2, 0.0)
         Assert.assertEquals(3.0, result3, 0.0)
         Assert.assertEquals(1.0, result4, 0.0)
+        Assert.assertEquals(2.0, result5, 0.0)
     }
 }

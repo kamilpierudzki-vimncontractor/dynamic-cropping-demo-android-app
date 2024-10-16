@@ -1,12 +1,12 @@
 package tv.pluto.dynamic.cropping.android.framework
 
+import com.google.gson.annotations.SerializedName
 import tv.pluto.dynamic.cropping.android.R
 import tv.pluto.dynamic.cropping.android.logic.Genre
 import tv.pluto.dynamic.cropping.android.logic.Rating
 import tv.pluto.dynamic.cropping.android.logic.Time
 import tv.pluto.dynamic.cropping.android.logic.Title
 import tv.pluto.dynamic.cropping.android.logic.Year
-import tv.pluto.dynamic.cropping.android.logic.coords.benchmarkCoordinates
 import tv.pluto.dynamic.cropping.android.logic.coords.gIJoeRetaliationCoordinates
 import tv.pluto.dynamic.cropping.android.logic.coords.gladiatorCoordinates
 import tv.pluto.dynamic.cropping.android.logic.coords.indianaJonesAndTheKingdomOfTheCrystalSkullCoordinates
@@ -19,13 +19,13 @@ import tv.pluto.dynamic.cropping.android.logic.coords.transformersRevengeOfTheFa
 import tv.pluto.dynamic.cropping.android.logic.coords.transformersRiseOfTheBeastsCoordinates
 
 sealed class Metadata(
-    val title: Title,
-    val genre: Genre,
-    val year: Year,
-    val rating: Rating,
-    val time: Time,
-    val coordinates: () -> DoubleArray,
-    val videoResId: Int,
+    @SerializedName("title") val title: Title,
+    @SerializedName("genre") val genre: Genre,
+    @SerializedName("year") val year: Year,
+    @SerializedName("rating") val rating: Rating,
+    @SerializedName("time") val time: Time,
+    @SerializedName("coordinates") val coordinates: DoubleArray,
+    @SerializedName("videoResId") val videoResId: Int
 ) {
     data object Empty: Metadata(
         Title(""),
@@ -33,18 +33,8 @@ sealed class Metadata(
         Year(""),
         Rating(""),
         Time(""),
-        { doubleArrayOf() },
-        R.raw.benchmark,
-    )
-
-    data object Benchmark : Metadata(
-        Title("Benchmark"),
-        Genre("X"),
-        Year("X"),
-        Rating("X"),
-        Time("X"),
-        { benchmarkCoordinates },
-        R.raw.benchmark,
+        doubleArrayOf(),
+        R.raw.pain_and_gain,
     )
 
     data object Terminator2JudgmentDay : Metadata(
@@ -53,7 +43,7 @@ sealed class Metadata(
         Year("1991"),
         Rating("R"),
         Time("2H 17M"),
-        { terminator2JudgementDayCoordinates },
+        terminator2JudgementDayCoordinates,
         R.raw.terminator_2_judgment_day,
     )
 
@@ -63,7 +53,7 @@ sealed class Metadata(
         Year("2000"),
         Rating("R"),
         Time("2H 34M"),
-        { gladiatorCoordinates },
+        gladiatorCoordinates,
         R.raw.gladiator,
     )
 
@@ -73,7 +63,7 @@ sealed class Metadata(
         Year("2021"),
         Rating("PG-13"),
         Time("2H 1M"),
-        { snakeEyesGiJoeOriginsCoordinates },
+        snakeEyesGiJoeOriginsCoordinates ,
         R.raw.snake_eyes_gi_joe_origins,
     )
 
@@ -83,7 +73,7 @@ sealed class Metadata(
         Year("2009"),
         Rating("PG-13"),
         Time("2H 29M"),
-        { transformersRevengeOfTheFallenCoordinates },
+        transformersRevengeOfTheFallenCoordinates,
         R.raw.transformers_revenge_of_the_fallen,
     )
 
@@ -93,7 +83,7 @@ sealed class Metadata(
         Year("1981"),
         Rating("PG-13"),
         Time("1H 55M"),
-        { indianaJonesAndTheRaidersOfTheLostArkCoordinates },
+        indianaJonesAndTheRaidersOfTheLostArkCoordinates,
         R.raw.indiana_jones_and_the_raiders_of_the_lost_ark,
     )
 
@@ -103,7 +93,7 @@ sealed class Metadata(
         Year("1998"),
         Rating("R"),
         Time("2H 49M"),
-        { savingPrivateRyanCoordinates },
+        savingPrivateRyanCoordinates,
         R.raw.saving_private_ryan,
     )
 
@@ -113,7 +103,7 @@ sealed class Metadata(
         Year("2013"),
         Rating("R"),
         Time("1H 50M"),
-        { gIJoeRetaliationCoordinates },
+        gIJoeRetaliationCoordinates,
         R.raw.gi_joe_retaliation,
     )
 
@@ -123,7 +113,7 @@ sealed class Metadata(
         Year("2008"),
         Rating("PG-13"),
         Time("2H 2M"),
-        { indianaJonesAndTheKingdomOfTheCrystalSkullCoordinates },
+        indianaJonesAndTheKingdomOfTheCrystalSkullCoordinates,
         R.raw.indiana_jones_and_the_kingdom_of_the_crystal_skull,
     )
 
@@ -133,7 +123,7 @@ sealed class Metadata(
         Year("2023"),
         Rating("PG-13"),
         Time("2H 7M"),
-        { transformersRiseOfTheBeastsCoordinates },
+        transformersRiseOfTheBeastsCoordinates,
         R.raw.transformers_rise_of_the_beasts,
     )
 
@@ -143,7 +133,7 @@ sealed class Metadata(
         Year("2013"),
         Rating("R"),
         Time("2H 9M"),
-        { painAndGainCoordinates },
+        painAndGainCoordinates,
         R.raw.pain_and_gain,
     )
 }

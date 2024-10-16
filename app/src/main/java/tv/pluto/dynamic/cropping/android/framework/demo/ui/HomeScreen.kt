@@ -65,6 +65,7 @@ fun HomeScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
                 var lastSelectedIndex by remember { mutableIntStateOf(-1) }
                 val videoPlayingStates by videoPlaybackViewModel.videoPlayingStates
                 val videoPositionStates by videoPlaybackViewModel.videoPositionStates
+                val coordinateIndicesStates by videoPlaybackViewModel.consumedCoordinateIndicesStates
 
                 LazyColumn(
                     modifier = Modifier.matchParentSize(),
@@ -97,16 +98,24 @@ fun HomeScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
                                 }
                         }
 
-                        val videoPlayingState = videoPlayingStates[globalIndex] ?: false
+                        val videoPlaying = videoPlayingStates[globalIndex] ?: false
                         val playbackPositionMs = videoPositionStates[globalIndex] ?: 0
+                        val coordinateIndex = coordinateIndicesStates[globalIndex] ?: 0
 
-                        CardComponentV2(
+                        CardComponent(
                             staticMetadata = videoPlaybackViewModel.metadatas[globalIndex],
-                            playbackState = videoPlayingState,
+                            playbackState = videoPlaying,
                             playbackPositionMs = playbackPositionMs,
+                            coordinateIndex = coordinateIndex,
                             onPlaybackPositionChanged = { newPositionMs ->
                                 videoPlaybackViewModel.onVideoPositionChanged(globalIndex, newPositionMs)
-                            }
+                            },
+                            onCoordinateIndexConsumed = { consumedIndexOfCoordinate ->
+                                videoPlaybackViewModel.onCoordinateIndexConsumed(globalIndex, consumedIndexOfCoordinate)
+                            },
+                            onVideoEnded = {
+                                videoPlaybackViewModel.onVideoEnded(globalIndex)
+                            },
                         )
                     }
                 }

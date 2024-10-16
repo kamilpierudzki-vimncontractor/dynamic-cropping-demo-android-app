@@ -30,13 +30,13 @@ fun SelectionScreen(onVideoSelected: (Metadata) -> Unit) {
                 .fillMaxSize()
                 .verticalScroll(state = scrollState),
         ) {
-            (LocalVideos + Metadata.Benchmark)
-                .forEach { video ->
+            LocalVideos
+                .forEach { metadata ->
                     TextButton(
-                        onClick = { onVideoSelected(video) }
+                        onClick = { onVideoSelected(metadata) }
                     ) {
                         Text(
-                            text = video.title.value,
+                            text = metadata.title.value,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(16.dp),

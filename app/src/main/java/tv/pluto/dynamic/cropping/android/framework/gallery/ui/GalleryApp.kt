@@ -2,58 +2,51 @@ package tv.pluto.dynamic.cropping.android.framework.gallery.ui
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.google.gson.Gson
-import tv.pluto.dynamic.cropping.android.framework.gallery.DynamicCroppingPlayerIntegration
+import androidx.navigation.navArgument
+import tv.pluto.dynamic.cropping.android.framework.LocalVideos
 
-sealed class NavigationScreen(val name: String) {
+sealed class NavigationScreen(val route: String) {
     data object Selection : NavigationScreen("selection")
-    data object Gallery : NavigationScreen("clip")
+    data object Gallery : NavigationScreen("video/{title}") {
+
+        fun passTitle(title: String): String {
+            return "video/$title"
+        }
+    }
 }
 
 @Composable
-fun GalleryApp(
-    dynamicCroppingPlayerIntegration: DynamicCroppingPlayerIntegration,
-) {
+fun GalleryApp() {
     val navController: NavHostController = rememberNavController()
-    GalleryAppNavHost(
-        navController = navController,
-        dynamicCroppingPlayerIntegration = dynamicCroppingPlayerIntegration,
-    )
+    GalleryAppNavHost(navController = navController)
 }
 
 @Composable
-private fun GalleryAppNavHost(
-    navController: NavHostController,
-    dynamicCroppingPlayerIntegration: DynamicCroppingPlayerIntegration,
-) {
+private fun GalleryAppNavHost(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = NavigationScreen.Selection.name,
+        startDestination = NavigationScreen.Selection.route,
     ) {
-        composable(NavigationScreen.Selection.name) {
+        composable(NavigationScreen.Selection.route) {
             SelectionScreen(
-                onVideoSelected = { video ->
-                    val galleryScreenInput = GalleryScreenInput(
-                        coordinates = video.coordinates(),
-                        videoResId = video.videoResId,
-                    )
-                    val json = Gson().toJson(galleryScreenInput)
-                    navController.navigate(NavigationScreen.Gallery.name + "/$json")
+                onVideoSelected = { metadata ->
+                    navController.navigate(NavigationScreen.Gallery.passTitle(metadata.title.value))
                 }
             )
         }
 
-        composable(NavigationScreen.Gallery.name + "/{galleryScreenInput}") { backStackEntry ->
-            val json = backStackEntry.arguments?.getString("galleryScreenInput")
-            val galleryScreenInput = Gson().fromJson(json, GalleryScreenInput::class.java)
+        composable(
+            route = NavigationScreen.Gallery.route,
+            arguments = listOf(navArgument("title") { type = NavType.StringType }),
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title")
             GalleryScreen(
-                dynamicCroppingPlayerIntegration = dynamicCroppingPlayerIntegration,
-                galleryScreenInput = galleryScreenInput,
+                metadata = LocalVideos.first { it.title.value == title },
                 onBack = {
-                    dynamicCroppingPlayerIntegration.destroy()
                     navController.navigateUp()
                 }
             )
