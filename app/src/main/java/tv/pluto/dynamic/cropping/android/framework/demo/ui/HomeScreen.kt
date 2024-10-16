@@ -71,7 +71,7 @@ fun HomeScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
                     state = lazyListState,
                     flingBehavior = snapBehavior,
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(32.dp),
+                    verticalArrangement = Arrangement.spacedBy(24.dp),
                     contentPadding = PaddingValues(top = 64.dp, bottom = 64.dp),
                 ) {
 
