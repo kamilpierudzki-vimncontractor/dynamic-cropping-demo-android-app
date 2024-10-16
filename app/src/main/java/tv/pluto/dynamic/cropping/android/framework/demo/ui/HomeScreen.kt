@@ -127,7 +127,6 @@ fun HomeScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
                 TopSelectionComponent(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .wrapContentHeight()
                         .align(Alignment.TopStart),
                 )
                 BottomBarComponent(
