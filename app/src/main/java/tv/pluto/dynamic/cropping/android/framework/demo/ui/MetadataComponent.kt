@@ -1,7 +1,6 @@
 package tv.pluto.dynamic.cropping.android.framework.demo.ui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -39,7 +38,7 @@ fun MetadataComponent(
     details: String,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier.padding(8.dp)) {
+    Column(modifier = modifier.padding(start = 24.dp, end = 24.dp)) {
         Text(
             text = title,
             fontFamily = plutoTVSans10,
@@ -58,7 +57,6 @@ fun MetadataComponent(
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
                 onClick = {},
@@ -84,7 +82,9 @@ fun MetadataComponent(
             Icon(
                 painter = painterResource(id = R.drawable.icon_add),
                 contentDescription = null,
-                modifier = Modifier.size(24.dp),
+                modifier = Modifier
+                    .size(24.dp)
+                    .weight(1f),
                 tint = Color.White,
             )
             Icon(
