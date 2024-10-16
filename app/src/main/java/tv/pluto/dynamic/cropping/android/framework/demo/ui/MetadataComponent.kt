@@ -64,24 +64,22 @@ fun MetadataComponent(
                 onClick = {},
                 colors = watchNowButtonColors,
             ) {
-                Row {
-                    Icon(
-                        painter = painterResource(id = R.drawable.icon_watch_now),
-                        contentDescription = null,
-                    )
-                    Text(
-                        text = "Watch Now",
-                        fontFamily = plutoTVSans10,
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 16.sp,
-                        style = TextStyle(
-                            lineHeight = 16.sp,
-                        ),
-                        modifier = Modifier
-                            .align(Alignment.CenterVertically)
-                            .padding(start = 8.dp),
-                    )
-                }
+                Icon(
+                    painter = painterResource(id = R.drawable.icon_watch_now),
+                    contentDescription = null,
+                )
+                Text(
+                    text = "Watch Now",
+                    fontFamily = plutoTVSans10,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 16.sp,
+                    style = TextStyle(
+                        lineHeight = 16.sp,
+                    ),
+                    modifier = Modifier
+                        .align(Alignment.CenterVertically)
+                        .padding(start = 8.dp, bottom = 1.dp),
+                )
             }
             Icon(
                 painter = painterResource(id = R.drawable.icon_add),
