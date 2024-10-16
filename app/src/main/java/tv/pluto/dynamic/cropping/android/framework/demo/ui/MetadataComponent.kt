@@ -38,7 +38,7 @@ fun MetadataComponent(
     details: String,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier.padding(start = 24.dp, end = 24.dp)) {
+    Column(modifier = modifier.padding(start = 24.dp, end = 24.dp, bottom = 24.dp)) {
         Text(
             text = title,
             fontFamily = plutoTVSans10,
@@ -103,8 +103,6 @@ private fun MetadataComponentPreview1() {
     MetadataComponent(
         title = "Indiana Jones And The Kingdom Of The Crystal Skull",
         details = "Drama R 1H 47M",
-        modifier = Modifier
-            .size(500.dp)
-            .background(Color.Black),
+        modifier = Modifier.background(Color.Black),
     )
 }
