@@ -5,7 +5,6 @@ import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -21,32 +20,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import tv.pluto.dynamic.cropping.android.framework.VideoPlaybackViewModel
-
-private val backgroundGradientColors = listOf(
-    Color.Black,
-    Color.DarkGray,
-    Color.Gray,
-    Color.DarkGray,
-    Color.Black,
-)
-private val backgroundColor = Color.Black
-
-private val alpha = 0.7f
-private val gradientOnVideos = listOf(
-    Color.Black.copy(alpha = alpha),
-    Color.DarkGray.copy(alpha = alpha),
-    Color.Transparent,
-    Color.Transparent,
-    Color.Transparent,
-    Color.Transparent,
-    Color.Transparent,
-    Color.DarkGray.copy(alpha = alpha),
-    Color.Black.copy(alpha = alpha),
-)
 
 @Composable
 fun HomeScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
@@ -57,7 +33,7 @@ fun HomeScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
                 modifier = Modifier
                     .padding(innerPadding)
                     .fillMaxSize()
-                    .background(color = backgroundColor),
+                    .background(color = Color.Black),
             ) {
                 val lazyListState = rememberLazyListState()
                 val snapBehavior = rememberSnapFlingBehavior(lazyListState)
@@ -118,11 +94,6 @@ fun HomeScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
                         )
                     }
                 }
-                Spacer(
-                    modifier = Modifier
-                        .matchParentSize()
-                        .background(brush = Brush.verticalGradient(gradientOnVideos))
-                )
                 TopSelectionComponent(
                     modifier = Modifier
                         .fillMaxWidth()
