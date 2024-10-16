@@ -1,5 +1,6 @@
 package tv.pluto.dynamic.cropping.android.framework.ui
 
+import android.view.TextureView
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -11,7 +12,6 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.LifecycleOwner
 import kotlinx.coroutines.Dispatchers
 import tv.pluto.dynamic.cropping.android.framework.DynamicCroppingPlayerIntegration
-import tv.pluto.dynamic.cropping.android.framework.FixedAspectTextureView
 import tv.pluto.dynamic.cropping.android.framework.Metadata
 
 @Composable
@@ -30,10 +30,7 @@ fun DynamicCroppingVideoComponent(
 
     AndroidView(
         factory = { context ->
-            FixedAspectTextureView(context)
-                .apply {
-                    setAspectRatio(9, 16)
-                }
+            TextureView(context)
                 .also { textureView ->
                     dynamicCroppingPlayerIntegration = DynamicCroppingPlayerIntegration(
                         lifecycleOwner = lifecycleOwner,

@@ -1,6 +1,8 @@
 package tv.pluto.dynamic.cropping.android.framework.demo.ui
 
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -18,12 +20,15 @@ fun CardComponent(
     playbackState: Boolean,
     playbackPositionMs: Long,
     coordinateIndex: Int,
-    modifier: Modifier = Modifier,
     onPlaybackPositionChanged: (Long) -> Unit,
     onCoordinateIndexConsumed: (Int) -> Unit,
     onVideoEnded: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    ConstraintLayout(modifier = modifier) {
+    ConstraintLayout(
+        modifier = modifier
+            .padding(start = 24.dp, end = 24.dp),
+    ) {
         val (videoComponent, metadataComponent) = createRefs()
 
         DynamicCroppingVideoComponent(
@@ -32,6 +37,9 @@ fun CardComponent(
             playbackState = playbackState,
             playbackPositionMs = playbackPositionMs,
             coordinateIndex = coordinateIndex,
+            onPlaybackPositionChanged = onPlaybackPositionChanged,
+            onCoordinateIndexConsumed = onCoordinateIndexConsumed,
+            onVideoEnded = onVideoEnded,
             modifier = Modifier
                 .constrainAs(videoComponent) {
                     top.linkTo(parent.top)
@@ -39,11 +47,10 @@ fun CardComponent(
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                 }
-                .height(500.dp)
+                .aspectRatio(9f / 16f)
+                .fillMaxSize()
                 .clip(RoundedCornerShape(16.dp)),
-            onPlaybackPositionChanged = onPlaybackPositionChanged,
-            onCoordinateIndexConsumed = onCoordinateIndexConsumed,
-            onVideoEnded = onVideoEnded,
+
         )
         MetadataComponent(
             title = staticMetadata.title.value,
@@ -51,7 +58,7 @@ fun CardComponent(
             modifier = Modifier.constrainAs(metadataComponent) {
                 start.linkTo(videoComponent.start)
                 end.linkTo(videoComponent.end)
-                bottom.linkTo(parent.bottom)
+                bottom.linkTo(videoComponent.bottom)
                 width = Dimension.fillToConstraints
             },
         )
