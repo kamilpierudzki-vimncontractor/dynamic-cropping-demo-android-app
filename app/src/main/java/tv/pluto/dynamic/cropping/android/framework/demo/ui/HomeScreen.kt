@@ -16,12 +16,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 import tv.pluto.dynamic.cropping.android.framework.VideoPlaybackViewModel
 
 @Composable
@@ -38,6 +40,7 @@ fun HomeScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
                 val lazyListState = rememberLazyListState()
                 val snapBehavior = rememberSnapFlingBehavior(lazyListState)
                 var lastSelectedIndex by remember { mutableIntStateOf(-1) }
+                val coroutineScope = rememberCoroutineScope()
                 val videoPlayingStates by videoPlaybackViewModel.videoPlayingStates
                 val videoPositionStates by videoPlaybackViewModel.videoPositionStates
                 val coordinateIndicesStates by videoPlaybackViewModel.consumedCoordinateIndicesStates
@@ -49,8 +52,8 @@ fun HomeScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(24.dp),
                     contentPadding = PaddingValues(top = 64.dp, bottom = 64.dp),
+                    userScrollEnabled = false,
                 ) {
-
                     items(videoPlaybackViewModel.metadatas.size) { globalIndex ->
                         LaunchedEffect(lazyListState) {
                             snapshotFlow { lazyListState.layoutInfo }
@@ -65,9 +68,9 @@ fun HomeScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
                                             itemStart >= viewportStart && itemEnd <= viewportEnd
                                         }
 
-                                    val firstFullyVisibleItemInfoIndex = fullyVisibleItems.firstOrNull()?.index ?: 0
-                                    if (lastSelectedIndex != firstFullyVisibleItemInfoIndex) {
-                                        lastSelectedIndex = firstFullyVisibleItemInfoIndex
+                                    val fullyVisibleItemIndex = fullyVisibleItems.firstOrNull()?.index ?: return@collect
+                                    if (lastSelectedIndex != fullyVisibleItemIndex) {
+                                        lastSelectedIndex = fullyVisibleItemIndex
                                         videoPlaybackViewModel.onIndexOfPlayingComponentChanged(lastSelectedIndex)
                                     }
                                 }
@@ -103,6 +106,32 @@ fun HomeScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .align(Alignment.BottomStart),
+                )
+                SwipeableBox(
+                    onSwipe = { direction ->
+                        coroutineScope.launch {
+                            val nextIndex = when (direction) {
+                                SwipeDirection.Down -> {
+                                    if (lastSelectedIndex + 1 < videoPlaybackViewModel.metadatas.size) {
+                                        lastSelectedIndex + 1
+                                    } else {
+                                        return@launch
+                                    }
+                                }
+
+                                SwipeDirection.Up -> {
+                                    if (lastSelectedIndex - 1 >= 0) {
+                                        lastSelectedIndex - 1
+                                    } else {
+                                        return@launch
+                                    }
+                                }
+                            }
+
+                            lazyListState.animateScrollToItem(nextIndex)
+                        }
+                    },
+                    modifier = Modifier.matchParentSize()
                 )
             }
         },
