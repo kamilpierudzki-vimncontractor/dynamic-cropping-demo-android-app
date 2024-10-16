@@ -27,9 +27,9 @@ import tv.pluto.dynamic.cropping.android.R
 import tv.pluto.dynamic.cropping.android.framework.theme.typography.plutoTVSans10
 
 private val watchNowButtonColors = ButtonColors(
-    containerColor = Color(0x1AFFFFFF),
+    containerColor = Color(0xE6525B61),
     contentColor = Color.White,
-    disabledContainerColor = Color(0x1AFFFFFF),
+    disabledContainerColor = Color(0xE6525B61),
     disabledContentColor = Color.White,
 )
 
