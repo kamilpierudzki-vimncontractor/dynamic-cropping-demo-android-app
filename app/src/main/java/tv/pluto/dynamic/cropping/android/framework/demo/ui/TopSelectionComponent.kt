@@ -44,7 +44,7 @@ fun TopSelectionComponent(
     Row(
         modifier = modifier
             .horizontalScroll(scrollState)
-            .padding(top = 18.dp),
+            .padding(top = 16.dp),
     ) {
         Spacer(modifier = Modifier.width(8.dp))
         TextButton(
