@@ -1,1 +1,1 @@
-# dynamic-cropping-demo-app
+# dynamic-cropping-demo-android-app

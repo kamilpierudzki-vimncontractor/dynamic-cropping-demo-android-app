@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Dynamic Cropping Demo App"
+rootProject.name = "Dynamic Cropping Demo Android App"
 include(":app")
  
