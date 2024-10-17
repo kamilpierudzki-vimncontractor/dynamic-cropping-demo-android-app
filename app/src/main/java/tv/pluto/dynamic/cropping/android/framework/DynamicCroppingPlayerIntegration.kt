@@ -40,7 +40,6 @@ class DynamicCroppingPlayerIntegration(
 
     private var exoPlayer: ExoPlayer? = null
     private var playbackState: PlaybackState = PlaybackState.PausedForegrounded
-    private var currentFrameRate: Float = 0f
 
     init {
         lifecycleOwner.lifecycle.addObserver(this)
@@ -148,7 +147,6 @@ class DynamicCroppingPlayerIntegration(
                             for (j in 0 until trackGroup.length) {
                                 val format = trackGroup.getTrackFormat(j)
                                 if (MimeTypes.isVideo(format.sampleMimeType)) {
-                                    currentFrameRate = format.frameRate
                                     val resolution = VideoResolution(Width(format.width), Height(format.height))
                                     dynamicCroppingCalculation.applyInitialSetupOfTexture(resolution)
                                 }
