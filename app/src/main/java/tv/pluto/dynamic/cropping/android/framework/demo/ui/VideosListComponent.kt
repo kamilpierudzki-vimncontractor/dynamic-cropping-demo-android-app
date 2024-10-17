@@ -31,7 +31,7 @@ fun VideosListComponent(
         flingBehavior = snapBehavior,
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(24.dp),
-        contentPadding = PaddingValues(top = 64.dp, bottom = 64.dp),
+        contentPadding = PaddingValues(top = 75.dp, bottom = 64.dp),
         userScrollEnabled = false,
     ) {
         items(videos.size) { globalIndex ->
