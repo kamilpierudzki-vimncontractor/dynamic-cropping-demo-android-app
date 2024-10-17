@@ -2,6 +2,7 @@ package tv.pluto.dynamic.cropping.android.framework.demo.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -16,9 +17,23 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import kotlinx.coroutines.launch
 import tv.pluto.dynamic.cropping.android.framework.VideoPlaybackViewModel
+
+private val alpha = 0.7f
+private val gradientOnVideos = listOf(
+    Color.Black.copy(alpha = alpha),
+    Color.DarkGray.copy(alpha = alpha),
+    Color.Transparent,
+    Color.Transparent,
+    Color.Transparent,
+    Color.Transparent,
+    Color.Transparent,
+    Color.DarkGray.copy(alpha = alpha),
+    Color.Black.copy(alpha = alpha),
+)
 
 @Composable
 fun HomeScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
@@ -31,7 +46,6 @@ fun HomeScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
                     .fillMaxSize()
                     .background(color = Color.Black),
             ) {
-
                 var selectedItemIndex by rememberSaveable { mutableIntStateOf(0) }
                 val lazyListState = rememberLazyListState()
                 val coroutineScope = rememberCoroutineScope()
@@ -71,7 +85,11 @@ fun HomeScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
                     },
                     modifier = Modifier.matchParentSize()
                 )
-
+                Spacer(
+                    modifier = Modifier
+                        .matchParentSize()
+                        .background(brush = Brush.verticalGradient(gradientOnVideos))
+                )
                 SwipeableBox(
                     onSwipe = { direction ->
                         coroutineScope.launch {
@@ -97,7 +115,6 @@ fun HomeScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
                     },
                     modifier = Modifier.matchParentSize()
                 )
-
                 TopSelectionComponent(
                     modifier = Modifier
                         .fillMaxWidth()
