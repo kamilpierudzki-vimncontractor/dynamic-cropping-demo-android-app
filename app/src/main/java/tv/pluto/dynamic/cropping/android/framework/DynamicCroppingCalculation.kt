@@ -6,8 +6,8 @@ import android.view.View
 import tv.pluto.dynamic.cropping.android.logic.CalculateNewTextureSize
 import tv.pluto.dynamic.cropping.android.logic.CalculateTextureXAxisAbsoluteOffset
 import tv.pluto.dynamic.cropping.android.logic.Height
-import tv.pluto.dynamic.cropping.android.logic.Size
 import tv.pluto.dynamic.cropping.android.logic.TextureSize
+import tv.pluto.dynamic.cropping.android.logic.TextureViewSize
 import tv.pluto.dynamic.cropping.android.logic.VideoResolution
 import tv.pluto.dynamic.cropping.android.logic.Width
 
@@ -25,7 +25,7 @@ class DynamicCroppingCalculation(
         this.videoResolution = videoResolution
         val newTextureSize = calculateNewTextureSize.calculate(
             videoResolution = videoResolution,
-            textureViewSize = textureView.getSize(),
+            textureViewSize = textureView.getTextureViewSize(),
         ).also {
             this.textureSize = it
         }
@@ -37,7 +37,7 @@ class DynamicCroppingCalculation(
 
     private fun moveTextureToCenter() {
         textureSize?.let { txSize ->
-            val centerOfTexture = (txSize.value.width.value / 2.0)
+            val centerOfTexture = (txSize.width.value / 2.0)
             val textureAbsolutePositionMovedToLeft = centerOfTexture * (-1.0)
             moveTexture(textureAbsolutePositionMovedToLeft.toFloat())
         }
@@ -67,12 +67,12 @@ class DynamicCroppingCalculation(
     }
 
     private fun scale(targetTextureSize: TextureSize): Matrix {
-        val scaleX = (1.0 * targetTextureSize.value.width.value) / textureView.width
-        val scaleY = (1.0 * targetTextureSize.value.height.value) / textureView.height
+        val scaleX = (1.0 * targetTextureSize.width.value) / textureView.width
+        val scaleY = (1.0 * targetTextureSize.height.value) / textureView.height
         return Matrix().apply {
             setScale(scaleX.toFloat(), scaleY.toFloat())
         }
     }
 }
 
-private fun View.getSize() = Size(Width(width), Height(height))
+private fun View.getTextureViewSize() = TextureViewSize(Width(width), Height(height))

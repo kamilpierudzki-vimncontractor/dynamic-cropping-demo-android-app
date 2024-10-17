@@ -4,12 +4,12 @@ import kotlin.math.roundToInt
 
 class CalculateNewTextureSize {
 
-    fun calculate(videoResolution: VideoResolution, textureViewSize: Size): TextureSize {
-        if (videoResolution.value.height.value == 0) {
-            return TextureSize(Size(Width(1), Height(1)))
+    fun calculate(videoResolution: VideoResolution, textureViewSize: TextureViewSize): TextureSize {
+        if (videoResolution.height.value == 0) {
+            return TextureSize(Width(1), Height(1))
         }
-        val scale = textureViewSize.height.value.toFloat() / videoResolution.value.height.value.toFloat()
-        val newWidth = (videoResolution.value.width.value * scale).roundToInt()
-        return TextureSize(Size(Width(newWidth), Height(textureViewSize.height.value)))
+        val scale = textureViewSize.height.value.toFloat() / videoResolution.height.value.toFloat()
+        val newWidth = (videoResolution.width.value * scale).roundToInt()
+        return TextureSize(Width(newWidth), Height(textureViewSize.height.value))
     }
 }

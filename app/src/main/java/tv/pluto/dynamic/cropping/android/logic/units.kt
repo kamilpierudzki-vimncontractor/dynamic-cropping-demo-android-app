@@ -6,13 +6,11 @@ value class Width(val value: Int)
 @JvmInline
 value class Height(val value: Int)
 
-data class Size(val width: Width, val height: Height)
+data class VideoResolution(val width: Width, val height: Height)
 
-@JvmInline
-value class VideoResolution(val value: Size)
+data class TextureSize(val width: Width, val height: Height)
 
-@JvmInline
-value class TextureSize(val value: Size)
+data class TextureViewSize(val width: Width, val height: Height)
 
 @JvmInline
 value class Title(val value: String)

@@ -22,7 +22,6 @@ import tv.pluto.dynamic.cropping.android.logic.CalculateTextureXAxisAbsoluteOffs
 import tv.pluto.dynamic.cropping.android.logic.CounterBasedCoordinatesProvider
 import tv.pluto.dynamic.cropping.android.logic.Height
 import tv.pluto.dynamic.cropping.android.logic.ScaleCoordinate
-import tv.pluto.dynamic.cropping.android.logic.Size
 import tv.pluto.dynamic.cropping.android.logic.VideoResolution
 import tv.pluto.dynamic.cropping.android.logic.Width
 
@@ -136,7 +135,7 @@ class DynamicCroppingPlayerIntegration(
             exoPlayer.addListener(object : Player.Listener {
                 override fun onVideoSizeChanged(videoSize: VideoSize) {
                     lifecycleOwner.lifecycleScope.launch(mainDispatcher) {
-                        val resolution = VideoResolution(Size(Width(videoSize.width), Height(videoSize.height)))
+                        val resolution = VideoResolution(Width(videoSize.width), Height(videoSize.height))
                         dynamicCroppingCalculation.applyInitialSetupOfTexture(resolution)
                     }
                 }
@@ -150,7 +149,7 @@ class DynamicCroppingPlayerIntegration(
                                 val format = trackGroup.getTrackFormat(j)
                                 if (MimeTypes.isVideo(format.sampleMimeType)) {
                                     currentFrameRate = format.frameRate
-                                    val resolution = VideoResolution(Size(Width(format.width), Height(format.height)))
+                                    val resolution = VideoResolution(Width(format.width), Height(format.height))
                                     dynamicCroppingCalculation.applyInitialSetupOfTexture(resolution)
                                 }
                             }

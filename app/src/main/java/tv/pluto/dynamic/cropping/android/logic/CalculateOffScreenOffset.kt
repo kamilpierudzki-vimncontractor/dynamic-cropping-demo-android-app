@@ -7,7 +7,7 @@ class CalculateOffScreenOffset {
             val diff = (textureViewWidth / 2.0) - textureCoordinate
             diff
         } else if (textureGoTooFarLeft(textureCoordinate, textureSize, textureViewWidth)) {
-            val pixelsToRightOfCoordinateOnTexture = textureSize.value.width.value - textureCoordinate
+            val pixelsToRightOfCoordinateOnTexture = textureSize.width.value - textureCoordinate
             val diff = (textureViewWidth / 2.0) - pixelsToRightOfCoordinateOnTexture
             -1.0 * diff
         } else {
@@ -19,7 +19,7 @@ class CalculateOffScreenOffset {
         textureViewWidth: Int,
         textureSize: TextureSize,
     ): Boolean {
-        val pixelsToRightOfCoordOnTexture = textureSize.value.width.value - textureCoordinate
+        val pixelsToRightOfCoordOnTexture = textureSize.width.value - textureCoordinate
         return textureCoordinate < (textureViewWidth / 2.0) && pixelsToRightOfCoordOnTexture > (textureViewWidth / 2.0)
     }
 
@@ -28,7 +28,7 @@ class CalculateOffScreenOffset {
         textureSize: TextureSize,
         textureViewWidth: Int,
     ): Boolean {
-        val pixelsToRightOfCoordOnTexture = textureSize.value.width.value - textureCoordinate
+        val pixelsToRightOfCoordOnTexture = textureSize.width.value - textureCoordinate
         return textureCoordinate > (textureViewWidth / 2.0) && pixelsToRightOfCoordOnTexture < (textureViewWidth / 2.0)
     }
 }
