@@ -18,7 +18,7 @@ import tv.pluto.dynamic.cropping.android.logic.coords.terminator2JudgementDayCoo
 import tv.pluto.dynamic.cropping.android.logic.coords.transformersRevengeOfTheFallenCoordinates
 import tv.pluto.dynamic.cropping.android.logic.coords.transformersRiseOfTheBeastsCoordinates
 
-sealed class Metadata(
+sealed class Video(
     @SerializedName("title") val title: Title,
     @SerializedName("genre") val genre: Genre,
     @SerializedName("year") val year: Year,
@@ -27,7 +27,7 @@ sealed class Metadata(
     @SerializedName("coordinates") val coordinates: DoubleArray,
     @SerializedName("videoResId") val videoResId: Int
 ) {
-    data object Empty: Metadata(
+    data object Empty: Video(
         Title(""),
         Genre(""),
         Year(""),
@@ -37,7 +37,7 @@ sealed class Metadata(
         R.raw.pain_and_gain,
     )
 
-    data object Terminator2JudgmentDay : Metadata(
+    data object Terminator2JudgmentDay : Video(
         Title("Terminator 2: Judgment Day"),
         Genre("Action"),
         Year("1991"),
@@ -47,7 +47,7 @@ sealed class Metadata(
         R.raw.terminator_2_judgment_day,
     )
 
-    data object Gladiator : Metadata(
+    data object Gladiator : Video(
         Title("Gladiator"),
         Genre("Action"),
         Year("2000"),
@@ -57,7 +57,7 @@ sealed class Metadata(
         R.raw.gladiator,
     )
 
-    data object SnakeEyesGIJoeOrigins : Metadata(
+    data object SnakeEyesGIJoeOrigins : Video(
         Title("Snake Eyes: GI Joe Origins"),
         Genre("Action"),
         Year("2021"),
@@ -67,7 +67,7 @@ sealed class Metadata(
         R.raw.snake_eyes_gi_joe_origins,
     )
 
-    data object TransformersRevengeOfTheFallen : Metadata(
+    data object TransformersRevengeOfTheFallen : Video(
         Title("Transformers Revenge of the Fallen"),
         Genre("Action"),
         Year("2009"),
@@ -77,7 +77,7 @@ sealed class Metadata(
         R.raw.transformers_revenge_of_the_fallen,
     )
 
-    data object IndianaJonesAndTheRaidersOfTheLostArk : Metadata(
+    data object IndianaJonesAndTheRaidersOfTheLostArk : Video(
         Title("Indiana Jones and the Raiders of the Lost Ark"),
         Genre("Action"),
         Year("1981"),
@@ -87,7 +87,7 @@ sealed class Metadata(
         R.raw.indiana_jones_and_the_raiders_of_the_lost_ark,
     )
 
-    data object SavingPrivateRyan : Metadata(
+    data object SavingPrivateRyan : Video(
         Title("Saving Private Ryan"),
         Genre("Drama"),
         Year("1998"),
@@ -97,7 +97,7 @@ sealed class Metadata(
         R.raw.saving_private_ryan,
     )
 
-    data object GIJoeRetaliation : Metadata(
+    data object GIJoeRetaliation : Video(
         Title("GI Joe Retaliation"),
         Genre("Action"),
         Year("2013"),
@@ -107,7 +107,7 @@ sealed class Metadata(
         R.raw.gi_joe_retaliation,
     )
 
-    data object IndianaJonesAndTheKingdomOfTheCrystalSkull : Metadata(
+    data object IndianaJonesAndTheKingdomOfTheCrystalSkull : Video(
         Title("Indiana Jones and the Kingdom of the Crystal Skull"),
         Genre("Action"),
         Year("2008"),
@@ -117,7 +117,7 @@ sealed class Metadata(
         R.raw.indiana_jones_and_the_kingdom_of_the_crystal_skull,
     )
 
-    data object TransformersRiseOfTheBeastsCoordinates : Metadata(
+    data object TransformersRiseOfTheBeastsCoordinates : Video(
         Title("Transformers Rise of the Beasts"),
         Genre("Action"),
         Year("2023"),
@@ -127,7 +127,7 @@ sealed class Metadata(
         R.raw.transformers_rise_of_the_beasts,
     )
 
-    data object PainGain : Metadata(
+    data object PainGain : Video(
         Title("Pain and Gain"),
         Genre("Action"),
         Year("2013"),

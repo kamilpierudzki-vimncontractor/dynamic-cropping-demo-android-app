@@ -19,12 +19,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import tv.pluto.dynamic.cropping.android.framework.Metadata
+import tv.pluto.dynamic.cropping.android.framework.Video
 import tv.pluto.dynamic.cropping.android.framework.ui.DynamicCroppingVideoComponent
 
 @Composable
 fun GalleryScreen(
-    metadata: Metadata,
+    video: Video,
     onBack: () -> Unit,
 ) {
     Scaffold { contentPadding ->
@@ -46,7 +46,7 @@ fun GalleryScreen(
 
                 DynamicCroppingVideoComponent(
                     lifecycleOwner = LocalLifecycleOwner.current,
-                    staticMetadata = metadata,
+                    video = video,
                     playbackState = true,
                     playbackPositionMs = 0,
                     coordinateIndex = 0,

@@ -9,22 +9,22 @@ import androidx.lifecycle.ViewModel
 
 class VideoPlaybackViewModel : ViewModel(), DefaultLifecycleObserver {
 
-    val metadatas: List<Metadata> = LocalVideos
+    val videos: List<Video> = LocalVideos
 
-    private val _videoPlayingStates = mutableStateOf(List(metadatas.size) { i -> Pair(i, false) }.toMap())
+    private val _videoPlayingStates = mutableStateOf(List(videos.size) { i -> Pair(i, false) }.toMap())
     val videoPlayingStates: State<Map<Int, Boolean>> = _videoPlayingStates
 
-    private val _videoPositionStates = mutableStateOf(List(metadatas.size) { i -> Pair(i, 0L) }.toMap())
+    private val _videoPositionStates = mutableStateOf(List(videos.size) { i -> Pair(i, 0L) }.toMap())
     val videoPositionStates: State<Map<Int, Long>> = _videoPositionStates
 
-    private val _consumedCoordinateIndicesStates = mutableStateOf(List(metadatas.size) { i -> Pair(i, 0) }.toMap())
+    private val _consumedCoordinateIndicesStates = mutableStateOf(List(videos.size) { i -> Pair(i, 0) }.toMap())
     val consumedCoordinateIndicesStates: State<Map<Int, Int>> = _consumedCoordinateIndicesStates
 
     private val _currentIndexOfPlayingVideo = mutableIntStateOf(0)
     val currentIndexOfPlayingVideo: State<Int> = _currentIndexOfPlayingVideo
 
-    private val _currentMetadata = mutableStateOf<Metadata>(Metadata.Empty)
-    val currentMetadata: State<Metadata> = _currentMetadata
+    private val _currentVideo = mutableStateOf<Video>(Video.Empty)
+    val currentVideo: State<Video> = _currentVideo
 
     private val _currentVideoPlayingState = mutableStateOf(false)
     val currentVideoPlaybackState: State<Boolean> = _currentVideoPlayingState
@@ -45,7 +45,7 @@ class VideoPlaybackViewModel : ViewModel(), DefaultLifecycleObserver {
         }
 
         _currentIndexOfPlayingVideo.intValue = indexOfPlayingComponent
-        _currentMetadata.value = metadatas[indexOfPlayingComponent]
+        _currentVideo.value = videos[indexOfPlayingComponent]
         _currentVideoPlayingState.value = videoPlayingStates.value[indexOfPlayingComponent] ?: false
         _currentPlaybackPositionState.longValue = videoPositionStates.value[indexOfPlayingComponent] ?: 0L
     }

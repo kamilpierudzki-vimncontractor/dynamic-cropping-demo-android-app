@@ -11,12 +11,12 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import tv.pluto.dynamic.cropping.android.framework.Metadata
+import tv.pluto.dynamic.cropping.android.framework.Video
 import tv.pluto.dynamic.cropping.android.framework.ui.DynamicCroppingVideoComponent
 
 @Composable
 fun CardComponent(
-    staticMetadata: Metadata,
+    video: Video,
     playbackState: Boolean,
     playbackPositionMs: Long,
     coordinateIndex: Int,
@@ -33,7 +33,7 @@ fun CardComponent(
 
         DynamicCroppingVideoComponent(
             lifecycleOwner = LocalLifecycleOwner.current,
-            staticMetadata = staticMetadata,
+            video = video,
             playbackState = playbackState,
             playbackPositionMs = playbackPositionMs,
             coordinateIndex = coordinateIndex,
@@ -53,8 +53,8 @@ fun CardComponent(
 
         )
         MetadataComponent(
-            title = staticMetadata.title.value,
-            details = staticMetadata.formattedMetadata(),
+            title = video.title.value,
+            details = video.formattedMetadata(),
             modifier = Modifier.constrainAs(metadataComponent) {
                 start.linkTo(videoComponent.start)
                 end.linkTo(videoComponent.end)
@@ -65,5 +65,5 @@ fun CardComponent(
     }
 }
 
-private fun Metadata.formattedMetadata(): String =
+private fun Video.formattedMetadata(): String =
     "${year.value} ${genre.value} ${rating.value} ${time.value}"

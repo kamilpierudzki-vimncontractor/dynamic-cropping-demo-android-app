@@ -16,9 +16,6 @@ import com.google.android.exoplayer2.util.MimeTypes
 import com.google.android.exoplayer2.video.VideoSize
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
-import tv.pluto.dynamic.cropping.android.framework.DynamicCroppingCalculation
-import tv.pluto.dynamic.cropping.android.framework.Metadata
-import tv.pluto.dynamic.cropping.android.framework.PlaybackState
 import tv.pluto.dynamic.cropping.android.logic.CalculateNewTextureSize
 import tv.pluto.dynamic.cropping.android.logic.CalculateOffScreenOffset
 import tv.pluto.dynamic.cropping.android.logic.CalculateTextureXAxisAbsoluteOffset
@@ -34,7 +31,7 @@ class DynamicCroppingPlayerIntegration(
     private val context: Context,
     private val mainDispatcher: CoroutineDispatcher,
     private val textureView: TextureView,
-    private val staticMetadata: Metadata,
+    private val video: Video,
     private val initialPlaybackPositionMs: Long,
     private val initialCoordinateIndex: Int,
     private val onPlaybackPositionChanged: (Long) -> Unit,
@@ -124,7 +121,7 @@ class DynamicCroppingPlayerIntegration(
             )
 
             val coordinatesProvider = CounterBasedCoordinatesProvider(
-                staticMetadata.coordinates,
+                video.coordinates,
                 initialCoordinateIndex,
             )
 
@@ -200,7 +197,7 @@ class DynamicCroppingPlayerIntegration(
     }
 
     private fun createMediaItem(): MediaItem {
-        val uri = RawResourceDataSource.buildRawResourceUri(staticMetadata.videoResId)
+        val uri = RawResourceDataSource.buildRawResourceUri(video.videoResId)
         return MediaItem.fromUri(uri)
     }
 }

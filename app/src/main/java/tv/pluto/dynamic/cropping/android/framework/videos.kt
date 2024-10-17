@@ -1,14 +1,14 @@
 package tv.pluto.dynamic.cropping.android.framework
 
-val LocalVideos: List<Metadata> = listOf(
-    Metadata.Terminator2JudgmentDay,
-    Metadata.Gladiator,
-    Metadata.SnakeEyesGIJoeOrigins,
-    Metadata.TransformersRevengeOfTheFallen,
-    Metadata.IndianaJonesAndTheRaidersOfTheLostArk,
-    Metadata.SavingPrivateRyan,
-    Metadata.GIJoeRetaliation,
-    Metadata.IndianaJonesAndTheKingdomOfTheCrystalSkull,
-    Metadata.TransformersRiseOfTheBeastsCoordinates,
-    Metadata.PainGain,
+val LocalVideos: List<Video> = listOf(
+    Video.Terminator2JudgmentDay,
+    Video.Gladiator,
+    Video.SnakeEyesGIJoeOrigins,
+    Video.TransformersRevengeOfTheFallen,
+    Video.IndianaJonesAndTheRaidersOfTheLostArk,
+    Video.SavingPrivateRyan,
+    Video.GIJoeRetaliation,
+    Video.IndianaJonesAndTheKingdomOfTheCrystalSkull,
+    Video.TransformersRiseOfTheBeastsCoordinates,
+    Video.PainGain,
 )

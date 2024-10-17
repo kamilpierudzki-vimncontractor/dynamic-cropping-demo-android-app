@@ -45,7 +45,7 @@ private fun GalleryAppNavHost(navController: NavHostController) {
         ) { backStackEntry ->
             val title = backStackEntry.arguments?.getString("title")
             GalleryScreen(
-                metadata = LocalVideos.first { it.title.value == title },
+                video = LocalVideos.first { it.title.value == title },
                 onBack = {
                     navController.navigateUp()
                 }

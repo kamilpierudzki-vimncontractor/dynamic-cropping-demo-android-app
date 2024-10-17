@@ -11,7 +11,7 @@ import com.google.android.exoplayer2.ui.StyledPlayerView
 import com.google.android.exoplayer2.upstream.RawResourceDataSource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
-import tv.pluto.dynamic.cropping.android.framework.Metadata
+import tv.pluto.dynamic.cropping.android.framework.Video
 import tv.pluto.dynamic.cropping.android.framework.PlaybackState
 
 class SimplePlayerIntegration(
@@ -19,7 +19,7 @@ class SimplePlayerIntegration(
     private val context: Context,
     private val mainDispatcher: CoroutineDispatcher,
     private val styledPlayerView: StyledPlayerView,
-    private val staticMetadata: Metadata,
+    private val staticVideo: Video,
     private val initialPlaybackPositionMs: Long,
     val onPlaybackPositionChanged: (Long) -> Unit,
 ) : DefaultLifecycleObserver {
@@ -99,7 +99,7 @@ class SimplePlayerIntegration(
     }
 
     private fun createMediaItem(): MediaItem {
-        val uri = RawResourceDataSource.buildRawResourceUri(staticMetadata.videoResId)
+        val uri = RawResourceDataSource.buildRawResourceUri(staticVideo.videoResId)
         return MediaItem.fromUri(uri)
     }
 }

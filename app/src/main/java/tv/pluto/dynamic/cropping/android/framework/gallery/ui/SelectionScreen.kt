@@ -17,10 +17,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import tv.pluto.dynamic.cropping.android.framework.LocalVideos
-import tv.pluto.dynamic.cropping.android.framework.Metadata
+import tv.pluto.dynamic.cropping.android.framework.Video
 
 @Composable
-fun SelectionScreen(onVideoSelected: (Metadata) -> Unit) {
+fun SelectionScreen(onVideoSelected: (Video) -> Unit) {
     val scrollState = rememberScrollState()
 
     Scaffold { contentPadding ->

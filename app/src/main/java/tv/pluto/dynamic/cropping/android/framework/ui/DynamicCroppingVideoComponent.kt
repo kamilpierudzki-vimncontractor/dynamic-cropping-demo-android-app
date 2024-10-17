@@ -12,12 +12,12 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.LifecycleOwner
 import kotlinx.coroutines.Dispatchers
 import tv.pluto.dynamic.cropping.android.framework.DynamicCroppingPlayerIntegration
-import tv.pluto.dynamic.cropping.android.framework.Metadata
+import tv.pluto.dynamic.cropping.android.framework.Video
 
 @Composable
 fun DynamicCroppingVideoComponent(
     lifecycleOwner: LifecycleOwner,
-    staticMetadata: Metadata,
+    video: Video,
     playbackState: Boolean,
     playbackPositionMs: Long,
     coordinateIndex: Int,
@@ -37,7 +37,7 @@ fun DynamicCroppingVideoComponent(
                         context = context,
                         mainDispatcher = Dispatchers.Main,
                         textureView = textureView,
-                        staticMetadata = staticMetadata,
+                        video = video,
                         initialPlaybackPositionMs = playbackPositionMs,
                         initialCoordinateIndex = coordinateIndex,
                         onPlaybackPositionChanged = onPlaybackPositionChanged,
