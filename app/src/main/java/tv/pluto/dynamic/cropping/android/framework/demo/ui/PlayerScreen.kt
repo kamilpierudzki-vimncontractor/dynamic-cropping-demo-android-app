@@ -43,39 +43,3 @@ fun PlayerScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
         )
     }
 }
-
-@Composable
-private fun SimpleVideoComponent(
-    lifecycleOwner: LifecycleOwner,
-    staticVideo: Video,
-    initialPlaybackPositionMs: Long,
-    onPlaybackPositionChanged: (Long) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    var playerIntegration by remember { mutableStateOf<SimplePlayerIntegration?>(null) }
-
-    AndroidView(
-        factory = { context ->
-            StyledPlayerView(context)
-                .apply {
-                    useController = false
-                }
-                .also { styledPlayerView ->
-                    playerIntegration = SimplePlayerIntegration(
-                        lifecycleOwner = lifecycleOwner,
-                        context = context,
-                        mainDispatcher = Dispatchers.Main,
-                        styledPlayerView = styledPlayerView,
-                        staticVideo = staticVideo,
-                        initialPlaybackPositionMs = initialPlaybackPositionMs,
-                        onPlaybackPositionChanged = onPlaybackPositionChanged,
-                    )
-                }
-
-        },
-        modifier = modifier.background(Color.Black),
-        onRelease = {
-            playerIntegration?.destroy()
-        },
-    )
-}
