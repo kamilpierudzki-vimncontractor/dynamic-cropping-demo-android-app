@@ -10,8 +10,8 @@ class ScaleCoordinateTest {
     @Test
     fun test_1() {
         // given
-        val videoResolution = VideoResolution(Size(Width(1000), Height(500)))
-        val textureSize = TextureSize(Size(Width(2000), Height(1000)))
+        val videoResolution = VideoResolution(Width(1000), Height(500))
+        val textureSize = TextureSize(Width(2000), Height(1000))
         val coordinate = 2.5
 
         // when
