@@ -111,7 +111,6 @@ class DynamicCroppingPlayerIntegration(
     private fun createExoPlayer() {
         ExoPlayer.Builder(context).build().also { exoPlayer ->
             this.exoPlayer = exoPlayer
-            exoPlayer.repeatMode = Player.REPEAT_MODE_ALL
             exoPlayer.setVideoTextureView(textureView)
 
             val dynamicCroppingCalculation = DynamicCroppingCalculation(
@@ -161,8 +160,8 @@ class DynamicCroppingPlayerIntegration(
 
                 override fun onPlaybackStateChanged(playbackState: Int) {
                     if (playbackState == Player.STATE_ENDED) {
-                        android.util.Log.d("test123", "STATE_ENDED")
                         lifecycleOwner.lifecycleScope.launch(mainDispatcher) {
+                            exoPlayer.seekTo(0)
                             onVideoEnded()
                         }
                     }

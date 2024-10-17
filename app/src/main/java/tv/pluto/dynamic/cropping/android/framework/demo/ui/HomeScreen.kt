@@ -11,8 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,7 +32,7 @@ fun HomeScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
                     .background(color = Color.Black),
             ) {
 
-                var selectedItemIndex by remember { mutableIntStateOf(0) }
+                var selectedItemIndex by rememberSaveable { mutableIntStateOf(0) }
                 val lazyListState = rememberLazyListState()
                 val coroutineScope = rememberCoroutineScope()
                 val videoPlayingStates by videoPlaybackViewModel.videoPlayingStates
@@ -61,7 +61,14 @@ fun HomeScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
                             consumedIndexOfCoordinate,
                         )
                     },
-                    onVideoEnded = { videoPlaybackViewModel.onVideoEnded(it) },
+                    onVideoEnded = {
+                        val nextIndex = if (selectedItemIndex + 1 < videoPlaybackViewModel.videos.size) {
+                            selectedItemIndex + 1
+                        } else {
+                            0
+                        }
+                        selectedItemIndex = nextIndex
+                    },
                     modifier = Modifier.matchParentSize()
                 )
 

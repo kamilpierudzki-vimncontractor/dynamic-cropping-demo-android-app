@@ -55,8 +55,4 @@ class VideoPlaybackViewModel : ViewModel(), DefaultLifecycleObserver {
             set(indexOfPlayingComponent, consumedIndexOfCoordinate + 1)
         }
     }
-
-    fun onVideoEnded(indexOfEndedComponent: Int) {
-        // todo
-    }
 }
