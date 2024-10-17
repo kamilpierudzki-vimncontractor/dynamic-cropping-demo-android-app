@@ -16,13 +16,6 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven {
-            url = uri("https://nexus.pluto.tv/repository/pluto-android")
-            credentials {
-                username = "android.dev"
-                password = "0qUXrWdSPu79uKSrsPuKuGL4KlraVO2"
-            }
-        }
     }
 }
 

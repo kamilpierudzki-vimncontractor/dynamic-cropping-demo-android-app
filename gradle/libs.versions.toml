@@ -10,7 +10,6 @@ activityCompose = "1.9.2"
 composeBom = "2024.04.01"
 compose-navigation-version = "2.8.2"
 
-avia-version = "5.25.1"
 interactivemedia-version = "3.31.0"
 exoplayer-ui-version = "2.18.7"
 
@@ -38,17 +37,10 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 androidx-compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "compose-navigation-version" }
 androidx-constraintlayout-compose = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "constraintlayout-compose-version" }
 
-
-#Avia 5 Player
-avia-common = { group = "com.paramount.android.avia", name = "avia-common", version.ref = "avia-version" }
-avia-player = { group = "com.paramount.android.avia", name = "avia-player", version.ref = "avia-version" }
-avia-tracking = { group = "com.paramount.android.avia", name = "avia-tracking", version.ref = "avia-version" }
-
 #Player Google
 exoplayer = { group = "com.google.android.exoplayer", name = "exoplayer", version.ref = "exoplayer-ui-version" }
 exoplayer-core = { group = "com.google.android.exoplayer", name = "exoplayer-core", version.ref = "exoplayer-ui-version" }
 exoplayer-ui = { group = "com.google.android.exoplayer", name = "exoplayer-ui", version.ref = "exoplayer-ui-version" }
-exoplayer-extension-opengl = { group = "com.google.android.exoplayer", name = "extension-opengl", version.ref = "exoplayer-ui-version" }
 interactivemedia = { group = "com.google.ads.interactivemedia.v3", name = "interactivemedia", version.ref = "interactivemedia-version" }
 
 mockito = { group = "org.mockito", name = "mockito-core", version.ref = "mockito-version" }

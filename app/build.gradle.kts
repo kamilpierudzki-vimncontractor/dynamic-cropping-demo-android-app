@@ -17,8 +17,6 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-
-        missingDimensionStrategy("avia-exoplayer", "google")
     }
 
     buildTypes {
@@ -73,10 +71,6 @@ dependencies {
 
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-
-    implementation(libs.avia.common)
-    implementation(libs.avia.player)
-    implementation(libs.avia.tracking)
 
     implementation(libs.exoplayer)
     implementation(libs.exoplayer.core)
