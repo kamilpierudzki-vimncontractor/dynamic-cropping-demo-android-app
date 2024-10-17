@@ -19,7 +19,7 @@ class SimplePlayerIntegration(
     private val context: Context,
     private val mainDispatcher: CoroutineDispatcher,
     private val styledPlayerView: StyledPlayerView,
-    private val staticVideo: Video,
+    private val video: Video,
     private val initialPlaybackPositionMs: Long,
     val onPlaybackPositionChanged: (Long) -> Unit,
 ) : DefaultLifecycleObserver {
@@ -99,7 +99,7 @@ class SimplePlayerIntegration(
     }
 
     private fun createMediaItem(): MediaItem {
-        val uri = RawResourceDataSource.buildRawResourceUri(staticVideo.videoResId)
+        val uri = RawResourceDataSource.buildRawResourceUri(video.videoResId)
         return MediaItem.fromUri(uri)
     }
 }

@@ -11,15 +11,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import tv.pluto.dynamic.cropping.android.framework.Video
 
 @Composable
 fun PortraitMetadataComponent(
-    title: String,
-    details: String,
+    video: Video,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier.padding(start = 24.dp, end = 24.dp, bottom = 24.dp)) {
-        MetaContainerComponent(title, details)
+        MetaContainerComponent(video = video)
         Spacer(modifier = Modifier.height(8.dp))
         CTAComponent(modifier = Modifier.fillMaxWidth())
     }
@@ -29,8 +29,7 @@ fun PortraitMetadataComponent(
 @Composable
 private fun MetadataComponentPreview1() {
     PortraitMetadataComponent(
-        title = "Indiana Jones And The Kingdom Of The Crystal Skull",
-        details = "Drama R 1H 47M",
+        Video.IndianaJonesAndTheKingdomOfTheCrystalSkull,
         modifier = Modifier.background(Color.Black),
     )
 }

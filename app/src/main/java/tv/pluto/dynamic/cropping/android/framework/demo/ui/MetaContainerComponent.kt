@@ -7,24 +7,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import tv.pluto.dynamic.cropping.android.framework.Video
 import tv.pluto.dynamic.cropping.android.framework.theme.typography.plutoTVSans10
 
 @Composable
 fun MetaContainerComponent(
-    title: String,
-    details: String,
+    video: Video,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier=modifier) {
+    Column(modifier = modifier) {
         Text(
-            text = title,
+            text = video.title.value,
             fontFamily = plutoTVSans10,
             fontWeight = FontWeight.Bold,
             fontSize = 24.sp,
             color = Color.White
         )
         Text(
-            text = details,
+            text = video.formattedMetadata(),
             fontFamily = plutoTVSans10,
             fontWeight = FontWeight.SemiBold,
             fontSize = 16.sp,
@@ -32,3 +32,6 @@ fun MetaContainerComponent(
         )
     }
 }
+
+private fun Video.formattedMetadata(): String =
+    "${year.value} ${genre.value} ${rating.value} ${time.value}"

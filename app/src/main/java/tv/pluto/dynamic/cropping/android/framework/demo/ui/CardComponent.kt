@@ -58,8 +58,7 @@ fun CardComponent(
 
             )
         PortraitMetadataComponent(
-            title = video.title.value,
-            details = video.formattedMetadata(),
+            video = video,
             modifier = Modifier.constrainAs(metadataComponent) {
                 start.linkTo(videoComponent.start)
                 end.linkTo(videoComponent.end)
@@ -69,6 +68,3 @@ fun CardComponent(
         )
     }
 }
-
-private fun Video.formattedMetadata(): String =
-    "${year.value} ${genre.value} ${rating.value} ${time.value}"

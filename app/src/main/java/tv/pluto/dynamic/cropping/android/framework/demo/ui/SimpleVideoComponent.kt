@@ -18,7 +18,7 @@ import tv.pluto.dynamic.cropping.android.framework.demo.SimplePlayerIntegration
 @Composable
 fun SimpleVideoComponent(
     lifecycleOwner: LifecycleOwner,
-    staticVideo: Video,
+    video: Video,
     initialPlaybackPositionMs: Long,
     onPlaybackPositionChanged: (Long) -> Unit,
     modifier: Modifier = Modifier
@@ -37,7 +37,7 @@ fun SimpleVideoComponent(
                         context = context,
                         mainDispatcher = Dispatchers.Main,
                         styledPlayerView = styledPlayerView,
-                        staticVideo = staticVideo,
+                        video = video,
                         initialPlaybackPositionMs = initialPlaybackPositionMs,
                         onPlaybackPositionChanged = onPlaybackPositionChanged,
                     )

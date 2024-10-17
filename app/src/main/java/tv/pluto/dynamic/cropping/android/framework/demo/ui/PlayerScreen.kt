@@ -1,35 +1,39 @@
 package tv.pluto.dynamic.cropping.android.framework.demo.ui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.lifecycle.LifecycleOwner
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import com.google.android.exoplayer2.ui.StyledPlayerView
-import kotlinx.coroutines.Dispatchers
-import tv.pluto.dynamic.cropping.android.framework.Video
 import tv.pluto.dynamic.cropping.android.framework.VideoPlaybackViewModel
-import tv.pluto.dynamic.cropping.android.framework.demo.SimplePlayerIntegration
+import tv.pluto.dynamic.cropping.android.framework.theme.typography.plutoTVSans10
 
 @Composable
 fun PlayerScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
-    val currentMetadata by videoPlaybackViewModel.currentVideo
+    val currentVideo by videoPlaybackViewModel.currentVideo
     val currentPlaybackPosition by videoPlaybackViewModel.currentPlaybackPositionState
 
-    Box(modifier = Modifier
-        .fillMaxSize()) {
+    ConstraintLayout(
+        modifier = Modifier
+            .background(Color.Black)
+            .fillMaxSize(),
+    ) {
+        val (playerComponent, ctaComponent, metadataComponent, categoryLabel) = createRefs()
+
         SimpleVideoComponent(
             lifecycleOwner = LocalLifecycleOwner.current,
-            staticVideo = currentMetadata,
+            video = currentVideo,
             initialPlaybackPositionMs = currentPlaybackPosition,
             onPlaybackPositionChanged = { newPositionMs ->
                 videoPlaybackViewModel.onVideoPositionChanged(
@@ -38,8 +42,51 @@ fun PlayerScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
                 )
             },
             modifier = Modifier
-                .matchParentSize()
-                .align(Alignment.Center)
+                .constrainAs(playerComponent) {
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                }
+        )
+
+        CTAComponent(
+            modifier = Modifier
+                .constrainAs(ctaComponent) {
+                    end.linkTo(parent.end)
+                    bottom.linkTo(parent.bottom)
+                }
+                .width(300.dp)
+                .padding(end = 40.dp, bottom = 40.dp)
+        )
+
+        MetaContainerComponent(
+            video = currentVideo,
+            modifier = Modifier
+                .constrainAs(metadataComponent) {
+                    bottom.linkTo(parent.bottom)
+                    start.linkTo(parent.start)
+                    end.linkTo(ctaComponent.start)
+                    width = Dimension.fillToConstraints
+                }
+                .padding(start = 40.dp, bottom = 40.dp)
+        )
+
+        Text(
+            text = "You May Also Like",
+            modifier = Modifier
+                .constrainAs(categoryLabel) {
+                    top.linkTo(parent.top)
+                    start.linkTo(parent.start)
+                }
+                .padding(start = 40.dp, top = 40.dp),
+            fontFamily = plutoTVSans10,
+            fontWeight = FontWeight.SemiBold,
+            fontSize = 16.sp,
+            color = Color(0xE6FFFFFF),
+            style = TextStyle(
+                lineHeight = 16.sp,
+            )
         )
     }
 }
