@@ -33,7 +33,7 @@ private val watchNowButtonColors = ButtonColors(
 )
 
 @Composable
-fun MetadataComponent(
+fun PortraitMetadataComponent(
     title: String,
     details: String,
     modifier: Modifier = Modifier,
@@ -100,7 +100,7 @@ fun MetadataComponent(
 @Preview
 @Composable
 private fun MetadataComponentPreview1() {
-    MetadataComponent(
+    PortraitMetadataComponent(
         title = "Indiana Jones And The Kingdom Of The Crystal Skull",
         details = "Drama R 1H 47M",
         modifier = Modifier.background(Color.Black),
