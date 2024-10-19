@@ -49,7 +49,7 @@ fun GalleryScreen(
                     video = video,
                     playbackState = true,
                     playbackPositionMs = 0,
-                    coordinateIndex = 0,
+                    consumedCoordinateIndex = 0,
                     onPlaybackPositionChanged = {},
                     onCoordinateIndexConsumed = {},
                     onVideoEnded = {},

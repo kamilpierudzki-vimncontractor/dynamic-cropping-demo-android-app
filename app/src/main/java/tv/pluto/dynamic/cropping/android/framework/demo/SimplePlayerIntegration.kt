@@ -13,6 +13,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import tv.pluto.dynamic.cropping.android.framework.Video
 import tv.pluto.dynamic.cropping.android.framework.PlaybackState
+import tv.pluto.dynamic.cropping.android.logic.CounterBasedCoordinatesProvider
 
 class SimplePlayerIntegration(
     private val lifecycleOwner: LifecycleOwner,
@@ -21,7 +22,9 @@ class SimplePlayerIntegration(
     private val styledPlayerView: StyledPlayerView,
     private val video: Video,
     private val initialPlaybackPositionMs: Long,
-    val onPlaybackPositionChanged: (Long) -> Unit,
+    private val currentConsumedCoordinateIndex: Int,
+    private val onPlaybackPositionChanged: (Long) -> Unit,
+    private val onCoordinateIndexConsumed: (Int) -> Unit,
 ) : DefaultLifecycleObserver {
 
     private var exoPlayer: ExoPlayer? = null
@@ -81,9 +84,16 @@ class SimplePlayerIntegration(
             exoPlayer.repeatMode = Player.REPEAT_MODE_ALL
             styledPlayerView.player = exoPlayer
 
+            val coordinatesProvider = CounterBasedCoordinatesProvider(
+                video.coordinates,
+                currentConsumedCoordinateIndex,
+            )
+
             exoPlayer.setVideoFrameMetadataListener { _, _, _, _ ->
                 lifecycleOwner.lifecycleScope.launch(mainDispatcher) {
                     onPlaybackPositionChanged(exoPlayer.currentPosition)
+                    val (_, consumedIndex) = coordinatesProvider.getNextCoordinate()
+                    onCoordinateIndexConsumed(consumedIndex)
                 }
             }
         }

@@ -22,7 +22,8 @@ import tv.pluto.dynamic.cropping.android.framework.theme.typography.plutoTVSans1
 @Composable
 fun PlayerScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
     val currentVideo by videoPlaybackViewModel.currentVideo
-    val currentPlaybackPosition by videoPlaybackViewModel.currentPlaybackPositionState
+    val currentPlaybackPosition by videoPlaybackViewModel.currentPlaybackPosition
+    val currentConsumedCoordinateIndex by videoPlaybackViewModel.currentConsumedCoordinateIndex
 
     ConstraintLayout(
         modifier = Modifier
@@ -35,10 +36,17 @@ fun PlayerScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
             lifecycleOwner = LocalLifecycleOwner.current,
             video = currentVideo,
             initialPlaybackPositionMs = currentPlaybackPosition,
+            currentConsumedCoordinateIndex = currentConsumedCoordinateIndex,
             onPlaybackPositionChanged = { newPositionMs ->
                 videoPlaybackViewModel.onVideoPositionChanged(
                     videoPlaybackViewModel.currentIndexOfPlayingVideo.value,
                     newPositionMs,
+                )
+            },
+            onCoordinateIndexConsumed = { consumedIndexOfCoordinate ->
+                videoPlaybackViewModel.onCoordinateIndexConsumed(
+                    videoPlaybackViewModel.currentIndexOfPlayingVideo.value,
+                    consumedIndexOfCoordinate,
                 )
             },
             modifier = Modifier
