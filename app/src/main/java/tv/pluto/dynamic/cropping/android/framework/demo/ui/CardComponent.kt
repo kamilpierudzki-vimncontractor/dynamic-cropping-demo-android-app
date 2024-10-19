@@ -1,7 +1,7 @@
 package tv.pluto.dynamic.cropping.android.framework.demo.ui
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -28,12 +28,13 @@ fun CardComponent(
 ) {
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
-    val maxHeight = screenHeight * 0.75f
+    val height = screenHeight * 0.75f
 
     ConstraintLayout(
         modifier = modifier
             .padding(start = 24.dp, end = 24.dp)
-            .heightIn(max = maxHeight),
+            .height(height)
+            .clip(RoundedCornerShape(16.dp)),
     ) {
         val (videoComponent, metadataComponent) = createRefs()
 
@@ -53,8 +54,7 @@ fun CardComponent(
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                 }
-                .fillMaxSize()
-                .clip(RoundedCornerShape(16.dp)),
+                .fillMaxSize(),
 
             )
         PortraitMetadataComponent(
