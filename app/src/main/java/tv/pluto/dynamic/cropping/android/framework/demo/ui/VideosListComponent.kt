@@ -20,6 +20,8 @@ import kotlinx.coroutines.launch
 import tv.pluto.dynamic.cropping.android.framework.ListPositionCalculation
 import tv.pluto.dynamic.cropping.android.framework.Video
 
+private val listPositionCalculation = ListPositionCalculation()
+
 @Composable
 fun VideosListComponent(
     videos: List<Video>,
@@ -33,8 +35,6 @@ fun VideosListComponent(
     val snapBehavior = rememberSnapFlingBehavior(lazyListState)
     val coroutineScope = rememberCoroutineScope()
     var selectedItemIndex by rememberSaveable { mutableIntStateOf(0) }
-
-    val listPositionCalculation = ListPositionCalculation()
 
     LaunchedEffect(lazyListState) {
         snapshotFlow { lazyListState.layoutInfo }
