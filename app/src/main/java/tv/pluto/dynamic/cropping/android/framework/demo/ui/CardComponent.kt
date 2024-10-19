@@ -20,9 +20,7 @@ fun CardComponent(
     video: Video,
     playbackState: Boolean,
     playbackPositionMs: Long,
-    consumedCoordinateIndex: Int,
     onPlaybackPositionChanged: (Long) -> Unit,
-    onCoordinateIndexConsumed: (Int) -> Unit,
     onVideoEnded: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -43,9 +41,7 @@ fun CardComponent(
             video = video,
             playbackState = playbackState,
             playbackPositionMs = playbackPositionMs,
-            consumedCoordinateIndex = consumedCoordinateIndex,
             onPlaybackPositionChanged = onPlaybackPositionChanged,
-            onCoordinateIndexConsumed = onCoordinateIndexConsumed,
             onVideoEnded = onVideoEnded,
             modifier = Modifier
                 .constrainAs(videoComponent) {

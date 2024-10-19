@@ -20,9 +20,7 @@ fun DynamicCroppingVideoComponent(
     video: Video,
     playbackState: Boolean,
     playbackPositionMs: Long,
-    consumedCoordinateIndex: Int,
     onPlaybackPositionChanged: (Long) -> Unit,
-    onCoordinateIndexConsumed: (Int) -> Unit,
     onVideoEnded: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -39,9 +37,7 @@ fun DynamicCroppingVideoComponent(
                         textureView = textureView,
                         video = video,
                         initialPlaybackPositionMs = playbackPositionMs,
-                        initialCoordinateIndex = consumedCoordinateIndex,
                         onPlaybackPositionChanged = onPlaybackPositionChanged,
-                        onCoordinateIndexConsumed = onCoordinateIndexConsumed,
                         onVideoEnded = onVideoEnded,
                     )
                 }

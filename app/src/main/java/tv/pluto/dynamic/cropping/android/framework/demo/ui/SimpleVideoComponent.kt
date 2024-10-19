@@ -20,9 +20,7 @@ fun SimpleVideoComponent(
     lifecycleOwner: LifecycleOwner,
     video: Video,
     initialPlaybackPositionMs: Long,
-    currentConsumedCoordinateIndex: Int,
     onPlaybackPositionChanged: (Long) -> Unit,
-    onCoordinateIndexConsumed: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var playerIntegration by remember { mutableStateOf<SimplePlayerIntegration?>(null) }
@@ -41,9 +39,7 @@ fun SimpleVideoComponent(
                         styledPlayerView = styledPlayerView,
                         video = video,
                         initialPlaybackPositionMs = initialPlaybackPositionMs,
-                        currentConsumedCoordinateIndex = currentConsumedCoordinateIndex,
                         onPlaybackPositionChanged = onPlaybackPositionChanged,
-                        onCoordinateIndexConsumed = onCoordinateIndexConsumed,
                     )
                 }
 

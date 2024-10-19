@@ -44,22 +44,14 @@ fun HomeScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
                 val lazyListState = rememberLazyListState()
                 val videoPlayingStates by videoPlaybackViewModel.videoPlayingStates
                 val videoPositionStates by videoPlaybackViewModel.videoPositionStates
-                val consumedCoordinateIndexStates by videoPlaybackViewModel.consumedCoordinateIndexStates
 
                 VideosListComponent(
                     videos = videoPlaybackViewModel.videos,
                     videoPlayingStates = videoPlayingStates,
                     videoPositionStates = videoPositionStates,
-                    consumedCoordinateIndexStates = consumedCoordinateIndexStates,
                     lazyListState = lazyListState,
                     onVideoPositionChanged = { indexOfPlayingComponent, newPosition ->
                         videoPlaybackViewModel.onVideoPositionChanged(indexOfPlayingComponent, newPosition)
-                    },
-                    onCoordinateIndexConsumed = { indexOfPlayingComponent, consumedIndexOfCoordinate ->
-                        videoPlaybackViewModel.onCoordinateIndexConsumed(
-                            indexOfPlayingComponent,
-                            consumedIndexOfCoordinate,
-                        )
                     },
                     onSelectedItemIndexChanged = { newSelectedItemIndex ->
                         videoPlaybackViewModel.onIndexOfPlayingComponentChanged(newSelectedItemIndex)

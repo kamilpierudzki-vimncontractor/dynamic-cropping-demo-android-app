@@ -20,10 +20,6 @@ class VideoPlaybackViewModel : ViewModel(), DefaultLifecycleObserver {
         mutableStateOf(List(videos.size) { i -> Pair(i, 0L) }.toMap())
     val videoPositionStates: State<Map<Int, Long>> = _videoPositionStates
 
-    private val _consumedCoordinateIndexStates: MutableState<Map<Int, Int>> =
-        mutableStateOf(List(videos.size) { i -> Pair(i, 0) }.toMap())
-    val consumedCoordinateIndexStates: State<Map<Int, Int>> = _consumedCoordinateIndexStates
-
     private val _currentIndexOfPlayingVideo = mutableIntStateOf(0)
     val currentIndexOfPlayingVideo: State<Int> = _currentIndexOfPlayingVideo
 
@@ -35,9 +31,6 @@ class VideoPlaybackViewModel : ViewModel(), DefaultLifecycleObserver {
 
     private val _currentPlaybackPosition = mutableLongStateOf(0L)
     val currentPlaybackPosition: State<Long> = _currentPlaybackPosition
-
-    private val _currentConsumedCoordinateIndex = mutableIntStateOf(0)
-    val currentConsumedCoordinateIndex: State<Int> = _currentConsumedCoordinateIndex
 
     fun onIndexOfPlayingComponentChanged(indexOfPlayingComponent: Int) {
         _videoPlayingStates.value = _videoPlayingStates.value.toMutableMap().apply {
@@ -55,13 +48,5 @@ class VideoPlaybackViewModel : ViewModel(), DefaultLifecycleObserver {
         _currentVideo.value = videos[indexOfPlayingComponent]
         _currentVideoPlaying.value = _videoPlayingStates.value[indexOfPlayingComponent] ?: false
         _currentPlaybackPosition.longValue = _videoPositionStates.value[indexOfPlayingComponent] ?: 0L
-    }
-
-    fun onCoordinateIndexConsumed(indexOfPlayingComponent: Int, consumedIndexOfCoordinate: Int) {
-        _consumedCoordinateIndexStates.value = _consumedCoordinateIndexStates.value.toMutableMap().apply {
-            set(indexOfPlayingComponent, consumedIndexOfCoordinate + 1)
-        }
-
-        _currentConsumedCoordinateIndex.intValue = _consumedCoordinateIndexStates.value[indexOfPlayingComponent] ?: 0
     }
 }

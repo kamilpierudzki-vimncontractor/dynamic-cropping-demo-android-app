@@ -14,12 +14,12 @@ import com.google.android.exoplayer2.Tracks
 import com.google.android.exoplayer2.upstream.RawResourceDataSource
 import com.google.android.exoplayer2.util.MimeTypes
 import com.google.android.exoplayer2.video.VideoSize
+import kotlin.math.roundToInt
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import tv.pluto.dynamic.cropping.android.logic.CalculateNewTextureSize
 import tv.pluto.dynamic.cropping.android.logic.CalculateOffScreenOffset
 import tv.pluto.dynamic.cropping.android.logic.CalculateTextureXAxisAbsoluteOffset
-import tv.pluto.dynamic.cropping.android.logic.CounterBasedCoordinatesProvider
 import tv.pluto.dynamic.cropping.android.logic.Height
 import tv.pluto.dynamic.cropping.android.logic.ScaleCoordinate
 import tv.pluto.dynamic.cropping.android.logic.VideoResolution
@@ -32,9 +32,7 @@ class DynamicCroppingPlayerIntegration(
     private val textureView: TextureView,
     private val video: Video,
     private val initialPlaybackPositionMs: Long,
-    private val initialCoordinateIndex: Int,
     private val onPlaybackPositionChanged: (Long) -> Unit,
-    private val onCoordinateIndexConsumed: (Int) -> Unit,
     private val onVideoEnded: () -> Unit,
 ) : DefaultLifecycleObserver {
 
@@ -117,16 +115,11 @@ class DynamicCroppingPlayerIntegration(
                 CalculateNewTextureSize(),
             )
 
-            val coordinatesProvider = CounterBasedCoordinatesProvider(
-                video.coordinates,
-                initialCoordinateIndex,
-            )
-
-            exoPlayer.setVideoFrameMetadataListener { _, _, _, _ ->
+            exoPlayer.setVideoFrameMetadataListener { presentationTimeUs, _, format, _ ->
                 lifecycleOwner.lifecycleScope.launch(mainDispatcher) {
                     onPlaybackPositionChanged(exoPlayer.currentPosition)
-                    val (coordinate, consumedIndex) = coordinatesProvider.getNextCoordinate()
-                    onCoordinateIndexConsumed(consumedIndex)
+                    val calculatedCoordinateIndex = ((presentationTimeUs / 1_000_000.0) * format.frameRate).roundToInt()
+                    val coordinate = video.coordinates.getOrNull(calculatedCoordinateIndex) ?: return@launch
                     dynamicCroppingCalculation.onNewFrame(coordinate)
                 }
             }

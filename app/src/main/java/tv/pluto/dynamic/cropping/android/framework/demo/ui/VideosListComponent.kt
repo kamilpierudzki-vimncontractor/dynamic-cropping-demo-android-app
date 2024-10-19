@@ -24,10 +24,8 @@ fun VideosListComponent(
     videos: List<Video>,
     videoPlayingStates: Map<Int, Boolean>,
     videoPositionStates: Map<Int, Long>,
-    consumedCoordinateIndexStates: Map<Int, Int>,
     lazyListState: LazyListState,
     onVideoPositionChanged: (Int, Long) -> Unit,
-    onCoordinateIndexConsumed: (Int, Int) -> Unit,
     onSelectedItemIndexChanged: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -68,18 +66,13 @@ fun VideosListComponent(
 
             val videoPlaying = videoPlayingStates[globalIndex] ?: false
             val playbackPositionMs = videoPositionStates[globalIndex] ?: 0
-            val consumedCoordinateIndex = consumedCoordinateIndexStates[globalIndex] ?: 0
 
             CardComponent(
                 video = videos[globalIndex],
                 playbackState = videoPlaying,
                 playbackPositionMs = playbackPositionMs,
-                consumedCoordinateIndex = consumedCoordinateIndex,
                 onPlaybackPositionChanged = { newPositionMs ->
                     onVideoPositionChanged(globalIndex, newPositionMs)
-                },
-                onCoordinateIndexConsumed = { consumedIndexOfCoordinate ->
-                    onCoordinateIndexConsumed(globalIndex, consumedIndexOfCoordinate)
                 },
                 onVideoEnded = {
                     val nextIndex = if (selectedItemIndex + 1 < videos.size) {
