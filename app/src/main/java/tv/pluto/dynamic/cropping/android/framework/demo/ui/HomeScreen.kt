@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -40,8 +39,6 @@ fun HomeScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
                     .fillMaxSize()
                     .background(color = Color.Black),
             ) {
-
-                val lazyListState = rememberLazyListState()
                 val videoPlayingStates by videoPlaybackViewModel.videoPlayingStates
                 val videoPositionStates by videoPlaybackViewModel.videoPositionStates
 
@@ -49,7 +46,6 @@ fun HomeScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
                     videos = videoPlaybackViewModel.videos,
                     videoPlayingStates = videoPlayingStates,
                     videoPositionStates = videoPositionStates,
-                    lazyListState = lazyListState,
                     onVideoPositionChanged = { indexOfPlayingComponent, newPosition ->
                         videoPlaybackViewModel.onVideoPositionChanged(indexOfPlayingComponent, newPosition)
                     },

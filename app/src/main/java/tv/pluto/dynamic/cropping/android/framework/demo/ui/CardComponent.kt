@@ -26,7 +26,7 @@ fun CardComponent(
 ) {
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
-    val height = screenHeight * 0.75f
+    val height = screenHeight * 0.7f
 
     ConstraintLayout(
         modifier = modifier
