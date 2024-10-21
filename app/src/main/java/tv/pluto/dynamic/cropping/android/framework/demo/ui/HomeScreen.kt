@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -13,23 +14,27 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.unit.dp
 import tv.pluto.dynamic.cropping.android.framework.VideoPlaybackViewModel
 
-private val alpha = 0.7f
-private val gradientOnVideos = listOf(
-    Color.Black.copy(alpha = alpha),
-    Color.DarkGray.copy(alpha = alpha),
+private val alpha = 0.6f
+private val gradientOnVideosTop = listOf(
+    Color.Gray.copy(alpha = alpha),
     Color.Transparent,
+)
+private val gradientOnVideosBottom = listOf(
     Color.Transparent,
-    Color.Transparent,
-    Color.Transparent,
-    Color.Transparent,
-    Color.DarkGray.copy(alpha = alpha),
-    Color.Black.copy(alpha = alpha),
+    Color.Gray.copy(alpha = alpha),
 )
 
 @Composable
 fun HomeScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
+    val configuration = LocalConfiguration.current
+    val videoCardHeightDp = configuration.screenHeightDp.dp * 0.7f
+    val listTopPadding = 90.dp
+    val bottomGradientHeightDp = configuration.screenHeightDp.dp - videoCardHeightDp - listTopPadding
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         content = { innerPadding ->
@@ -46,6 +51,8 @@ fun HomeScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
                     videos = videoPlaybackViewModel.videos,
                     videoPlayingStates = videoPlayingStates,
                     videoPositionStates = videoPositionStates,
+                    videoCardHeightDp = videoCardHeightDp,
+                    listTopPadding = listTopPadding,
                     onVideoPositionChanged = { indexOfPlayingComponent, newPosition ->
                         videoPlaybackViewModel.onVideoPositionChanged(indexOfPlayingComponent, newPosition)
                     },
@@ -56,8 +63,17 @@ fun HomeScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
                 )
                 Spacer(
                     modifier = Modifier
-                        .matchParentSize()
-                        .background(brush = Brush.verticalGradient(gradientOnVideos))
+                        .fillMaxWidth()
+                        .height(listTopPadding)
+                        .background(brush = Brush.verticalGradient(gradientOnVideosTop))
+                        .align(Alignment.TopCenter)
+                )
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(bottomGradientHeightDp)
+                        .background(brush = Brush.verticalGradient(gradientOnVideosBottom))
+                        .align(Alignment.BottomCenter)
                 )
                 TopSelectionComponent(
                     modifier = Modifier

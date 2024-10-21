@@ -15,6 +15,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import tv.pluto.dynamic.cropping.android.framework.ListPositionCalculation
@@ -27,6 +28,8 @@ fun VideosListComponent(
     videos: List<Video>,
     videoPlayingStates: Map<Int, Boolean>,
     videoPositionStates: Map<Int, Long>,
+    videoCardHeightDp: Dp,
+    listTopPadding: Dp,
     onVideoPositionChanged: (Int, Long) -> Unit,
     onSelectedItemIndexChanged: (Int) -> Unit,
     modifier: Modifier = Modifier,
@@ -68,7 +71,7 @@ fun VideosListComponent(
         flingBehavior = snapBehavior,
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(24.dp),
-        contentPadding = PaddingValues(top = 90.dp, bottom = 64.dp),
+        contentPadding = PaddingValues(top = listTopPadding, bottom = 64.dp),
     ) {
         items(videos.size) { globalIndex ->
             val videoPlaying = videoPlayingStates[globalIndex] ?: false
@@ -78,6 +81,7 @@ fun VideosListComponent(
                 video = videos[globalIndex],
                 playbackState = videoPlaying,
                 playbackPositionMs = playbackPositionMs,
+                videoCardHeightDp = videoCardHeightDp,
                 onPlaybackPositionChanged = { newPositionMs ->
                     onVideoPositionChanged(globalIndex, newPositionMs)
                 },

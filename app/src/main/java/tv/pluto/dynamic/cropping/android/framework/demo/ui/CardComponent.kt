@@ -7,7 +7,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
@@ -20,18 +20,15 @@ fun CardComponent(
     video: Video,
     playbackState: Boolean,
     playbackPositionMs: Long,
+    videoCardHeightDp: Dp,
     onPlaybackPositionChanged: (Long) -> Unit,
     onVideoEnded: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val configuration = LocalConfiguration.current
-    val screenHeight = configuration.screenHeightDp.dp
-    val height = screenHeight * 0.7f
-
     ConstraintLayout(
         modifier = modifier
             .padding(start = 24.dp, end = 24.dp)
-            .height(height)
+            .height(videoCardHeightDp)
             .clip(RoundedCornerShape(16.dp)),
     ) {
         val (videoComponent, metadataComponent) = createRefs()
