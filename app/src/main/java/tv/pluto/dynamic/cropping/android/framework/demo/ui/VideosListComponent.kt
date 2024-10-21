@@ -68,7 +68,7 @@ fun VideosListComponent(
         flingBehavior = snapBehavior,
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(24.dp),
-        contentPadding = PaddingValues(top = 75.dp, bottom = 64.dp),
+        contentPadding = PaddingValues(top = 90.dp, bottom = 64.dp),
     ) {
         items(videos.size) { globalIndex ->
             val videoPlaying = videoPlayingStates[globalIndex] ?: false
