@@ -19,11 +19,13 @@ import tv.pluto.dynamic.cropping.android.framework.demo.SimplePlayerIntegration
 fun SimpleVideoComponent(
     lifecycleOwner: LifecycleOwner,
     video: Video,
-    initialPlaybackPositionMs: Long,
+    playbackState: Boolean,
+    playbackPositionMs: Long,
     onPlaybackPositionChanged: (Long) -> Unit,
+    onVideoEnded: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var playerIntegration by remember { mutableStateOf<SimplePlayerIntegration?>(null) }
+    var simplePlayerIntegration by remember { mutableStateOf<SimplePlayerIntegration?>(null) }
 
     AndroidView(
         factory = { context ->
@@ -32,22 +34,30 @@ fun SimpleVideoComponent(
                     useController = false
                 }
                 .also { styledPlayerView ->
-                    playerIntegration = SimplePlayerIntegration(
+                    simplePlayerIntegration = SimplePlayerIntegration(
                         lifecycleOwner = lifecycleOwner,
                         context = context,
                         mainDispatcher = Dispatchers.Main,
                         styledPlayerView = styledPlayerView,
                         video = video,
-                        initialPlaybackPositionMs = initialPlaybackPositionMs,
+                        initialPlaybackPositionMs = playbackPositionMs,
                         onPlaybackPositionChanged = onPlaybackPositionChanged,
+                        onVideoEnded = onVideoEnded,
                     )
                 }
 
         },
         modifier = modifier.background(Color.Black),
         onRelease = {
-            playerIntegration?.destroy()
-            playerIntegration = null
+            simplePlayerIntegration?.destroy()
+            simplePlayerIntegration = null
         },
+        update = {
+            if (playbackState) {
+                simplePlayerIntegration?.play(playbackPositionMs)
+            } else {
+                simplePlayerIntegration?.pause()
+            }
+        }
     )
 }

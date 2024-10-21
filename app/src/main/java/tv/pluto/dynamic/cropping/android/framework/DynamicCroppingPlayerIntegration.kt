@@ -8,10 +8,8 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.Tracks
-import com.google.android.exoplayer2.upstream.RawResourceDataSource
 import com.google.android.exoplayer2.util.MimeTypes
 import com.google.android.exoplayer2.video.VideoSize
 import kotlin.math.roundToInt
@@ -36,68 +34,33 @@ class DynamicCroppingPlayerIntegration(
     private val onVideoEnded: () -> Unit,
 ) : DefaultLifecycleObserver {
 
-    private var exoPlayer: ExoPlayer? = null
-    private var playbackState: PlaybackState = PlaybackState.PausedForegrounded
+    private var playback: Playback? = null
 
     init {
         lifecycleOwner.lifecycle.addObserver(this)
         createExoPlayer()
-        setMediaItem(createMediaItem())
     }
 
     fun destroy() {
         lifecycleOwner.lifecycle.removeObserver(this)
-        exoPlayer?.release()
-        exoPlayer = null
+        playback?.destroy()
+        playback = null
     }
 
     fun pause() {
-        if (playbackState != PlaybackState.PausedForegrounded) {
-            playbackState = PlaybackState.PausedForegrounded
-            exoPlayer?.pause()
-        }
+        playback?.pause()
     }
 
     fun play(startFromPositionMs: Long) {
-        if (playbackState != PlaybackState.PlayingForegrounded) {
-            playbackState = PlaybackState.PlayingForegrounded
-            exoPlayer?.apply {
-                seekTo(startFromPositionMs)
-                play()
-            }
-        }
+        playback?.play(startFromPositionMs)
     }
 
     override fun onStart(owner: LifecycleOwner) {
-        when (playbackState) {
-            PlaybackState.PlayingBackgrounded -> {
-                exoPlayer?.play()
-                playbackState = PlaybackState.PlayingForegrounded
-            }
-
-            PlaybackState.PausedBackgrounded -> {
-                playbackState = PlaybackState.PausedForegrounded
-            }
-
-            else -> {}
-        }
+        playback?.onStart()
     }
 
     override fun onStop(owner: LifecycleOwner) {
-        exoPlayer?.let { player ->
-            when (playbackState) {
-                PlaybackState.PausedForegrounded -> {
-                    playbackState = PlaybackState.PausedBackgrounded
-                }
-
-                PlaybackState.PlayingForegrounded -> {
-                    player.pause()
-                    playbackState = PlaybackState.PlayingBackgrounded
-                }
-
-                else -> {}
-            }
-        }
+        playback?.onStop()
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
@@ -106,7 +69,7 @@ class DynamicCroppingPlayerIntegration(
 
     private fun createExoPlayer() {
         ExoPlayer.Builder(context).build().also { exoPlayer ->
-            this.exoPlayer = exoPlayer
+            this.playback = Playback(exoPlayer, video, initialPlaybackPositionMs)
             exoPlayer.setVideoTextureView(textureView)
 
             val dynamicCroppingCalculation = DynamicCroppingCalculation(
@@ -175,18 +138,5 @@ class DynamicCroppingPlayerIntegration(
                 }
             }
         }
-    }
-
-    private fun setMediaItem(mediaItem: MediaItem) {
-        exoPlayer?.apply {
-            setMediaItem(mediaItem)
-            prepare()
-            seekTo(initialPlaybackPositionMs)
-        }
-    }
-
-    private fun createMediaItem(): MediaItem {
-        val uri = RawResourceDataSource.buildRawResourceUri(video.videoResId)
-        return MediaItem.fromUri(uri)
     }
 }

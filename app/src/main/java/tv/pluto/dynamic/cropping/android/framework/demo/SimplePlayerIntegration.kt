@@ -5,13 +5,11 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.StyledPlayerView
-import com.google.android.exoplayer2.upstream.RawResourceDataSource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
-import tv.pluto.dynamic.cropping.android.framework.PlaybackState
+import tv.pluto.dynamic.cropping.android.framework.Playback
 import tv.pluto.dynamic.cropping.android.framework.Video
 
 class SimplePlayerIntegration(
@@ -22,53 +20,36 @@ class SimplePlayerIntegration(
     private val video: Video,
     private val initialPlaybackPositionMs: Long,
     private val onPlaybackPositionChanged: (Long) -> Unit,
+    private val onVideoEnded: () -> Unit,
 ) : DefaultLifecycleObserver {
 
-    private var exoPlayer: ExoPlayer? = null
-    private var playbackState: PlaybackState = PlaybackState.PausedForegrounded
+    private var playback: Playback? = null
 
     init {
         lifecycleOwner.lifecycle.addObserver(this)
         createExoPlayer()
-        setMediaItemAndPlay(createMediaItem())
     }
 
     fun destroy() {
         lifecycleOwner.lifecycle.removeObserver(this)
-        exoPlayer?.release()
-        exoPlayer = null
+        playback?.destroy()
+        playback = null
+    }
+
+    fun pause() {
+        playback?.pause()
+    }
+
+    fun play(startFromPositionMs: Long) {
+        playback?.play(startFromPositionMs)
     }
 
     override fun onStart(owner: LifecycleOwner) {
-        when (playbackState) {
-            PlaybackState.PlayingBackgrounded -> {
-                exoPlayer?.play()
-                playbackState = PlaybackState.PlayingForegrounded
-            }
-
-            PlaybackState.PausedBackgrounded -> {
-                playbackState = PlaybackState.PausedForegrounded
-            }
-
-            else -> {}
-        }
+        playback?.onStart()
     }
 
     override fun onStop(owner: LifecycleOwner) {
-        exoPlayer?.let { player ->
-            when (playbackState) {
-                PlaybackState.PausedForegrounded -> {
-                    playbackState = PlaybackState.PausedBackgrounded
-                }
-
-                PlaybackState.PlayingForegrounded -> {
-                    player.pause()
-                    playbackState = PlaybackState.PlayingBackgrounded
-                }
-
-                else -> {}
-            }
-        }
+        playback?.onStop()
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
@@ -77,8 +58,7 @@ class SimplePlayerIntegration(
 
     private fun createExoPlayer() {
         ExoPlayer.Builder(context).build().also { exoPlayer ->
-            this.exoPlayer = exoPlayer
-            exoPlayer.repeatMode = Player.REPEAT_MODE_ALL
+            this.playback = Playback(exoPlayer, video, initialPlaybackPositionMs)
             styledPlayerView.player = exoPlayer
 
             exoPlayer.setVideoFrameMetadataListener { _, _, _, _ ->
@@ -86,20 +66,17 @@ class SimplePlayerIntegration(
                     onPlaybackPositionChanged(exoPlayer.currentPosition)
                 }
             }
-        }
-    }
 
-    private fun setMediaItemAndPlay(mediaItem: MediaItem) {
-        exoPlayer?.apply {
-            setMediaItem(mediaItem)
-            prepare()
-            play()
-            seekTo(initialPlaybackPositionMs)
+            exoPlayer.addListener(object : Player.Listener {
+                override fun onPlaybackStateChanged(playbackState: Int) {
+                    if (playbackState == Player.STATE_ENDED) {
+                        lifecycleOwner.lifecycleScope.launch(mainDispatcher) {
+                            exoPlayer.seekTo(0)
+                            onVideoEnded()
+                        }
+                    }
+                }
+            })
         }
-    }
-
-    private fun createMediaItem(): MediaItem {
-        val uri = RawResourceDataSource.buildRawResourceUri(video.videoResId)
-        return MediaItem.fromUri(uri)
     }
 }

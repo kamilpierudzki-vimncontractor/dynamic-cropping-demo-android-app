@@ -1,11 +1,13 @@
 package tv.pluto.dynamic.cropping.android.framework.demo.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.FlingBehavior
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -29,7 +31,13 @@ private val gradientOnVideos = listOf(
 )
 
 @Composable
-fun HomeScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
+fun PortraitHomeScreen(
+    videoPlaybackViewModel: VideoPlaybackViewModel,
+    lazyListState: LazyListState,
+    flingBehavior: FlingBehavior,
+    onVideoEnded: () -> Unit,
+    onVideoPositionChanged: (Int, Long) -> Unit,
+) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         content = { innerPadding ->
@@ -42,16 +50,14 @@ fun HomeScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
                 val videoPlayingStates by videoPlaybackViewModel.videoPlayingStates
                 val videoPositionStates by videoPlaybackViewModel.videoPositionStates
 
-                VideosListComponent(
+                PortraitVideosListComponent(
                     videos = videoPlaybackViewModel.videos,
                     videoPlayingStates = videoPlayingStates,
                     videoPositionStates = videoPositionStates,
-                    onVideoPositionChanged = { indexOfPlayingComponent, newPosition ->
-                        videoPlaybackViewModel.onVideoPositionChanged(indexOfPlayingComponent, newPosition)
-                    },
-                    onSelectedItemIndexChanged = { newSelectedItemIndex ->
-                        videoPlaybackViewModel.onIndexOfPlayingComponentChanged(newSelectedItemIndex)
-                    },
+                    lazyListState = lazyListState,
+                    flingBehavior = flingBehavior,
+                    onVideoEnded = onVideoEnded,
+                    onVideoPositionChanged = onVideoPositionChanged,
                     modifier = Modifier.matchParentSize()
                 )
                 Spacer(
