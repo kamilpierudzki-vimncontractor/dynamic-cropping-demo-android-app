@@ -34,8 +34,8 @@ class DemoActivity : ComponentActivity() {
         setContent {
             StaticCroppingDemoTheme {
                 DemoApp(
-                    isPortrait = isPortrait,
                     videoPlaybackViewModel = videoPlaybackViewModel,
+                    isPortrait = isPortrait,
                 )
             }
         }

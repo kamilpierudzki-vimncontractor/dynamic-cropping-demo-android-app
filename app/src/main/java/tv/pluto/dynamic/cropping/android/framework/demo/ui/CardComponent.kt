@@ -16,7 +16,7 @@ import tv.pluto.dynamic.cropping.android.framework.Video
 import tv.pluto.dynamic.cropping.android.framework.ui.DynamicCroppingVideoComponent
 
 @Composable
-fun PortraitCardComponent(
+fun CardComponent(
     video: Video,
     playbackState: Boolean,
     playbackPositionMs: Long,
@@ -51,6 +51,7 @@ fun PortraitCardComponent(
                     end.linkTo(parent.end)
                 }
                 .fillMaxSize(),
+
             )
         PortraitMetadataComponent(
             video = video,
