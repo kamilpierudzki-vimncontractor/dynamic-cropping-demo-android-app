@@ -30,7 +30,7 @@ fun GalleryScreen(
                 lifecycleOwner = LocalLifecycleOwner.current,
                 video = video,
                 playbackState = true,
-                playbackPositionMs = 0,
+                getPlaybackPositionMs = { 0 },
                 onPlaybackPositionChanged = {},
                 onVideoEnded = {},
                 modifier = Modifier

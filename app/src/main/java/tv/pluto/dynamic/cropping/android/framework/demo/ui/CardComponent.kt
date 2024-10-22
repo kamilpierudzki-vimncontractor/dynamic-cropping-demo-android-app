@@ -19,7 +19,7 @@ import tv.pluto.dynamic.cropping.android.framework.ui.DynamicCroppingVideoCompon
 fun CardComponent(
     video: Video,
     playbackState: Boolean,
-    playbackPositionMs: Long,
+    getPlaybackPositionMs: () -> Long,
     videoCardHeightDp: Dp,
     onPlaybackPositionChanged: (Long) -> Unit,
     onVideoEnded: () -> Unit,
@@ -37,7 +37,7 @@ fun CardComponent(
             lifecycleOwner = LocalLifecycleOwner.current,
             video = video,
             playbackState = playbackState,
-            playbackPositionMs = playbackPositionMs,
+            getPlaybackPositionMs = getPlaybackPositionMs,
             onPlaybackPositionChanged = onPlaybackPositionChanged,
             onVideoEnded = onVideoEnded,
             modifier = Modifier

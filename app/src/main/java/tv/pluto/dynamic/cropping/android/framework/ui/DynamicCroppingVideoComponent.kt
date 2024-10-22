@@ -2,6 +2,7 @@ package tv.pluto.dynamic.cropping.android.framework.ui
 
 import android.view.TextureView
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,12 +20,20 @@ fun DynamicCroppingVideoComponent(
     lifecycleOwner: LifecycleOwner,
     video: Video,
     playbackState: Boolean,
-    playbackPositionMs: Long,
+    getPlaybackPositionMs: () -> Long,
     onPlaybackPositionChanged: (Long) -> Unit,
     onVideoEnded: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var dynamicCroppingPlayerIntegration by remember { mutableStateOf<DynamicCroppingPlayerIntegration?>(null) }
+
+    LaunchedEffect(playbackState) {
+        if (playbackState) {
+            dynamicCroppingPlayerIntegration?.play(getPlaybackPositionMs())
+        } else {
+            dynamicCroppingPlayerIntegration?.pause()
+        }
+    }
 
     AndroidView(
         factory = { context ->
@@ -36,7 +45,7 @@ fun DynamicCroppingVideoComponent(
                         mainDispatcher = Dispatchers.Main,
                         textureView = textureView,
                         video = video,
-                        initialPlaybackPositionMs = playbackPositionMs,
+                        initialPlaybackPositionMs = getPlaybackPositionMs(),
                         onPlaybackPositionChanged = onPlaybackPositionChanged,
                         onVideoEnded = onVideoEnded,
                     )
@@ -47,12 +56,5 @@ fun DynamicCroppingVideoComponent(
             dynamicCroppingPlayerIntegration?.destroy()
             dynamicCroppingPlayerIntegration = null
         },
-        update = {
-            if (playbackState) {
-                dynamicCroppingPlayerIntegration?.play(playbackPositionMs)
-            } else {
-                dynamicCroppingPlayerIntegration?.pause()
-            }
-        }
     )
 }

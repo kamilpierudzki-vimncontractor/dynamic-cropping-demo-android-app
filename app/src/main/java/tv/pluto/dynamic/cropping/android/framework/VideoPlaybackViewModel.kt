@@ -26,9 +26,6 @@ class VideoPlaybackViewModel : ViewModel(), DefaultLifecycleObserver {
     private val _currentVideo = mutableStateOf<Video>(Video.Empty)
     val currentVideo: State<Video> = _currentVideo
 
-    private val _currentVideoPlaying = mutableStateOf(false)
-    val currentVideoPlayback: State<Boolean> = _currentVideoPlaying
-
     private val _currentPlaybackPosition = mutableLongStateOf(0L)
     val currentPlaybackPosition: State<Long> = _currentPlaybackPosition
 
@@ -46,7 +43,6 @@ class VideoPlaybackViewModel : ViewModel(), DefaultLifecycleObserver {
 
         _currentIndexOfPlayingVideo.intValue = indexOfPlayingComponent
         _currentVideo.value = videos[indexOfPlayingComponent]
-        _currentVideoPlaying.value = _videoPlayingStates.value[indexOfPlayingComponent] ?: false
         _currentPlaybackPosition.longValue = _videoPositionStates.value[indexOfPlayingComponent] ?: 0L
     }
 }

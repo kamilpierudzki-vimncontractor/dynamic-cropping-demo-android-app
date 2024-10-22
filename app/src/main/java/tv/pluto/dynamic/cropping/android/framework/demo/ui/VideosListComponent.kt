@@ -75,12 +75,11 @@ fun VideosListComponent(
     ) {
         items(videos.size) { globalIndex ->
             val videoPlaying = videoPlayingStates[globalIndex] ?: false
-            val playbackPositionMs = videoPositionStates[globalIndex] ?: 0
 
             CardComponent(
                 video = videos[globalIndex],
                 playbackState = videoPlaying,
-                playbackPositionMs = playbackPositionMs,
+                getPlaybackPositionMs = { videoPositionStates[globalIndex] ?: 0 },
                 videoCardHeightDp = videoCardHeightDp,
                 onPlaybackPositionChanged = { newPositionMs ->
                     onVideoPositionChanged(globalIndex, newPositionMs)
