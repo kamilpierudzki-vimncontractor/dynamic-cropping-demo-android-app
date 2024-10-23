@@ -16,7 +16,7 @@ import tv.pluto.dynamic.cropping.android.framework.Video
 import tv.pluto.dynamic.cropping.android.framework.ui.DynamicCroppingVideoComponent
 
 @Composable
-fun GalleryScreen(
+fun PreviewScreen(
     video: Video,
     onBack: () -> Unit,
 ) {

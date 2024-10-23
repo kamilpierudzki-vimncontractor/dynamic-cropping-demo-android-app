@@ -11,6 +11,6 @@ fun DemoApp(
     if (isPortrait) {
         HomeScreen(videoPlaybackViewModel = videoPlaybackViewModel)
     } else {
-        PlayerScreen(videoPlaybackViewModel = videoPlaybackViewModel)
+        LandscapePlayerScreen(videoPlaybackViewModel = videoPlaybackViewModel)
     }
 }

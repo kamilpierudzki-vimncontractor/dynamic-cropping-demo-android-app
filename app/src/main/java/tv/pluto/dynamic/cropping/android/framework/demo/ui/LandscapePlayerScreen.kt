@@ -20,7 +20,7 @@ import tv.pluto.dynamic.cropping.android.framework.VideoPlaybackViewModel
 import tv.pluto.dynamic.cropping.android.framework.theme.typography.plutoTVSans10
 
 @Composable
-fun PlayerScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
+fun LandscapePlayerScreen(videoPlaybackViewModel: VideoPlaybackViewModel) {
     val currentVideo by videoPlaybackViewModel.currentVideo
     val currentPlaybackPosition by videoPlaybackViewModel.currentPlaybackPosition
 
